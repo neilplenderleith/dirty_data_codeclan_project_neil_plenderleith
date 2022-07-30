@@ -17,7 +17,55 @@ here::here()
 ## Load Data
 
 ```{r}
-read_csv(here("clean_data/seabirds.csv"))
+seabirds <- read_csv(here("clean_data/seabirds.csv"))
+
+```
+
+## Tasks
+
+### Task 1 Which bird had the most individual sightings?
+
+```{r}
+# group by bird name and take a count of occurances
+seabirds %>% 
+  group_by(species_common_name_taxon_age_sex_plumage_phase) %>% 
+  summarise(count_of_sightings = n()) %>% 
+  arrange(desc(count_of_sightings))
+# Answer: Wandering albatross sensu lato PL2, count 3104
+```
+
+### Task 2 Which bird had the highest total count?
+
+```{r}
+# group by bird name and take a summary of the count column for each
+seabirds %>% 
+  group_by(species_common_name_taxon_age_sex_plumage_phase) %>% 
+  summarise(total_count = sum(count)) %>% 
+  arrange(desc(total_count))
+# Answer: A Black-billed gull, count = 7732
+```
+
+### Task 3 Which bird had the highest total count above a latitude of -30?
+
+```{r}
+# group by bird name, filter by lat >-30 and take a summary of the count column for each
+seabirds %>% 
+  filter(lat > -30) %>% 
+  group_by(species_common_name_taxon_age_sex_plumage_phase) %>% 
+  summarise(total_count = sum(count)) %>% 
+  arrange(desc(total_count))
+# Answer: A Wedge-tailed shearwater, count 855
+```
+
+### Task 4 How many different types of birds were only ever seen in groups of 1?
+
+```{r}
+# ok so filter for count = 1, then group by name and count?
+seabirds %>% 
+  group_by(species_common_name_taxon_age_sex_plumage_phase) %>% 
+  for(i in )
+  #summarise(n())
+  #for(i in 1 to count(count))
 
 ```
 
