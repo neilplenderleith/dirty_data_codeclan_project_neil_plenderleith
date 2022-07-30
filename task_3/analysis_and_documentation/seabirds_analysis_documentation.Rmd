@@ -1,0 +1,23 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+## Libraries
+
+library(tidyverse)
+```{r}
+library(tidyverse)
+library(readr)
+library(here)
+
+here::here()
+```
+
+## Load Data
+
+```{r}
+read_csv(here("clean_data/seabirds.csv"))
+
+```
+
