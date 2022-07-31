@@ -1812,7 +1812,7 @@ dttm  (2): date, time
 <h3>Task 1 Which bird had the most individual sightings?</h3>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBncm91cCBieSBiaXJkIG5hbWUgYW5kIHRha2UgYSBjb3VudCBvZiBvY2N1cmFuY2VzLCBqb2luIHRoaXMgYmFjayBpbnRvIHRoZSB0YWJsZVxuIyB0byBhbGxvdyBtb3JlIG5hbWVzIGluZm8gdG8gYmUgcHVsbGVkLCBhcnJhbmdlIGFuZCBzbGljZSBoZWFkIHRvIGdldCB0b3AgaGl0XG5zZWFiaXJkcyAlPiUgXG4gIGdyb3VwX2J5KHNwZWNpZXNfY29tbW9uX25hbWUpICU+JSBcbiAgc3VtbWFyaXNlKGNvdW50X29mX3NpZ2h0aW5ncyA9IG4oKSkgJT4lIFxuICBsZWZ0X2pvaW4oc2VhYmlyZHMsIFwic3BlY2llc19jb21tb25fbmFtZVwiKSAlPiUgXG4gIHNlbGVjdChzcGVjaWVzX2NvbW1vbl9uYW1lLCBcbiAgICAgICAgIHNwZWNpZXNfc2NpZW50aWZpY19uYW1lLCBcbiAgICAgICAgIHNwZWNpZXNfYWJicmV2aWF0aW9uLCBjb3VudF9vZl9zaWdodGluZ3MpICU+JVxuICBhcnJhbmdlKGRlc2MoY291bnRfb2Zfc2lnaHRpbmdzKSkgJT4lIFxuICBzbGljZV9oZWFkKClcbmBgYCJ9 -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBncm91cCBieSBiaXJkIG5hbWUgYW5kIHRha2UgYSBjb3VudCBvZiBvY2N1cmFuY2VzLCBqb2luIHRoaXMgYmFjayBpbnRvIHRoZSB0YWJsZVxuIyB0byBhbGxvdyBtb3JlIG5hbWVzIGluZm8gdG8gYmUgcHVsbGVkLCBhcnJhbmdlIGFuZCBzbGljZSBoZWFkIHRvIGdldCB0b3AgaGl0XG5zZWFiaXJkcyAlPiUgXG4gIGdyb3VwX2J5KHNwZWNpZXNfY29tbW9uX25hbWUpICU+JSBcbiAgc3VtbWFyaXNlKGNvdW50X29mX3NpZ2h0aW5ncyA9IG4oKSkgJT4lIFxuICBsZWZ0X2pvaW4oc2VhYmlyZHMsIFwic3BlY2llc19jb21tb25fbmFtZVwiKSAlPiUgXG4gIHNlbGVjdChzcGVjaWVzX2NvbW1vbl9uYW1lLCBcbiAgICAgICAgIHNwZWNpZXNfc2NpZW50aWZpY19uYW1lLCBcbiAgICAgICAgIHNwZWNpZXNfYWJicmV2aWF0aW9uLCBjb3VudF9vZl9zaWdodGluZ3MpICU+JVxuICBhcnJhbmdlKGRlc2MoY291bnRfb2Zfc2lnaHRpbmdzKSkgJT4lIFxuICBzbGljZV9oZWFkKClcbiMgQW5zd2VyOiBXYW5kZXJpbmcgYWxiYXRyb3NzIHNlbnN1IGxhdG8gUEwyLCBjb3VudCAzMTA0XG5gYGAifQ== -->
 <pre class="r"><code># group by bird name and take a count of occurances, join this back into the table
 # to allow more names info to be pulled, arrange and slice head to get top hit
 seabirds %&gt;% 
@@ -1823,17 +1823,8 @@ seabirds %&gt;%
          species_scientific_name, 
          species_abbreviation, count_of_sightings) %&gt;%
   arrange(desc(count_of_sightings)) %&gt;% 
-  slice_head()</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibnJvdyI6MSwibmNvbCI6NCwic3VtbWFyeSI6eyJBIHRpYmJsZSI6WyIxIMOXIDQiXX19LCJyZGYiOiJINHNJQUFBQUFBQUFCbTFTUVV2RE1CVE91bFpaY1NwTzhCcjB2QXJ1NGxXWWdpQXFzdUZ1NWJYTnRtQ2JsQ2JWSGYzbG15OWRBaU1ZU1ByeXZ2Y2wzL2ZTaitsaUVpOWlRa2lmaEVHUDlDTU1TVFNmUFkzdkNXWncweU1oR1pqdkJvdEdHSVE0encrQTYwOFFCV3U0V0ZFb005Q05WSW9xSmxSTFM5Q1N2ci9jZVl5YktaY1ZLeGhRRUpyWHNzQmlydWd0Wlp1MkJLSCtvUXluejI4UHI3UEh4ZHlDd3c0a0o5U1RHUW1vbUxMczBDWkhxbVk1WnlyTlpWVkprWm9hQzEwNVNPR0thcFk4UDRRdkhReFoxckJ2RHBwTFliR0xYTFpDcDNLWktyNWFhMnlBOHNRTUd2bVRPRUZHY2ZDTHl3Nkhyem92UVNuUGMxeUFobVRaR0RXRWJEM0tzYXlORmlRRjVsVWlqOXhydk1SWks0eVNZcHl2Vy9FMW5wZ0w5ajNzaHUxbk4xMGM3cThNZHZhb3lCNTF4TVNLQzllaXFJU01sWFp6aW80N3cwbU5mNFIyVGpDckVpMDF1TG80bDZYTGRON0k5Zzk2WUI4cmpBSUFBQT09In0= -->
-<div data-pagedtable="false">
-<script data-pagedtable-source type="application/json">
-{"columns":[{"label":["species_common_name"],"name":[1],"type":["chr"],"align":["left"]},{"label":["species_scientific_name"],"name":[2],"type":["chr"],"align":["left"]},{"label":["species_abbreviation"],"name":[3],"type":["chr"],"align":["left"]},{"label":["count_of_sightings"],"name":[4],"type":["int"],"align":["right"]}],"data":[{"1":"Wandering albatross sensu lato PL2","2":"Diomedea antipodensis / exulans PL2","3":"DIOANTEXU PL2","4":"3104"}],"options":{"columns":{"min":{},"max":[10],"total":[4]},"rows":{"min":[10],"max":[10],"total":[1]},"pages":{}}}
-  </script>
-</div>
-<!-- rnb-frame-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBBbnN3ZXI6IFdhbmRlcmluZyBhbGJhdHJvc3Mgc2Vuc3UgbGF0byBQTDIsIGNvdW50IDMxMDRcbmBgYCJ9 -->
-<pre class="r"><code># Answer: Wandering albatross sensu lato PL2, count 3104</code></pre>
+  slice_head()
+# Answer: Wandering albatross sensu lato PL2, count 3104</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -1842,7 +1833,7 @@ seabirds %&gt;%
 <h3>Task 2 Which bird had the highest total count?</h3>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBncm91cCBieSBiaXJkIG5hbWUgYW5kIHRha2UgYSBzdW0gb2YgY291bnQsIGpvaW4gdGhpcyBiYWNrIGludG8gdGhlIHRhYmxlXG4jIHRvIGFsbG93IG1vcmUgbmFtZXMgaW5mbyB0byBiZSBwdWxsZWQsIGFycmFuZ2UgYW5kIHNsaWNlIGhlYWQgdG8gZ2V0IHRvcCBoaXRcbnNlYWJpcmRzICU+JSBcbiAgZ3JvdXBfYnkoc3BlY2llc19jb21tb25fbmFtZSkgJT4lIFxuICBzdW1tYXJpc2UodG90YWxfY291bnQgPSBzdW0oY291bnQpKSAlPiUgXG4gIGxlZnRfam9pbihzZWFiaXJkcywgXCJzcGVjaWVzX2NvbW1vbl9uYW1lXCIpICU+JSBcbiAgc2VsZWN0KHNwZWNpZXNfY29tbW9uX25hbWUsIFxuICAgICAgICAgc3BlY2llc19zY2llbnRpZmljX25hbWUsIFxuICAgICAgICAgc3BlY2llc19hYmJyZXZpYXRpb24sIHRvdGFsX2NvdW50KSAlPiVcbiAgYXJyYW5nZShkZXNjKHRvdGFsX2NvdW50KSkgJT4lIFxuICBzbGljZV9oZWFkKClcbmBgYCJ9 -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBncm91cCBieSBiaXJkIG5hbWUgYW5kIHRha2UgYSBzdW0gb2YgY291bnQsIGpvaW4gdGhpcyBiYWNrIGludG8gdGhlIHRhYmxlXG4jIHRvIGFsbG93IG1vcmUgbmFtZXMgaW5mbyB0byBiZSBwdWxsZWQsIGFycmFuZ2UgYW5kIHNsaWNlIGhlYWQgdG8gZ2V0IHRvcCBoaXRcbnNlYWJpcmRzICU+JSBcbiAgZ3JvdXBfYnkoc3BlY2llc19jb21tb25fbmFtZSkgJT4lIFxuICBzdW1tYXJpc2UodG90YWxfY291bnQgPSBzdW0oY291bnQpKSAlPiUgXG4gIGxlZnRfam9pbihzZWFiaXJkcywgXCJzcGVjaWVzX2NvbW1vbl9uYW1lXCIpICU+JSBcbiAgc2VsZWN0KHNwZWNpZXNfY29tbW9uX25hbWUsIFxuICAgICAgICAgc3BlY2llc19zY2llbnRpZmljX25hbWUsIFxuICAgICAgICAgc3BlY2llc19hYmJyZXZpYXRpb24sIHRvdGFsX2NvdW50KSAlPiVcbiAgYXJyYW5nZShkZXNjKHRvdGFsX2NvdW50KSkgJT4lIFxuICBzbGljZV9oZWFkKClcbiAgXG4jIEFuc3dlcjogQSBCbGFjay1iaWxsZWQgZ3VsbCwgY291bnQgPSA3NzMyXG5gYGAifQ== -->
 <pre class="r"><code># group by bird name and take a sum of count, join this back into the table
 # to allow more names info to be pulled, arrange and slice head to get top hit
 seabirds %&gt;% 
@@ -1853,17 +1844,8 @@ seabirds %&gt;%
          species_scientific_name, 
          species_abbreviation, total_count) %&gt;%
   arrange(desc(total_count)) %&gt;% 
-  slice_head()</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibnJvdyI6MSwibmNvbCI6NCwic3VtbWFyeSI6eyJBIHRpYmJsZSI6WyIxIMOXIDQiXX19LCJyZGYiOiJINHNJQUFBQUFBQUFCbDFSc1U3RE1CQzlwQW1vUVMyZ0lySDJCNUlGQmthb0VGT21pa3JkS3NkMWkxWEhybXdIR1BreVBxM2xuTnBTOFVsMnp1L2QyZTlkNXEvTGgySlpBTUFBc2pTQlFZNHA1SXYzdC9JSkVNRkRBaGtNM2ZjYml5YVlaTGh1em9qYm1TQjBWelpjQ0xhZWJqc2hvb0pSVFhSbnBnMHlUUE9JdktoZjVyTkZqZG5Zb2MrL2ozQ0tmNC9ua3JUTStOYk1neE96WjVRenM2S3FiWlZjdVJwUDNRZks0QzR0MzNCNlR0OEZtalNOWnArY1dLNms1NjZzc2tUZ25aMjBrWXFoVmw5VlVETENsZjdnZHNTSTVWSkJqSW1jRm10aVNiWFJUZ2JBSVdxNVZIc25BcHRTTitROGFrNTBCRngzMGlsWmwvU2prN3ZTVGEzbzZWT01mSjZjNWRucHlmVG9yOHJETDJCeXkyV1lUUzVJdzRRL2pORnhiN2phYTQ3ejhFNFFOVlUvcDRCUUpRTFNlNFBESDNBTDcyMWJBZ0FBIn0= -->
-<div data-pagedtable="false">
-<script data-pagedtable-source type="application/json">
-{"columns":[{"label":["species_common_name"],"name":[1],"type":["chr"],"align":["left"]},{"label":["species_scientific_name"],"name":[2],"type":["chr"],"align":["left"]},{"label":["species_abbreviation"],"name":[3],"type":["chr"],"align":["left"]},{"label":["total_count"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"Black-billed gull","2":"Larus bulleri","3":"LARBUL","4":"7732"}],"options":{"columns":{"min":{},"max":[10],"total":[4]},"rows":{"min":[10],"max":[10],"total":[1]},"pages":{}}}
-  </script>
-</div>
-<!-- rnb-frame-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuICBcbiMgQW5zd2VyOiBBIEJsYWNrLWJpbGxlZCBndWxsLCBjb3VudCA9IDc3MzJcbmBgYCJ9 -->
-<pre class="r"><code>  
+  slice_head()
+  
 # Answer: A Black-billed gull, count = 7732</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
@@ -1874,7 +1856,7 @@ seabirds %&gt;%
 -30?</h3>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBncm91cCBieSBiaXJkIG5hbWUsIGZpbHRlciBieSBsYXQgPi0zMCBhbmQgdGFrZSBhIHN1bW1hcnkgb2YgdGhlIGNvdW50IGNvbHVtbiBmb3IgZWFjaFxuc2VhYmlyZHMgJT4lIFxuICBmaWx0ZXIobGF0ID4gLTMwKSAlPiUgXG4gIGdyb3VwX2J5KHNwZWNpZXNfY29tbW9uX25hbWUpICU+JSBcbiAgc3VtbWFyaXNlKHRvdGFsX2NvdW50ID0gc3VtKGNvdW50KSkgJT4lIFxuICBsZWZ0X2pvaW4oc2VhYmlyZHMsIFwic3BlY2llc19jb21tb25fbmFtZVwiKSAlPiUgXG4gIHNlbGVjdChzcGVjaWVzX2NvbW1vbl9uYW1lLCBcbiAgICAgICAgIHNwZWNpZXNfc2NpZW50aWZpY19uYW1lLCBcbiAgICAgICAgIHNwZWNpZXNfYWJicmV2aWF0aW9uLCB0b3RhbF9jb3VudCkgJT4lXG4gIGFycmFuZ2UoZGVzYyh0b3RhbF9jb3VudCkpICU+JSBcbiAgc2xpY2VfaGVhZCgpXG5gYGAifQ== -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBncm91cCBieSBiaXJkIG5hbWUsIGZpbHRlciBieSBsYXQgPi0zMCBhbmQgdGFrZSBhIHN1bW1hcnkgb2YgdGhlIGNvdW50IGNvbHVtbiBmb3IgZWFjaFxuc2VhYmlyZHMgJT4lIFxuICBmaWx0ZXIobGF0ID4gLTMwKSAlPiUgXG4gIGdyb3VwX2J5KHNwZWNpZXNfY29tbW9uX25hbWUpICU+JSBcbiAgc3VtbWFyaXNlKHRvdGFsX2NvdW50ID0gc3VtKGNvdW50KSkgJT4lIFxuICBsZWZ0X2pvaW4oc2VhYmlyZHMsIFwic3BlY2llc19jb21tb25fbmFtZVwiKSAlPiUgXG4gIHNlbGVjdChzcGVjaWVzX2NvbW1vbl9uYW1lLCBcbiAgICAgICAgIHNwZWNpZXNfc2NpZW50aWZpY19uYW1lLCBcbiAgICAgICAgIHNwZWNpZXNfYWJicmV2aWF0aW9uLCB0b3RhbF9jb3VudCkgJT4lXG4gIGFycmFuZ2UoZGVzYyh0b3RhbF9jb3VudCkpICU+JSBcbiAgc2xpY2VfaGVhZCgpXG4jIEFuc3dlcjogQSBXZWRnZS10YWlsZWQgc2hlYXJ3YXRlciwgY291bnQgODU1XG5gYGAifQ== -->
 <pre class="r"><code># group by bird name, filter by lat &gt;-30 and take a summary of the count column for each
 seabirds %&gt;% 
   filter(lat &gt; -30) %&gt;% 
@@ -1885,17 +1867,8 @@ seabirds %&gt;%
          species_scientific_name, 
          species_abbreviation, total_count) %&gt;%
   arrange(desc(total_count)) %&gt;% 
-  slice_head()</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibnJvdyI6MSwibmNvbCI6NCwic3VtbWFyeSI6eyJBIHRpYmJsZSI6WyIxIMOXIDQiXX19LCJyZGYiOiJINHNJQUFBQUFBQUFCbDFSd1U3RE1BeDF1eGEwb2czRWtManVCOW9MUXVJSUF1MWNJU1oybTlJMDNTTGFwR3BTeHBFelg4VFhiVGh0STVWWVN1SzhaOGZQenV2TDVpN2FSQUF3Z2NEM1lCS2lDK0g2YlJVL0FDSjQ4U0NBcVRtL01HaUJUb0RyYWtUY3ZyTjh4MkpOZU1ueXBkb3owaHlJWm8wVGRwMjJSY0ZGcTVZMW9iemd0RlZPeEZtNlhxVlB6K2pORGZyNDh3dTkvZE1SQ2xJeG14b000RUxWakhLbXRsUldsUlJiRTJQbFdVcmhMclNwUEtadkxFMnlyR0dmbkdndXhjQmRhS2xKaVcrMlFqc3FwbzA4SkZiSkRKZi9qZHNKelpWTFM2TGNUcU9jYUpJVWpaRUJjSFJTem1WdFJHQ1NiK1lkT3NtZU85bkxWaGdsZVV6M3JmaUk3MDJCanU1dE52amV5QS82a3Y1cGVDcTBYOERFamdzN203QWtHU3VIeXh3NzdocE82b2JqUElaT0VGVkpOeWVMVUZsYXBPc05qbjl3UHZIaVpnSUFBQT09In0= -->
-<div data-pagedtable="false">
-<script data-pagedtable-source type="application/json">
-{"columns":[{"label":["species_common_name"],"name":[1],"type":["chr"],"align":["left"]},{"label":["species_scientific_name"],"name":[2],"type":["chr"],"align":["left"]},{"label":["species_abbreviation"],"name":[3],"type":["chr"],"align":["left"]},{"label":["total_count"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"Wedge-tailed shearwater","2":"Puffinus pacificus","3":"PUFPAC","4":"855"}],"options":{"columns":{"min":{},"max":[10],"total":[4]},"rows":{"min":[10],"max":[10],"total":[1]},"pages":{}}}
-  </script>
-</div>
-<!-- rnb-frame-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBBbnN3ZXI6IEEgV2VkZ2UtdGFpbGVkIHNoZWFyd2F0ZXIsIGNvdW50IDg1NVxuYGBgIn0= -->
-<pre class="r"><code># Answer: A Wedge-tailed shearwater, count 855</code></pre>
+  slice_head()
+# Answer: A Wedge-tailed shearwater, count 855</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -1927,9 +1900,6 @@ task_four_data &lt;- seabirds_plus_counts %&gt;%
   nrow()
 task_four_data</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDg2XG4ifQ== -->
-<pre><code>[1] 86</code></pre>
-<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 </div>
@@ -1937,24 +1907,15 @@ task_four_data</code></pre>
 <h3>Task 5 How many penguins were seen</h3>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBOb3RlIGhlcmUgSSd2ZSBjYWxjdWxhdGVkIGNvdW50IG9mIHBlbmd1aW5zIHNlZW4gbm90IHRoZSBudW1iZXIgb2Ygc2lnaHRpbmdzXG5cbiMgaGVyZSB3ZSBmaWx0ZXIgZm9yIGFueSBuYW1lcyBjb250YWluaW5nIHBlbmd1aW4gdGhlbiB3ZSBjb3VudCB0aGUgdG90YWwgZm9yIHRoZSBjb3VudCBjb2x1bW5cbnNlYWJpcmRzICU+JSBcbiAgZmlsdGVyKHN0cl9kZXRlY3Qoc3BlY2llc19jb21tb25fbmFtZSxcbiAgICAgICAgICAgICAgICAgICAgXCIoP2kpLipwZW5ndWluKy4qXCIpKSAlPiUgXG4gIHN1bW1hcmlzZShzdW0oY291bnQsIG5hLnJtID0gVCkpXG5gYGAifQ== -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBOb3RlIGhlcmUgSSd2ZSBjYWxjdWxhdGVkIGNvdW50IG9mIHBlbmd1aW5zIHNlZW4gbm90IHRoZSBudW1iZXIgb2Ygc2lnaHRpbmdzXG5cbiMgaGVyZSB3ZSBmaWx0ZXIgZm9yIGFueSBuYW1lcyBjb250YWluaW5nIHBlbmd1aW4gdGhlbiB3ZSBjb3VudCB0aGUgdG90YWwgZm9yIHRoZSBjb3VudCBjb2x1bW5cbnNlYWJpcmRzICU+JSBcbiAgZmlsdGVyKHN0cl9kZXRlY3Qoc3BlY2llc19jb21tb25fbmFtZSxcbiAgICAgICAgICAgICAgICAgICAgXCIoP2kpLipwZW5ndWluKy4qXCIpKSAlPiUgXG4gIHN1bW1hcmlzZShzdW0oY291bnQsIG5hLnJtID0gVCkpXG5cbiMgMTU4IHBlbmd1aW5zIHdlcmUgc2VlblxuYGBgIn0= -->
 <pre class="r"><code># Note here I&#39;ve calculated count of penguins seen not the number of sightings
 
 # here we filter for any names containing penguin then we count the total for the count column
 seabirds %&gt;% 
   filter(str_detect(species_common_name,
                     &quot;(?i).*penguin+.*&quot;)) %&gt;% 
-  summarise(sum(count, na.rm = T))</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibnJvdyI6MSwibmNvbCI6MSwic3VtbWFyeSI6eyJBIHRpYmJsZSI6WyIxIMOXIDEiXX19LCJyZGYiOiJINHNJQUFBQUFBQUFCbDFQd1dyQ1FCQ2R4R3lMZ1dxaGVNOVJvVmtvdmZRaTlDRDlBRkh3dWwyakRVMW13MlpEUGZiVC9ESjFOdTZDN3NMc3pEem16WnUzWEd6ZTAwMEtBQU5JNGdnR2pFcGc2OVZYL2dHRVVCTkJBa09iRHpUMDBnTUFJNXMvNVJHdTcyNlFvYWlMbG9ybkczRFNkdlZVcWc3TmE0YUM2enFiWjZ0WndCeHE5Y2M5KzRraS9xZnZUQytVa0pWb1E0bDBLNHpnTzAxODZrNEI1VkUxcGxSSXBOaWFZQUU1MGdFdzd0QmVzczNsVDRlLytac1ZjT2JCWFJlNXVLbXRaSHgycTVoYjlWRGd2c1RDMzE2Sjc2Snl6WWdjOTRaNW8wczAzZ21oTFRmS0NEK1hTbFY1cFBjR3B3djBadTdSdXdFQUFBPT0ifQ== -->
-<div data-pagedtable="false">
-<script data-pagedtable-source type="application/json">
-{"columns":[{"label":["sum(count, na.rm = T)"],"name":[1],"type":["dbl"],"align":["right"]}],"data":[{"1":"158"}],"options":{"columns":{"min":{},"max":[10],"total":[1]},"rows":{"min":[10],"max":[10],"total":[1]},"pages":{}}}
-  </script>
-</div>
-<!-- rnb-frame-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG4jIDE1OCBwZW5ndWlucyB3ZXJlIHNlZW5cbmBgYCJ9 -->
-<pre class="r"><code>
+  summarise(sum(count, na.rm = T))
+
 # 158 penguins were seen</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
