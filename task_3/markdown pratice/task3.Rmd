@@ -1,0 +1,40 @@
+---
+title: "Seabirds_project_description"
+author: "Neil Plenderleith"
+date: "2022-07-31"
+output:
+  word_document: default
+  html_document: default
+  pdf_document: default
+---
+
+# Seabirds Project Neil Plenderleith CdoeClan DR16
+
+## Brief Introduction to the Dataset
+
+The dataset is in .xlx format with 4 sheets. The main two are bird sightings and the ship they are sighted from. There are also 2 sheets which describe the column data and abbreviations etc. There are a lot of NA values! I can understand a lot of these wil be from incomplete sightings where not all data points can possible be collected from every sighting.
+
+## List of Assumptions
+
+I have assumed the cleaned data will go on to be used in other analyses and therefore I have not trimmed it massively. Were this not the case I would have cut 45 columns or so which were not required for our 5 tasks. I did trim two very nearly empty columns in the end (4 more were borderline) but I have erred on the side of keeping data in however incomplete rather than dropping columns at will.
+
+## Steps to Clean Data
+
+As mentioned in assumptions I probably erred on the side of leaving data in rather than dropping it. Otherwise I cleaned the column names, changed a couple of very long names and dropped two 99.99% empty columns.
+
+```{r}
+library(tidyverse)
+library(janitor)
+# lets sort all these uppercase column names
+seabirds <- clean_names(seabirds)
+
+# lets drop cols sex and sal. sex only has 1/49019 values, SAL has 3/49017
+seabirds <- seabirds %>% 
+  select(-sex, -sal)
+
+# lets change some long column names
+seabirds <- seabirds %>% 
+rename(species_common_name = species_common_name_taxon_age_sex_plumage_phase,
+       species_scientific_name = species_scientific_name_taxon_age_sex_plumage_phase)
+```
+

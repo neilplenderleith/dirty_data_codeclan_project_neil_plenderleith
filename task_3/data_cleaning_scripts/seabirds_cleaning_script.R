@@ -40,6 +40,11 @@ seabirds <- clean_names(seabirds)
 seabirds <- seabirds %>% 
   select(-sex, -sal)
 
+# lets change some long column names
+seabirds <- seabirds %>% 
+rename(species_common_name = species_common_name_taxon_age_sex_plumage_phase,
+       species_scientific_name = species_scientific_name_taxon_age_sex_plumage_phase)
+
 # Can we use this data now? It has a lot of NAs but i suppose a lot are just
 # the way the data is recorded and the way the dataset is setup. Not every
 # observation would have all fields completed.
