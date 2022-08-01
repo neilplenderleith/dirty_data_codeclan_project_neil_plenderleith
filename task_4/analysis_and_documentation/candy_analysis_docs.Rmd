@@ -112,3 +112,62 @@ candy_clean <- candy_clean %>%
 
 
 ### Task 6 What was the most popular candy bar by this rating system for each gender in the dataset
+
+```{r}
+candy_clean %>% 
+    filter(gender == "Female") %>% 
+  group_by(candy_type) %>% 
+  summarise(new_rating_total = sum(candy_rating_new_system)) %>% 
+  arrange(desc(new_rating_total)) %>% 
+  slice_head(n=1)
+
+# Female answer : Any full sizer candy bar - 875 count
+
+candy_clean %>% 
+    filter(gender == "Male") %>% 
+  group_by(candy_type) %>% 
+  summarise(new_rating_total = sum(candy_rating_new_system)) %>% 
+  arrange(desc(new_rating_total)) %>% 
+  slice_head(n=1)
+
+# Male answer : Any full sizer candy bar - 1584 count
+
+```
+
+### Task 7 What was the most popular candy bar in each year?
+
+```{r}
+
+candy_clean %>% 
+  filter(year == 2015) %>% 
+  group_by(candy_type) %>% 
+  summarise(new_rating_total = sum(candy_rating_new_system)) %>% 
+  arrange(desc(new_rating_total)) %>% 
+  slice_head(n=1)
+
+candy_clean %>% 
+  filter(year == 2016) %>% 
+  group_by(candy_type) %>% 
+  summarise(new_rating_total = sum(candy_rating_new_system)) %>% 
+  arrange(desc(new_rating_total)) %>% 
+  slice_head(n=1)
+
+candy_clean %>% 
+  filter(year == 2017) %>% 
+  group_by(candy_type) %>% 
+  summarise(new_rating_total = sum(candy_rating_new_system)) %>% 
+  arrange(desc(new_rating_total)) %>% 
+  slice_head(n=1)
+
+
+```
+
+```{r}
+candy_clean %>% 
+  filter(!is.na(country)) %>% 
+  group_by(country, candy_type) %>% 
+  summarise(new_rating_total = sum(candy_rating_new_system)) %>% 
+  arrange(desc(new_rating_total), by_group = TRUE) %>% 
+slice(1)
+```
+

@@ -302,6 +302,12 @@ candy_combined <- candy_combined %>%
 candy_combined <- candy_combined %>%
   mutate(age = ifelse(age>122, NA, age))
 
+# Year column
+
+candy_combined <- candy_combined %>%
+  mutate(year = recode(year, "1" = "2015"),
+         year = recode(year, "2" = "2016"),
+         year = recode(year, "3" = "2017"))
 
 
 
