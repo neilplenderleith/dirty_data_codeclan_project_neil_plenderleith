@@ -4,3 +4,27 @@ author: "Neil"
 date: "2022-07-31"
 output: html_document
 ---
+
+```{r}
+library(readr)
+library(tidyverse)
+library(here)
+```
+
+```{r}
+candy_clean <- read_csv(here("clean_data/candy_clean.csv"))
+```
+
+```{r}
+
+candy_clean %>% 
+  count(!is.na(candy_rating)) # total ratings - 767302
+
+candy_clean %>%
+  summarise(across(.fns = ~ sum(is.na(.x)))) # 141198	NAs
+
+candy_clean %>%
+colSums(!is.na(candy_clean$candy_rating))
+
+```
+

@@ -233,19 +233,66 @@ candy_combined <- bind_rows(candy_2015_long, candy_2016_long, candy_2017_long, .
 
 
 
+# Cleaning country column
 
 table(candy_combined["country"]) # look at dirty column 'country' eek
 
+#get a few easy ones with regex
 candy_combined <- candy_combined %>% 
-  mutate(country = if_else(grepl("(?i)eua*us*ud*u s*", country),"USA",country))
+  mutate(country = if_else(grepl("(?i)usa+", country),"USA",country)) %>% 
+  mutate(country = if_else(grepl("(?i)united s+", country),"USA",country)) %>% 
+  mutate(country = if_else(grepl("(?i)amer", country),"USA",country)) %>% 
+  mutate(country = if_else(grepl("(?i)stat", country),"USA",country))
+
+#make vectors of USA outliers and some to change to NA values
+usa_outliers = c("Alaska", "California", "EUA", "Merica", "Murica", "murrika",
+                 "New Jersey", "New York", "North Carolina", "Pittsburgh", 
+                 "The Yoo Ess of Aaayyyyyy", "Trumpistan", "U S", "u s a", "u.s.",
+                 "U.s.", "U.S.", "u.s.a.", "U.S.A.", "UD", "us", "Us", "US", "US of A",
+                 "USSA", "'merica")
+change_to_NA = c(1, 30.0, 32, 35, 44.0, 45, 45.0, 46, 47.0, 51.0, 54.0)
+change_to_NA2 = c("30.0", "44.0", "45.0", "47.0", "51.0", "54.0")
+silly_values = c("A tropical island south of the equator", "A", "Atlantis",
+                 "Canae", "cascadia ", "Cascadia", "Denial", "Earth", "Fear and Loathing", 
+                 "god's country", "I don't know anymore", "insanity lately", 
+                 "there isn't one for old men", "soviet canuckistan", "Narnia", "Neverland",
+                 "one of the best ones", "See above", "Somewhere", "subscribe to dm4uz3 on youtube",
+                 "The republic of Cascadia", "this one", "Europe", " Cascadia", "Cascadia ")
+# use the vectors above 
+candy_combined <- candy_combined %>%
+mutate(country = if_else(country %in% usa_outliers ,
+                         "USA", country)) 
+
+candy_combined <- candy_combined %>%
+  mutate(country = if_else(country %in% silly_values|
+                             country %in% change_to_NA|
+                             country %in% change_to_NA2, NA_character_, country)) %>% 
+  mutate(country = str_to_title(country)) # change to title case to help
+
+# recode anything else
+candy_combined <- candy_combined %>%
+mutate(country = recode(country, "The Netherlands" = "Netherlands"),
+       country = recode(country, "Can" = "Canada"),
+       country = recode(country, "Canada`" = "Canada"),
+       country = recode(country, "Endland" = "United Kingdom"),
+       country = recode(country, "England" = "United Kingdom"),
+       country = recode(country, "England" = "United Kingdom"),
+       country = recode(country, "Scotland" = "United Kingdom"),
+       country = recode(country, "España" = "Spain"),
+       country = recode(country, "U.k." = "United Kingdom"),
+       country = recode(country, "Uk" = "United Kingdom"),
+       country = recode(country, "United Kindom" = "United Kingdom"))
+
+table(candy_combined["country"])
 
 
+  # candy_combined <- candy_combined %>%
+  # mutate(country = if_else(grepl("(?i).*usa.*", country),"USA",country)) %>% 
+  # mutate(country = if_else(grepl("New York", country),"USA",country)) %>% 
+  # mutate(country = if_else(grepl("(?i)hong kong", country),"Hong Kong",country)) %>% 
+  # mutate(country = if_else(grepl("(?i)ud", country),"USA",country)) %>% 
+  # mutate(country = if_else(grepl("(?i)uk", country),"UK",country)) %>% 
+  # mutate(country = if_else(grepl("(?i)u s", country),"USA",country))
 
-
-  mutate(country = if_else(grepl("(?i).*us.*", country),"USA",country)) %>% 
-  mutate(country = if_else(grepl("New York", country),"USA",country)) %>% 
-  mutate(country = if_else(grepl("(?i)hong kong", country),"Hong Kong",country)) %>% 
-  mutate(country = if_else(grepl("(?i)ud", country),"USA",country)) %>% 
-  mutate(country = if_else(grepl("(?i)uk", country),"UK",country)) %>% 
-  mutate(country = if_else(grepl("(?i)u s", country),"USA",country)) %>% 
-  mutate(country = if_else(is.numeric(country)), NA, country)
+candy_combined %>%
+write_csv(here("clean_data/candy_clean.csv"))
