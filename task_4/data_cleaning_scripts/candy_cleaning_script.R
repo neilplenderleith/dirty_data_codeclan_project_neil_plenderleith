@@ -229,6 +229,7 @@ candy_2016_long <- candy_2016_long %>%
 candy_2017_long <- candy_2017_long %>%
   mutate(id = as.character(id))
 
+# Lets join the 3 sets together
 candy_combined <- bind_rows(candy_2015_long, candy_2016_long, candy_2017_long, .id = "year")
 
 
@@ -286,13 +287,23 @@ mutate(country = recode(country, "The Netherlands" = "Netherlands"),
 table(candy_combined["country"])
 
 
-  # candy_combined <- candy_combined %>%
-  # mutate(country = if_else(grepl("(?i).*usa.*", country),"USA",country)) %>% 
-  # mutate(country = if_else(grepl("New York", country),"USA",country)) %>% 
-  # mutate(country = if_else(grepl("(?i)hong kong", country),"Hong Kong",country)) %>% 
-  # mutate(country = if_else(grepl("(?i)ud", country),"USA",country)) %>% 
-  # mutate(country = if_else(grepl("(?i)uk", country),"UK",country)) %>% 
-  # mutate(country = if_else(grepl("(?i)u s", country),"USA",country))
+# Cleaning age column
+
+table(candy_combined["age"])
+
+#oldest person ever was 122. lets take out everything above that as NA
+# lets keep in the 0 values - technically this could be babies in a pram?
+
+# change the column from a character to numeric
+candy_combined <- candy_combined %>%
+  mutate(age = as.numeric(age))
+
+# clearn out values bigger than 122 - oldest ever person
+candy_combined <- candy_combined %>%
+  mutate(age = ifelse(age>122, NA, age))
+
+
+
 
 candy_combined %>%
 write_csv(here("clean_data/candy_clean.csv"))

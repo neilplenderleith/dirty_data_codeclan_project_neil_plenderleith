@@ -14,17 +14,101 @@ library(here)
 ```{r}
 candy_clean <- read_csv(here("clean_data/candy_clean.csv"))
 ```
+### Task 1 What is the total number of candy ratings given across the three years.
 
 ```{r}
 
 candy_clean %>% 
   count(!is.na(candy_rating)) # total ratings - 767302
 
-candy_clean %>%
-  summarise(across(.fns = ~ sum(is.na(.x)))) # 141198	NAs
+# candy_clean %>%
+#   summarise(across(.fns = ~ sum(is.na(.x)))) # 141198	NAs
 
-candy_clean %>%
-colSums(!is.na(candy_clean$candy_rating))
+# candy_clean %>%
+# colSums(!is.na(candy_clean$candy_rating))
 
 ```
 
+### Task 2 What was the average age of people who are going out trick or treating?
+
+```{r}
+
+# filter for Yes to going out then average the age column
+candy_clean %>% 
+   filter(going_out == "Yes") %>% 
+summarise(avg_age = mean(age, na.rm = TRUE))
+
+# Average_age is 35.22
+```
+
+### Task 3 What was the average age of people who are not going trick or treating?
+
+```{r}
+
+# filter for No to going out then average the age column
+candy_clean %>% 
+   filter(going_out == "No") %>% 
+summarise(avg_age = mean(age, na.rm = TRUE))
+
+# Average age is 39.26
+```
+
+### Task 4 For each of joy, despair and meh, which candy bar received the most of these ratings?
+
+```{r}
+# Despair
+candy_clean %>% 
+  group_by(candy_type) %>% 
+  count(candy_rating, name = "count_of_rating") %>% 
+  filter(candy_rating == "DESPAIR") %>% 
+  ungroup() %>% 
+  arrange(desc(count_of_rating)) %>% 
+  slice_max(count_of_rating, n = 1)
+
+# Answer : broken_glow_stick
+
+# Joy
+candy_clean %>% 
+  group_by(candy_type) %>% 
+  count(candy_rating, name = "count_of_rating") %>% 
+  filter(candy_rating == "JOY") %>% 
+  ungroup() %>% 
+  arrange(desc(count_of_rating)) %>% 
+  slice_max(count_of_rating, n = 5)
+
+# Answer : any_full_sized_candy_bar
+
+# Meh
+candy_clean %>% 
+  group_by(candy_type) %>% 
+  count(candy_rating, name = "count_of_rating") %>% 
+  filter(candy_rating == "MEH") %>% 
+  ungroup() %>% 
+  arrange(desc(count_of_rating)) %>% 
+  slice_max(count_of_rating, n = 1)
+
+# Answer : lollipops
+```
+
+```{r}
+candy_clean %>% 
+  filter(candy_type == "starburst" & candy_rating == "DESPAIR") %>% 
+nrow()
+
+# 1990 people thought starburst was despair-worthy
+```
+### Change the dataset for new ordering system
+
+```{r}
+
+candy_clean <- candy_clean %>% 
+ mutate(candy_rating_new_system = case_when ( candy_rating == "DESPAIR" ~ -1,
+                                              candy_rating == "JOY" ~ 1,
+                                              TRUE ~ 0
+ ))
+   
+ 
+```
+
+
+### Task 6 What was the most popular candy bar by this rating system for each gender in the dataset
