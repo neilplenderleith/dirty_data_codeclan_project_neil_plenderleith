@@ -16,39 +16,58 @@ The dataset is in .xlx format with 4 sheets. The main two are bird sightings and
 
 ## List of Assumptions
 
-I have assumed the cleaned data will go on to be used in other analyses and therefore I have not trimmed it massively. Were this not the case I would have cut 45 columns or so which were not required for our 5 tasks. I did trim two very nearly empty columns in the end (4 more were borderline) but I have erred on the side of keeping data in however incomplete rather than dropping columns at will.
+I have assumed the cleaned data will go on to be used in other analyses and therefore I have not trimmed it massively. Were this not the case I would have cut 45 columns or so which were not required for our 5 tasks. I did trim 3 very nearly empty columns in the end (4 more were borderline) but I have erred on the side of keeping data in however incomplete rather than dropping columns at will. Likewise I havent gone crazy with weeding out NA values as I believe these tell a story in this data and the nature of not being able to collect all data points for every sighting.
 
 ## Steps to Clean Data
 
-As mentioned in assumptions I probably erred on the side of leaving data in rather than dropping it. Otherwise I cleaned the column names, changed a couple of very long names and dropped two 99.99% empty columns.
+As mentioned in assumptions I probably erred on the side of leaving data in rather than dropping it. Otherwise I cleaned the column names, changed a couple of very long names and dropped 3 99.99% empty columns.
 
 ```{r}
+# Load Libraries ---------------------------------------------------------------
 
 library(readxl)
 library(here)
 library(tidyverse)
 library(janitor)
 
+# Load Data ---------------------------------------------------------------
+
 birds <- read_xls(here("raw_data/seabirds.xls"), 
                   sheet = "Bird data by record ID")
 ships <- read_xls(here("raw_data/seabirds.xls"), 
                   sheet = "Ship data by record ID")
 
+# Join Tables -------------------------------------------------------------
 
 seabirds <- left_join(birds, ships, "RECORD ID")
+
+# Investigate Data --------------------------------------------------------
+
+#glimpse(seabirds)
+#summary(seabirds)
+#skimr::skim(seabirds)
+# I've kept these commented in case anyone running the code didn't 
+# want all the output!
+
+# na_count <- seabirds %>%
+#  summarise(across(.fns = ~ sum(is.na(.x)))) 
+# this counts N/A values across all columns
+
+# Cleaning Data -----------------------------------------------------------
 
 # so from the notes and from the above investigation we can:
 
 # 1 sort column names
-# 2 drop 2 columns with only 1, 4 values out of 49019 (4 more cols were 
+# 2 drop 3 columns with very few values out of 49019 (4 more cols were 
 #   borderline but we will keep these for now)
+# 3 change names of 2 long column names
 
 # lets sort all these uppercase column names
 seabirds <- clean_names(seabirds)
 
-# lets drop cols sex and sal. sex only has 1/49019 values, SAL has 3/49017
+# lets drop cols sex, sal and plphase very few values
 seabirds <- seabirds %>% 
-  select(-sex, -sal)
+  select(-sex, -sal, -plphase)
 
 # lets change some long column names
 seabirds <- seabirds %>% 
