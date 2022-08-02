@@ -1773,12 +1773,32 @@ pre code {
 <p>library(tidyverse)</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeSh0aWR5dmVyc2UpXG5saWJyYXJ5KHJlYWRyKVxubGlicmFyeShoZXJlKVxuXG5oZXJlOjpoZXJlKClcbmBgYCJ9 -->
-<pre class="r"><code>library(tidyverse)
-library(readr)
-library(here)
-
-here::here()</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeSh0aWR5dmVyc2UpXG5gYGAifQ== -->
+<pre class="r"><code>library(tidyverse)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiUmVnaXN0ZXJlZCBTMyBtZXRob2RzIG92ZXJ3cml0dGVuIGJ5ICdkYnBseXInOlxuICBtZXRob2QgICAgICAgICBmcm9tXG4gIHByaW50LnRibF9sYXp5ICAgICBcbiAgcHJpbnQudGJsX3NxbCAgICAgIFxu4pSA4pSAIEF0dGFjaGluZyBwYWNrYWdlcyDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIDilIAgdGlkeXZlcnNlIDEuMy4xIOKUgOKUgFxu4pyUIGdncGxvdDIgMy4zLjYgICAgIOKclCBwdXJyciAgIDAuMy40XG7inJQgdGliYmxlICAzLjEuNyAgICAg4pyUIGRwbHlyICAgMS4wLjlcbuKclCB0aWR5ciAgIDEuMi4wICAgICDinJQgc3RyaW5nciAxLjQuMFxu4pyUIHJlYWRyICAgMi4xLjIgICAgIOKclCBmb3JjYXRzIDAuNS4xXG7ilIDilIAgQ29uZmxpY3RzIOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgOKUgCB0aWR5dmVyc2VfY29uZmxpY3RzKCkg4pSA4pSAXG7inJYgZHBseXI6OmZpbHRlcigpIG1hc2tzIHN0YXRzOjpmaWx0ZXIoKVxu4pyWIGRwbHlyOjpsYWcoKSAgICBtYXNrcyBzdGF0czo6bGFnKClcbiJ9 -->
+<pre><code>Registered S3 methods overwritten by &#39;dbplyr&#39;:
+  method         from
+  print.tbl_lazy     
+  print.tbl_sql      
+── Attaching packages ──────────────────────────────────────────────── tidyverse 1.3.1 ──
+✔ ggplot2 3.3.6     ✔ purrr   0.3.4
+✔ tibble  3.1.7     ✔ dplyr   1.0.9
+✔ tidyr   1.2.0     ✔ stringr 1.4.0
+✔ readr   2.1.2     ✔ forcats 0.5.1
+── Conflicts ─────────────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShyZWFkcilcbmxpYnJhcnkoaGVyZSlcbmBgYCJ9 -->
+<pre class="r"><code>library(readr)
+library(here)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiaGVyZSgpIHN0YXJ0cyBhdCBDOi9Vc2Vycy9uZWlscC9Eb2N1bWVudHMvQ09ERUNMQU4vZGlydHlfZGF0YV9jb2RlY2xhbl9wcm9qZWN0X25laWxfcGxlbmRlcmxlaXRoL3Rhc2tfM1xuIn0= -->
+<pre><code>here() starts at C:/Users/neilp/Documents/CODECLAN/dirty_data_codeclan_project_neil_plenderleith/task_3</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaGVyZTo6aGVyZSgpXG5gYGAifQ== -->
+<pre class="r"><code>here::here()</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwiQzovVXNlcnMvbmVpbHAvRG9jdW1lbnRzL0NPREVDTEFOL2RpcnR5X2RhdGFfY29kZWNsYW5fcHJvamVjdF9uZWlsX3BsZW5kZXJsZWl0aC90YXNrXzNcIlxuIn0= -->
 <pre><code>[1] &quot;C:/Users/neilp/Documents/CODECLAN/dirty_data_codeclan_project_neil_plenderleith/task_3&quot;</code></pre>
@@ -1790,10 +1810,19 @@ here::here()</code></pre>
 <h2>Load Data</h2>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2VhYmlyZHMgPC0gcmVhZF9jc3YoaGVyZShcImNsZWFuX2RhdGEvc2VhYmlyZHMuY3N2XCIpKVxuXG5gYGAifQ== -->
-<pre class="r"><code>seabirds &lt;- read_csv(here(&quot;clean_data/seabirds.csv&quot;))
-</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2VhYmlyZHMgPC0gcmVhZF9jc3YoaGVyZShcImNsZWFuX2RhdGEvc2VhYmlyZHMuY3N2XCIpKVxuYGBgIn0= -->
+<pre class="r"><code>seabirds &lt;- read_csv(here(&quot;clean_data/seabirds.csv&quot;))</code></pre>
 <!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiUm93czogNDkwMTkgQ29sdW1uczogNDnilIDilIAgQ29sdW1uIHNwZWNpZmljYXRpb24g4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSAXG5EZWxpbWl0ZXI6IFwiLFwiXG5jaHIgICgxOCk6IHNwZWNpZXNfY29tbW9uX25hbWUsIHNwZWNpZXNfc2NpZW50aWZpY19uYW1lLCBzcGVjaWVzX2FiYnJldmlhdGlvbiwgYWdlLCBvLi4uXG5kYmwgICgyOCk6IHJlY29yZF94LCByZWNvcmRfaWQsIHdhbnBsdW0sIGNvdW50LCBuZmVlZCwgbnNvdywgbnNvaWNlLCBuZmx5cCwgbmFjYywgbmZvLi4uXG5sZ2wgICAoMSk6IGF0bXBcbmR0dG0gICgyKTogZGF0ZSwgdGltZVxu4oS5IFVzZSBgc3BlYygpYCB0byByZXRyaWV2ZSB0aGUgZnVsbCBjb2x1bW4gc3BlY2lmaWNhdGlvbiBmb3IgdGhpcyBkYXRhLlxu4oS5IFNwZWNpZnkgdGhlIGNvbHVtbiB0eXBlcyBvciBzZXQgYHNob3dfY29sX3R5cGVzID0gRkFMU0VgIHRvIHF1aWV0IHRoaXMgbWVzc2FnZS5cbiJ9 -->
+<pre><code>Rows: 49019 Columns: 49── Column specification ─────────────────────────────────────────────────────────────────
+Delimiter: &quot;,&quot;
+chr  (18): species_common_name, species_scientific_name, species_abbreviation, age, o...
+dbl  (28): record_x, record_id, wanplum, count, nfeed, nsow, nsoice, nflyp, nacc, nfo...
+lgl   (1): atmp
+dttm  (2): date, time
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 </div>
@@ -1803,19 +1832,28 @@ here::here()</code></pre>
 <h3>Task 1 Which bird had the most individual sightings?</h3>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBncm91cCBieSBiaXJkIG5hbWUgYW5kIHRha2UgYSBjb3VudCBvZiBvY2N1cmFuY2VzLCBqb2luIHRoaXMgYmFjayBpbnRvIHRoZSB0YWJsZVxuIyB0byBhbGxvdyBtb3JlIG5hbWVzIGluZm8gdG8gYmUgcHVsbGVkLCBhcnJhbmdlIGFuZCBzbGljZSBoZWFkIHRvIGdldCB0b3AgaGl0XG5zZWFiaXJkcyAlPiUgXG4gIGdyb3VwX2J5KHNwZWNpZXNfY29tbW9uX25hbWUpICU+JSBcbiAgc3VtbWFyaXNlKGNvdW50X29mX3NpZ2h0aW5ncyA9IG4oKSkgJT4lIFxuICBsZWZ0X2pvaW4oc2VhYmlyZHMsIFwic3BlY2llc19jb21tb25fbmFtZVwiKSAlPiUgXG4gIHNlbGVjdChzcGVjaWVzX2NvbW1vbl9uYW1lLCBcbiAgICAgICAgIHNwZWNpZXNfc2NpZW50aWZpY19uYW1lLCBcbiAgICAgICAgIHNwZWNpZXNfYWJicmV2aWF0aW9uLCBjb3VudF9vZl9zaWdodGluZ3MpICU+JVxuICBhcnJhbmdlKGRlc2MoY291bnRfb2Zfc2lnaHRpbmdzKSkgJT4lIFxuICBzbGljZV9oZWFkKClcbiMgQW5zd2VyOiBXYW5kZXJpbmcgYWxiYXRyb3NzIHNlbnN1IGxhdG8gUEwyLCBjb3VudCAzMTA0XG5gYGAifQ== -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBncm91cCBieSBiaXJkIG5hbWUgYW5kIHRha2UgYSBjb3VudCBvZiBvY2N1cmFuY2VzLCBqb2luIHRoaXMgYmFjayBpbnRvIHRoZSB0YWJsZVxuIyB0byBhbGxvdyBtb3JlIG5hbWVzIGluZm8gdG8gYmUgcHVsbGVkLCBhcnJhbmdlIGFuZCBzbGljZSBoZWFkIHRvIGdldCB0b3AgaGl0XG5zZWFiaXJkcyAlPiUgXG4gIGdyb3VwX2J5KHNwZWNpZXNfY29tbW9uX25hbWUpICU+JSBcbiAgc3VtbWFyaXNlKGNvdW50X29mX3NpZ2h0aW5ncyA9IG4oKSkgJT4lIFxuICByaWdodF9qb2luKHNlYWJpcmRzLCBcInNwZWNpZXNfY29tbW9uX25hbWVcIikgJT4lIFxuICBzZWxlY3Qoc3BlY2llc19jb21tb25fbmFtZSwgXG4gICAgICAgICBzcGVjaWVzX3NjaWVudGlmaWNfbmFtZSwgXG4gICAgICAgICBzcGVjaWVzX2FiYnJldmlhdGlvbiwgY291bnRfb2Zfc2lnaHRpbmdzKSAlPiVcbiAgYXJyYW5nZShkZXNjKGNvdW50X29mX3NpZ2h0aW5ncykpICAlPiUgXG4gIHNsaWNlX2hlYWQoKVxuYGBgIn0= -->
 <pre class="r"><code># group by bird name and take a count of occurances, join this back into the table
 # to allow more names info to be pulled, arrange and slice head to get top hit
 seabirds %&gt;% 
   group_by(species_common_name) %&gt;% 
   summarise(count_of_sightings = n()) %&gt;% 
-  left_join(seabirds, &quot;species_common_name&quot;) %&gt;% 
+  right_join(seabirds, &quot;species_common_name&quot;) %&gt;% 
   select(species_common_name, 
          species_scientific_name, 
          species_abbreviation, count_of_sightings) %&gt;%
-  arrange(desc(count_of_sightings)) %&gt;% 
-  slice_head()
-# Answer: Wandering albatross sensu lato PL2, count 3104</code></pre>
+  arrange(desc(count_of_sightings))  %&gt;% 
+  slice_head()</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibnJvdyI6MSwibmNvbCI6NCwic3VtbWFyeSI6eyJBIHRpYmJsZSI6WyIxIMOXIDQiXX19LCJyZGYiOiJINHNJQUFBQUFBQUFCbTFTUVV2RE1CVE91bFpaY1NwTzhCcjB2SXA2OFNwTVFSQVYyWEMzOHRwbVc3Qk5TcFBxanY3eXpaY3VnUkVNSkgxNTMvdVM3M3ZweDJSK0Y4OWpRa2lmaEVHUDlDTU1TVFNiUG8zdkNXWncweU1oR1pqdkdvdEdHSVE0VC9lQXkwOFFCV3U0V0ZJb005Q05WSW9xSmxSTFM5Q1N2ci9jZW95ckNaY1ZLeGhRRUpyWHNzQmlydWcxWmV1MkJLSCtvUXduejI4UHI5UEgrY3lDd3c0a1I5U1RHUW1vbUxMczBDWkhxbVk1WnlyTlpWVkprWm9hQzEwNFNPR0thaFk4MzRmUEhReFoxckJ2RHBwTFliR3pYTFpDcDNLUktyNWNhV3lBOHNRTUd2bVRPRUZHY2ZDTHl4YUhyem92UVNuUGMxeUFobVRSR0RXRWJEektvYXlORmlRRjVsVWlqOXhydk1SSks0eVNZcHl2V3ZFMXZqRVg3SHJZRGR2UGJybzQzRjBaYk8xUmtUM3FnSWtsRjY1RlVRa1pLKzNtR0IxM2hwTWEvd2p0bkdCV0pWcHFjSFZ4TGt1WDZieVJ6UjgrSktQdGpBSUFBQT09In0= -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["species_common_name"],"name":[1],"type":["chr"],"align":["left"]},{"label":["species_scientific_name"],"name":[2],"type":["chr"],"align":["left"]},{"label":["species_abbreviation"],"name":[3],"type":["chr"],"align":["left"]},{"label":["count_of_sightings"],"name":[4],"type":["int"],"align":["right"]}],"data":[{"1":"Wandering albatross sensu lato PL2","2":"Diomedea antipodensis / exulans PL2","3":"DIOANTEXU PL2","4":"3104"}],"options":{"columns":{"min":{},"max":[10],"total":[4]},"rows":{"min":[10],"max":[10],"total":[1]},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBBbnN3ZXI6IFdhbmRlcmluZyBhbGJhdHJvc3Mgc2Vuc3UgbGF0byBQTDIsIGNvdW50IDMxMDRcbmBgYCJ9 -->
+<pre class="r"><code># Answer: Wandering albatross sensu lato PL2, count 3104</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -1824,19 +1862,28 @@ seabirds %&gt;%
 <h3>Task 2 Which bird had the highest total count?</h3>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBncm91cCBieSBiaXJkIG5hbWUgYW5kIHRha2UgYSBzdW0gb2YgY291bnQsIGpvaW4gdGhpcyBiYWNrIGludG8gdGhlIHRhYmxlXG4jIHRvIGFsbG93IG1vcmUgbmFtZXMgaW5mbyB0byBiZSBwdWxsZWQsIGFycmFuZ2UgYW5kIHNsaWNlIGhlYWQgdG8gZ2V0IHRvcCBoaXRcbnNlYWJpcmRzICU+JSBcbiAgZ3JvdXBfYnkoc3BlY2llc19jb21tb25fbmFtZSkgJT4lIFxuICBzdW1tYXJpc2UodG90YWxfY291bnQgPSBzdW0oY291bnQpKSAlPiUgXG4gIGxlZnRfam9pbihzZWFiaXJkcywgXCJzcGVjaWVzX2NvbW1vbl9uYW1lXCIpICU+JSBcbiAgc2VsZWN0KHNwZWNpZXNfY29tbW9uX25hbWUsIFxuICAgICAgICAgc3BlY2llc19zY2llbnRpZmljX25hbWUsIFxuICAgICAgICAgc3BlY2llc19hYmJyZXZpYXRpb24sIHRvdGFsX2NvdW50KSAlPiVcbiAgYXJyYW5nZShkZXNjKHRvdGFsX2NvdW50KSkgJT4lIFxuICBzbGljZV9oZWFkKClcbiAgXG4jIEFuc3dlcjogQSBCbGFjay1iaWxsZWQgZ3VsbCwgY291bnQgPSA3NzMyXG5gYGAifQ== -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBncm91cCBieSBiaXJkIG5hbWUgYW5kIHRha2UgYSBzdW0gb2YgY291bnQsIGpvaW4gdGhpcyBiYWNrIGludG8gdGhlIHRhYmxlXG4jIHRvIGFsbG93IG1vcmUgbmFtZXMgaW5mbyB0byBiZSBwdWxsZWQsIGFycmFuZ2UgYW5kIHNsaWNlIGhlYWQgdG8gZ2V0IHRvcCBoaXRcbnNlYWJpcmRzICU+JSBcbiAgZ3JvdXBfYnkoc3BlY2llc19jb21tb25fbmFtZSkgJT4lIFxuICBzdW1tYXJpc2UodG90YWxfY291bnQgPSBzdW0oY291bnQpKSAlPiUgXG4gIHJpZ2h0X2pvaW4oc2VhYmlyZHMsIFwic3BlY2llc19jb21tb25fbmFtZVwiKSAlPiUgXG4gIHNlbGVjdChzcGVjaWVzX2NvbW1vbl9uYW1lLCBcbiAgICAgICAgIHNwZWNpZXNfc2NpZW50aWZpY19uYW1lLCBcbiAgICAgICAgIHNwZWNpZXNfYWJicmV2aWF0aW9uLCB0b3RhbF9jb3VudCkgJT4lXG4gIGFycmFuZ2UoZGVzYyh0b3RhbF9jb3VudCkpICU+JSBcbiAgc2xpY2VfaGVhZCgpXG5gYGAifQ== -->
 <pre class="r"><code># group by bird name and take a sum of count, join this back into the table
 # to allow more names info to be pulled, arrange and slice head to get top hit
 seabirds %&gt;% 
   group_by(species_common_name) %&gt;% 
   summarise(total_count = sum(count)) %&gt;% 
-  left_join(seabirds, &quot;species_common_name&quot;) %&gt;% 
+  right_join(seabirds, &quot;species_common_name&quot;) %&gt;% 
   select(species_common_name, 
          species_scientific_name, 
          species_abbreviation, total_count) %&gt;%
   arrange(desc(total_count)) %&gt;% 
-  slice_head()
-  
+  slice_head()</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibnJvdyI6MSwibmNvbCI6NCwic3VtbWFyeSI6eyJBIHRpYmJsZSI6WyIxIMOXIDQiXX19LCJyZGYiOiJINHNJQUFBQUFBQUFCbDFSd1U3RE1BeDF1eGEwb2czUWtManVCOXJMT0hDRUNYSGFhZHFrM2FZMHkwYTBOS21TRmpqeVpYemFodE1sVW9tbEpNNTdkdnpzTE44MnMyeVRBY0FBa2ppQ1FZb3VwT3ZWZS80TWlPQWxnZ1NHOXZ6R29BazZDYTY3SG5FL0Y0UWU4NUlMd1hiVFF5dEVFREJhRU4yYWFZa00wendncnhhdnkvbDZnZDdZb2krL1QzQ3hmOFZUU1NwbVhHcml3SW1wR2VYTWJLbXFLaVczTnNaUmo1NHl1TXVHN3pudDB3K2VKbVdwMlNjbkRWZlNjVGVOYW9qQU4xdlpCQ3FHV24wVlhza0lWL3lEMnhrdGxFc0ZNU2JvTk51UmhoUjdiV1VBbklLVWExVmJFWmdVMnlHblFYS2tBK0MybFZiSkxxY2ZyVHptTTF1Z295ODJjbjdVODVOTHlmanNua3I5RnpCNTROTFBKaFdrWk1KZHh0aHgxM0JSYTQ3emNKMGdhb3B1VGg2aFNuaWs2dzFPZjkvakJKNWJBZ0FBIn0= -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["species_common_name"],"name":[1],"type":["chr"],"align":["left"]},{"label":["species_scientific_name"],"name":[2],"type":["chr"],"align":["left"]},{"label":["species_abbreviation"],"name":[3],"type":["chr"],"align":["left"]},{"label":["total_count"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"Black-billed gull","2":"Larus bulleri","3":"LARBUL","4":"7732"}],"options":{"columns":{"min":{},"max":[10],"total":[4]},"rows":{"min":[10],"max":[10],"total":[1]},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuICBcbiMgQW5zd2VyOiBBIEJsYWNrLWJpbGxlZCBndWxsLCBjb3VudCA9IDc3MzJcbmBgYCJ9 -->
+<pre class="r"><code>  
 # Answer: A Black-billed gull, count = 7732</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
@@ -1847,19 +1894,28 @@ seabirds %&gt;%
 -30?</h3>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBzYW1lIGFzIFEyIGJ1dCB3aXRoIGEgZmlsdGVyIGJlZm9yZSBmb3IgbGF0aXR1ZGUgPiAtMzBcbnNlYWJpcmRzICU+JSBcbiAgZmlsdGVyKGxhdCA+IC0zMCkgJT4lIFxuICBncm91cF9ieShzcGVjaWVzX2NvbW1vbl9uYW1lKSAlPiUgXG4gIHN1bW1hcmlzZSh0b3RhbF9jb3VudCA9IHN1bShjb3VudCkpICU+JSBcbiAgbGVmdF9qb2luKHNlYWJpcmRzLCBcInNwZWNpZXNfY29tbW9uX25hbWVcIikgJT4lIFxuICBzZWxlY3Qoc3BlY2llc19jb21tb25fbmFtZSwgXG4gICAgICAgICBzcGVjaWVzX3NjaWVudGlmaWNfbmFtZSwgXG4gICAgICAgICBzcGVjaWVzX2FiYnJldmlhdGlvbiwgdG90YWxfY291bnQpICU+JVxuICBhcnJhbmdlKGRlc2ModG90YWxfY291bnQpKSAlPiUgXG4gIHNsaWNlX2hlYWQoKVxuIyBBbnN3ZXI6IEEgV2VkZ2UtdGFpbGVkIHNoZWFyd2F0ZXIsIGNvdW50IDg1NVxuYGBgIn0= -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBzYW1lIGFzIFEyIGJ1dCB3aXRoIGEgZmlsdGVyIGJlZm9yZSBmb3IgbGF0aXR1ZGUgPiAtMzBcbnNlYWJpcmRzICU+JSBcbiAgZmlsdGVyKGxhdCA+IC0zMCkgJT4lIFxuICBncm91cF9ieShzcGVjaWVzX2NvbW1vbl9uYW1lKSAlPiUgXG4gIHN1bW1hcmlzZSh0b3RhbF9jb3VudCA9IHN1bShjb3VudCkpICU+JSBcbiAgcmlnaHRfam9pbihzZWFiaXJkcywgXCJzcGVjaWVzX2NvbW1vbl9uYW1lXCIpICU+JSBcbiAgc2VsZWN0KHNwZWNpZXNfY29tbW9uX25hbWUsIFxuICAgICAgICAgc3BlY2llc19zY2llbnRpZmljX25hbWUsIFxuICAgICAgICAgc3BlY2llc19hYmJyZXZpYXRpb24sIHRvdGFsX2NvdW50KSAlPiVcbiAgYXJyYW5nZShkZXNjKHRvdGFsX2NvdW50KSkgJT4lIFxuICBzbGljZV9oZWFkKClcbmBgYCJ9 -->
 <pre class="r"><code># same as Q2 but with a filter before for latitude &gt; -30
 seabirds %&gt;% 
   filter(lat &gt; -30) %&gt;% 
   group_by(species_common_name) %&gt;% 
   summarise(total_count = sum(count)) %&gt;% 
-  left_join(seabirds, &quot;species_common_name&quot;) %&gt;% 
+  right_join(seabirds, &quot;species_common_name&quot;) %&gt;% 
   select(species_common_name, 
          species_scientific_name, 
          species_abbreviation, total_count) %&gt;%
   arrange(desc(total_count)) %&gt;% 
-  slice_head()
-# Answer: A Wedge-tailed shearwater, count 855</code></pre>
+  slice_head()</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibnJvdyI6MSwibmNvbCI6NCwic3VtbWFyeSI6eyJBIHRpYmJsZSI6WyIxIMOXIDQiXX19LCJyZGYiOiJINHNJQUFBQUFBQUFCbDFSd1U3RE1BeDF1eGEwb2czRWtManVCMW9KY2VFSUF1MWNJU1oybTlJMDNTTGFwR3BTeHBFelg4VFhiVGh0STVWWVN1SzhaOGZQenV2TDVqN2FSQUF3Z2NEM1lCS2lDK0g2YlJVL0FDSjQ4U0NBcVRtL01HaUJUb0RyYWtUY3ZyTjh4MkpOZU1ueXBkb3owaHlJWm8wVGRwMjJSY0ZGcTVZMW9iemd0RlZPeEZtNlhxVlB6K2pORGZyNDh3dTkvZE1SQ2xJeG14b000RUxWakhLbXRsUldsUlJiRTJQbFdVcmhMclNwUEtadkxFMnlyR0dmbkdndXhjQmRhS2xKaVcrMlFqc3FwbzA4SkZiSkRKZi9qZHNKelpWTFM2TGNUcU9jYUpJVWpaRUJjSFJTem1WdFJHQ1NiK1lkT3NtZU85bkxWaGdsZVV6M3JmaUk3MHlCanU1dE52amV5QS82a3Y1cGVDcTBYOERFamdzN203QWtHU3VIeXh3NzdocE82b2JqUElaT0VGVkpOeWVMVUZsYXBPc05qbis1c1BpMFpnSUFBQT09In0= -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["species_common_name"],"name":[1],"type":["chr"],"align":["left"]},{"label":["species_scientific_name"],"name":[2],"type":["chr"],"align":["left"]},{"label":["species_abbreviation"],"name":[3],"type":["chr"],"align":["left"]},{"label":["total_count"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"Wedge-tailed shearwater","2":"Puffinus pacificus","3":"PUFPAC","4":"855"}],"options":{"columns":{"min":{},"max":[10],"total":[4]},"rows":{"min":[10],"max":[10],"total":[1]},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBBbnN3ZXI6IEEgV2VkZ2UtdGFpbGVkIHNoZWFyd2F0ZXIsIGNvdW50IDg1NVxuYGBgIn0= -->
+<pre class="r"><code># Answer: A Wedge-tailed shearwater, count 855</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -1869,21 +1925,25 @@ seabirds %&gt;%
 groups of 1?</h3>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBvayBzbyB0aGVyZXMgZ290IHRvIGJlIGEgYmV0dGVyIHdheSBidXQgaSBlbmRlZCB1cCBhZGRpbmcgdHdvIGNvbHVtbnMgb25cbiMgd2l0aCB0aGUgaW5kaXZpZHVhbCBzaWdodGluZ3MgYW5kIHRoZSB0b3RhbCBjb3VudC4gSWYgdGhlc2Ugd2VyZSBlcXVhbCB3aXRoIG5vXG4jIE5BIHZhbHVlcyB3aGljaCB3ZXJlIGRyb3BwZWQgdGhlbiBhbGwgbXVzdCBoYXZlIGJlZW4gc2lnaHRpbmdzIG9mIG9uZSBiaXJkXG5cbnNlYWJpcmRzX2NvdW50aW5nIDwtIHNlYWJpcmRzICU+JSBcbiAgZHJvcF9uYShjb3VudCkgJT4lIFxuICBncm91cF9ieShzcGVjaWVzX2NvbW1vbl9uYW1lKSAlPiUgXG4gIHN1bW1hcmlzZShjb3VudF9vZl9zaWdodGluZ3MgPSBuKCksIFxuICAgICAgICAgICAgdG90YWxfY291bnQgPSBzdW0oY291bnQsIG5hLnJtID0gVFJVRSkpIFxuICBcbnNlYWJpcmRzX3BsdXNfY291bnRzIDwtIGxlZnRfam9pbihzZWFiaXJkcywgXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgc2VhYmlyZHNfY291bnRpbmcsXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXCJzcGVjaWVzX2NvbW1vbl9uYW1lXCIgKVxuXG50YXNrX2ZvdXJfZGF0YSA8LSBzZWFiaXJkc19wbHVzX2NvdW50cyAlPiUgXG4gIGZpbHRlcihjb3VudF9vZl9zaWdodGluZ3MgPT0gdG90YWxfY291bnQpICU+JSBcbiAgZ3JvdXBfYnkoc3BlY2llc19jb21tb25fbmFtZSkgJT4lIFxuICBzdW1tYXJpc2UobigpKSAlPiUgXG4gIG5yb3coKVxudGFza19mb3VyX2RhdGFcbmBgYCJ9 -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBvayBzbyB0aGVyZXMgZ290IHRvIGJlIGEgYmV0dGVyIHdheSBidXQgaSBlbmRlZCB1cCBhZGRpbmcgdHdvIGNvbHVtbnMgb25cbiMgd2l0aCB0aGUgaW5kaXZpZHVhbCBzaWdodGluZ3MgYW5kIHRoZSB0b3RhbCBjb3VudC4gSWYgdGhlc2Ugd2VyZSBlcXVhbCB3aXRoIG5vXG4jIE5BIHZhbHVlcyB3aGljaCB3ZXJlIGRyb3BwZWQgdGhlbiBhbGwgbXVzdCBoYXZlIGJlZW4gc2lnaHRpbmdzIG9mIG9uZSBiaXJkXG5cbiMgbWFrZSBvdXIgdHdvIHRhYmxlIHdpdGggdGhlIGNvdW50IGFuZCBzdW0gd2UgbmVlZFxuc2VhYmlyZHNfY291bnRpbmcgPC0gc2VhYmlyZHMgJT4lIFxuICBkcm9wX25hKGNvdW50KSAlPiUgXG4gIGdyb3VwX2J5KHNwZWNpZXNfY29tbW9uX25hbWUpICU+JSBcbiAgc3VtbWFyaXNlKGNvdW50X29mX3NpZ2h0aW5ncyA9IG4oKSwgXG4gICAgICAgICAgICB0b3RhbF9jb3VudCA9IHN1bShjb3VudCwgbmEucm0gPSBUUlVFKSkgXG4gIFxuIyBqb2luIHRoZXNlIG9udG8gb3VyIG9yaWdpbmFsIHRhYmxlXG5zZWFiaXJkc19wbHVzX2NvdW50cyA8LSBsZWZ0X2pvaW4oc2VhYmlyZHMsIFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHNlYWJpcmRzX2NvdW50aW5nLFxuICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFwic3BlY2llc19jb21tb25fbmFtZVwiIClcblxuI2ZpbHRlciBmb3IgaW5kaXZpZHVhbCBzaWdodGluZ3MgKGNvdW50ID0gdG90YWwgY291bnQpIG1lYW5pbmcgdGhhdCBlYWNoIFxuIyBzaWdodGluZyBwZXIgYmlyZCBtdXN0IGhhdmUgYmVlbiBhbiBpbmRpdmlkdWFsIFxudGFza19mb3VyX2RhdGEgPC0gc2VhYmlyZHNfcGx1c19jb3VudHMgJT4lIFxuICBmaWx0ZXIoY291bnRfb2Zfc2lnaHRpbmdzID09IHRvdGFsX2NvdW50KSAlPiUgXG4gIGdyb3VwX2J5KHNwZWNpZXNfY29tbW9uX25hbWUpICU+JSBcbiAgc3VtbWFyaXNlKG4oKSkgJT4lIFxuICBucm93KClcbnRhc2tfZm91cl9kYXRhXG5gYGAifQ== -->
 <pre class="r"><code># ok so theres got to be a better way but i ended up adding two columns on
 # with the individual sightings and the total count. If these were equal with no
 # NA values which were dropped then all must have been sightings of one bird
 
+# make our two table with the count and sum we need
 seabirds_counting &lt;- seabirds %&gt;% 
   drop_na(count) %&gt;% 
   group_by(species_common_name) %&gt;% 
   summarise(count_of_sightings = n(), 
             total_count = sum(count, na.rm = TRUE)) 
   
+# join these onto our original table
 seabirds_plus_counts &lt;- left_join(seabirds, 
                                   seabirds_counting,
                                   &quot;species_common_name&quot; )
 
+#filter for individual sightings (count = total count) meaning that each 
+# sighting per bird must have been an individual 
 task_four_data &lt;- seabirds_plus_counts %&gt;% 
   filter(count_of_sightings == total_count) %&gt;% 
   group_by(species_common_name) %&gt;% 
@@ -1898,15 +1958,24 @@ task_four_data</code></pre>
 <h3>Task 5 How many penguins were seen</h3>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBOb3RlIGhlcmUgSSd2ZSBjYWxjdWxhdGVkIGNvdW50IG9mIHBlbmd1aW5zIHNlZW4gbm90IHRoZSBudW1iZXIgb2Ygc2lnaHRpbmdzXG5cbiMgaGVyZSB3ZSBmaWx0ZXIgZm9yIGFueSBuYW1lcyBjb250YWluaW5nIHBlbmd1aW4gdGhlbiB3ZSBjb3VudCB0aGUgdG90YWwgZm9yIHRoZSBjb3VudCBjb2x1bW5cbnNlYWJpcmRzICU+JSBcbiAgZmlsdGVyKHN0cl9kZXRlY3Qoc3BlY2llc19jb21tb25fbmFtZSxcbiAgICAgICAgICAgICAgICAgICAgXCIoP2kpLipwZW5ndWluKy4qXCIpKSAlPiUgXG4gIHN1bW1hcmlzZShzdW0oY291bnQsIG5hLnJtID0gVCkpXG5cbiMgMTU4IHBlbmd1aW5zIHdlcmUgc2VlblxuYGBgIn0= -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBOb3RlIGhlcmUgSSd2ZSBjYWxjdWxhdGVkIGNvdW50IG9mIHBlbmd1aW5zIHNlZW4gbm90IHRoZSBudW1iZXIgb2Ygc2lnaHRpbmdzXG5cbiMgaGVyZSB3ZSBmaWx0ZXIgZm9yIGFueSBuYW1lcyBjb250YWluaW5nIHBlbmd1aW4gdGhlbiB3ZSBjb3VudCB0aGUgdG90YWwgZm9yIHRoZSBjb3VudCBjb2x1bW5cbnNlYWJpcmRzICU+JSBcbiAgZmlsdGVyKHN0cl9kZXRlY3Qoc3BlY2llc19jb21tb25fbmFtZSxcbiAgICAgICAgICAgICAgICAgICAgXCIoP2kpLipwZW5nKy4qXCIpKSAlPiUgXG4gIHN1bW1hcmlzZShzdW0oY291bnQsIG5hLnJtID0gVCkpXG5gYGAifQ== -->
 <pre class="r"><code># Note here I&#39;ve calculated count of penguins seen not the number of sightings
 
 # here we filter for any names containing penguin then we count the total for the count column
 seabirds %&gt;% 
   filter(str_detect(species_common_name,
-                    &quot;(?i).*penguin+.*&quot;)) %&gt;% 
-  summarise(sum(count, na.rm = T))
-
+                    &quot;(?i).*peng+.*&quot;)) %&gt;% 
+  summarise(sum(count, na.rm = T))</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibnJvdyI6MSwibmNvbCI6MSwic3VtbWFyeSI6eyJBIHRpYmJsZSI6WyIxIMOXIDEiXX19LCJyZGYiOiJINHNJQUFBQUFBQUFCbDFQd1dyQ1FCQ2R4R3lMZ1dxaGVNOVJvVmtvdmZRaTlDRDlBRkh3dWwyakRVMW13MlpEUGZiVC9ESjFOdTZDN3NMc3pEem16WnUzWEd6ZTAwMEtBQU5JNGdnR2pFcGc2OVZYL2dHRVVCTkJBa09iRHpUMDBnTUFJNXMvNVJHdTcyNlFvYWlMbG9ybkczRFNkdlZVcWc3TmE0YUM2enFiWjZ0WndCeHE5Y2M5KzRraS9xZnZUQytVa0pWb1E0bDBLNHpnTzAxODZrNEI1VkUxcGxSSXBOaWFZQUU1MGdFdzd0QmVzczNsVDRlLytac1ZjT2JCWFJlNXVLbXRaSHgycTVoYjlWRGd2c1RDMzE2Sjc2Snl6WWdjOTRaNW8wczAzZ21oTFRmS0NEK1hTbFY1cFBjR3B3djBadTdSdXdFQUFBPT0ifQ== -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["sum(count, na.rm = T)"],"name":[1],"type":["dbl"],"align":["right"]}],"data":[{"1":"158"}],"options":{"columns":{"min":{},"max":[10],"total":[1]},"rows":{"min":[10],"max":[10],"total":[1]},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuXG4jIDE1OCBwZW5ndWlucyB3ZXJlIHNlZW5cbmBgYCJ9 -->
+<pre class="r"><code>
 # 158 penguins were seen</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
@@ -1915,7 +1984,7 @@ seabirds %&gt;%
 </div>
 </div>
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIlIgTm90ZWJvb2siDQpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sNCi0tLQ0KDQojIyBMaWJyYXJpZXMNCg0KbGlicmFyeSh0aWR5dmVyc2UpDQpgYGB7cn0NCmxpYnJhcnkodGlkeXZlcnNlKQ0KbGlicmFyeShyZWFkcikNCmxpYnJhcnkoaGVyZSkNCg0KaGVyZTo6aGVyZSgpDQpgYGANCg0KIyMgTG9hZCBEYXRhDQoNCmBgYHtyfQ0Kc2VhYmlyZHMgPC0gcmVhZF9jc3YoaGVyZSgiY2xlYW5fZGF0YS9zZWFiaXJkcy5jc3YiKSkNCg0KYGBgDQoNCiMjIFRhc2tzDQoNCiMjIyBUYXNrIDEgV2hpY2ggYmlyZCBoYWQgdGhlIG1vc3QgaW5kaXZpZHVhbCBzaWdodGluZ3M/DQoNCmBgYHtyfQ0KIyBncm91cCBieSBiaXJkIG5hbWUgYW5kIHRha2UgYSBjb3VudCBvZiBvY2N1cmFuY2VzLCBqb2luIHRoaXMgYmFjayBpbnRvIHRoZSB0YWJsZQ0KIyB0byBhbGxvdyBtb3JlIG5hbWVzIGluZm8gdG8gYmUgcHVsbGVkLCBhcnJhbmdlIGFuZCBzbGljZSBoZWFkIHRvIGdldCB0b3AgaGl0DQpzZWFiaXJkcyAlPiUgDQogIGdyb3VwX2J5KHNwZWNpZXNfY29tbW9uX25hbWUpICU+JSANCiAgc3VtbWFyaXNlKGNvdW50X29mX3NpZ2h0aW5ncyA9IG4oKSkgJT4lIA0KICBsZWZ0X2pvaW4oc2VhYmlyZHMsICJzcGVjaWVzX2NvbW1vbl9uYW1lIikgJT4lIA0KICBzZWxlY3Qoc3BlY2llc19jb21tb25fbmFtZSwgDQogICAgICAgICBzcGVjaWVzX3NjaWVudGlmaWNfbmFtZSwgDQogICAgICAgICBzcGVjaWVzX2FiYnJldmlhdGlvbiwgY291bnRfb2Zfc2lnaHRpbmdzKSAlPiUNCiAgYXJyYW5nZShkZXNjKGNvdW50X29mX3NpZ2h0aW5ncykpICU+JSANCiAgc2xpY2VfaGVhZCgpDQojIEFuc3dlcjogV2FuZGVyaW5nIGFsYmF0cm9zcyBzZW5zdSBsYXRvIFBMMiwgY291bnQgMzEwNA0KYGBgDQoNCiMjIyBUYXNrIDIgV2hpY2ggYmlyZCBoYWQgdGhlIGhpZ2hlc3QgdG90YWwgY291bnQ/DQoNCmBgYHtyfQ0KIyBncm91cCBieSBiaXJkIG5hbWUgYW5kIHRha2UgYSBzdW0gb2YgY291bnQsIGpvaW4gdGhpcyBiYWNrIGludG8gdGhlIHRhYmxlDQojIHRvIGFsbG93IG1vcmUgbmFtZXMgaW5mbyB0byBiZSBwdWxsZWQsIGFycmFuZ2UgYW5kIHNsaWNlIGhlYWQgdG8gZ2V0IHRvcCBoaXQNCnNlYWJpcmRzICU+JSANCiAgZ3JvdXBfYnkoc3BlY2llc19jb21tb25fbmFtZSkgJT4lIA0KICBzdW1tYXJpc2UodG90YWxfY291bnQgPSBzdW0oY291bnQpKSAlPiUgDQogIGxlZnRfam9pbihzZWFiaXJkcywgInNwZWNpZXNfY29tbW9uX25hbWUiKSAlPiUgDQogIHNlbGVjdChzcGVjaWVzX2NvbW1vbl9uYW1lLCANCiAgICAgICAgIHNwZWNpZXNfc2NpZW50aWZpY19uYW1lLCANCiAgICAgICAgIHNwZWNpZXNfYWJicmV2aWF0aW9uLCB0b3RhbF9jb3VudCkgJT4lDQogIGFycmFuZ2UoZGVzYyh0b3RhbF9jb3VudCkpICU+JSANCiAgc2xpY2VfaGVhZCgpDQogIA0KIyBBbnN3ZXI6IEEgQmxhY2stYmlsbGVkIGd1bGwsIGNvdW50ID0gNzczMg0KYGBgDQoNCiMjIyBUYXNrIDMgV2hpY2ggYmlyZCBoYWQgdGhlIGhpZ2hlc3QgdG90YWwgY291bnQgYWJvdmUgYSBsYXRpdHVkZSBvZiAtMzA/DQoNCmBgYHtyfQ0KIyBzYW1lIGFzIFEyIGJ1dCB3aXRoIGEgZmlsdGVyIGJlZm9yZSBmb3IgbGF0aXR1ZGUgPiAtMzANCnNlYWJpcmRzICU+JSANCiAgZmlsdGVyKGxhdCA+IC0zMCkgJT4lIA0KICBncm91cF9ieShzcGVjaWVzX2NvbW1vbl9uYW1lKSAlPiUgDQogIHN1bW1hcmlzZSh0b3RhbF9jb3VudCA9IHN1bShjb3VudCkpICU+JSANCiAgbGVmdF9qb2luKHNlYWJpcmRzLCAic3BlY2llc19jb21tb25fbmFtZSIpICU+JSANCiAgc2VsZWN0KHNwZWNpZXNfY29tbW9uX25hbWUsIA0KICAgICAgICAgc3BlY2llc19zY2llbnRpZmljX25hbWUsIA0KICAgICAgICAgc3BlY2llc19hYmJyZXZpYXRpb24sIHRvdGFsX2NvdW50KSAlPiUNCiAgYXJyYW5nZShkZXNjKHRvdGFsX2NvdW50KSkgJT4lIA0KICBzbGljZV9oZWFkKCkNCiMgQW5zd2VyOiBBIFdlZGdlLXRhaWxlZCBzaGVhcndhdGVyLCBjb3VudCA4NTUNCmBgYA0KDQojIyMgVGFzayA0IEhvdyBtYW55IGRpZmZlcmVudCB0eXBlcyBvZiBiaXJkcyB3ZXJlIG9ubHkgZXZlciBzZWVuIGluIGdyb3VwcyBvZiAxPw0KDQpgYGB7cn0NCiMgb2sgc28gdGhlcmVzIGdvdCB0byBiZSBhIGJldHRlciB3YXkgYnV0IGkgZW5kZWQgdXAgYWRkaW5nIHR3byBjb2x1bW5zIG9uDQojIHdpdGggdGhlIGluZGl2aWR1YWwgc2lnaHRpbmdzIGFuZCB0aGUgdG90YWwgY291bnQuIElmIHRoZXNlIHdlcmUgZXF1YWwgd2l0aCBubw0KIyBOQSB2YWx1ZXMgd2hpY2ggd2VyZSBkcm9wcGVkIHRoZW4gYWxsIG11c3QgaGF2ZSBiZWVuIHNpZ2h0aW5ncyBvZiBvbmUgYmlyZA0KDQpzZWFiaXJkc19jb3VudGluZyA8LSBzZWFiaXJkcyAlPiUgDQogIGRyb3BfbmEoY291bnQpICU+JSANCiAgZ3JvdXBfYnkoc3BlY2llc19jb21tb25fbmFtZSkgJT4lIA0KICBzdW1tYXJpc2UoY291bnRfb2Zfc2lnaHRpbmdzID0gbigpLCANCiAgICAgICAgICAgIHRvdGFsX2NvdW50ID0gc3VtKGNvdW50LCBuYS5ybSA9IFRSVUUpKSANCiAgDQpzZWFiaXJkc19wbHVzX2NvdW50cyA8LSBsZWZ0X2pvaW4oc2VhYmlyZHMsIA0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHNlYWJpcmRzX2NvdW50aW5nLA0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICJzcGVjaWVzX2NvbW1vbl9uYW1lIiApDQoNCnRhc2tfZm91cl9kYXRhIDwtIHNlYWJpcmRzX3BsdXNfY291bnRzICU+JSANCiAgZmlsdGVyKGNvdW50X29mX3NpZ2h0aW5ncyA9PSB0b3RhbF9jb3VudCkgJT4lIA0KICBncm91cF9ieShzcGVjaWVzX2NvbW1vbl9uYW1lKSAlPiUgDQogIHN1bW1hcmlzZShuKCkpICU+JSANCiAgbnJvdygpDQp0YXNrX2ZvdXJfZGF0YQ0KYGBgDQoNCiMjIyBUYXNrIDUgSG93IG1hbnkgcGVuZ3VpbnMgd2VyZSBzZWVuDQoNCmBgYHtyfQ0KIyBOb3RlIGhlcmUgSSd2ZSBjYWxjdWxhdGVkIGNvdW50IG9mIHBlbmd1aW5zIHNlZW4gbm90IHRoZSBudW1iZXIgb2Ygc2lnaHRpbmdzDQoNCiMgaGVyZSB3ZSBmaWx0ZXIgZm9yIGFueSBuYW1lcyBjb250YWluaW5nIHBlbmd1aW4gdGhlbiB3ZSBjb3VudCB0aGUgdG90YWwgZm9yIHRoZSBjb3VudCBjb2x1bW4NCnNlYWJpcmRzICU+JSANCiAgZmlsdGVyKHN0cl9kZXRlY3Qoc3BlY2llc19jb21tb25fbmFtZSwNCiAgICAgICAgICAgICAgICAgICAgIig/aSkuKnBlbmd1aW4rLioiKSkgJT4lIA0KICBzdW1tYXJpc2Uoc3VtKGNvdW50LCBuYS5ybSA9IFQpKQ0KDQojIDE1OCBwZW5ndWlucyB3ZXJlIHNlZW4NCmBgYA0KDQo=</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIlIgTm90ZWJvb2siDQpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sNCi0tLQ0KDQojIyBMaWJyYXJpZXMNCg0KbGlicmFyeSh0aWR5dmVyc2UpDQpgYGB7cn0NCmxpYnJhcnkodGlkeXZlcnNlKQ0KbGlicmFyeShyZWFkcikNCmxpYnJhcnkoaGVyZSkNCg0KaGVyZTo6aGVyZSgpDQpgYGANCg0KIyMgTG9hZCBEYXRhDQoNCmBgYHtyfQ0Kc2VhYmlyZHMgPC0gcmVhZF9jc3YoaGVyZSgiY2xlYW5fZGF0YS9zZWFiaXJkcy5jc3YiKSkNCg0KYGBgDQoNCiMjIFRhc2tzDQoNCiMjIyBUYXNrIDEgV2hpY2ggYmlyZCBoYWQgdGhlIG1vc3QgaW5kaXZpZHVhbCBzaWdodGluZ3M/DQoNCmBgYHtyfQ0KIyBncm91cCBieSBiaXJkIG5hbWUgYW5kIHRha2UgYSBjb3VudCBvZiBvY2N1cmFuY2VzLCBqb2luIHRoaXMgYmFjayBpbnRvIHRoZSB0YWJsZQ0KIyB0byBhbGxvdyBtb3JlIG5hbWVzIGluZm8gdG8gYmUgcHVsbGVkLCBhcnJhbmdlIGFuZCBzbGljZSBoZWFkIHRvIGdldCB0b3AgaGl0DQpzZWFiaXJkcyAlPiUgDQogIGdyb3VwX2J5KHNwZWNpZXNfY29tbW9uX25hbWUpICU+JSANCiAgc3VtbWFyaXNlKGNvdW50X29mX3NpZ2h0aW5ncyA9IG4oKSkgJT4lIA0KICByaWdodF9qb2luKHNlYWJpcmRzLCAic3BlY2llc19jb21tb25fbmFtZSIpICU+JSANCiAgc2VsZWN0KHNwZWNpZXNfY29tbW9uX25hbWUsIA0KICAgICAgICAgc3BlY2llc19zY2llbnRpZmljX25hbWUsIA0KICAgICAgICAgc3BlY2llc19hYmJyZXZpYXRpb24sIGNvdW50X29mX3NpZ2h0aW5ncykgJT4lDQogIGFycmFuZ2UoZGVzYyhjb3VudF9vZl9zaWdodGluZ3MpKSAgJT4lIA0KICBzbGljZV9oZWFkKCkNCiMgQW5zd2VyOiBXYW5kZXJpbmcgYWxiYXRyb3NzIHNlbnN1IGxhdG8gUEwyLCBjb3VudCAzMTA0DQpgYGANCg0KIyMjIFRhc2sgMiBXaGljaCBiaXJkIGhhZCB0aGUgaGlnaGVzdCB0b3RhbCBjb3VudD8NCg0KYGBge3J9DQojIE5vdGUgaXZlIHRha2VuIHRoaXMgdG8gbWVhbiBoaWdoZXN0IGNvdW50IChhZGRpbmcgdGhlIGNvdW50IG9mIGFsbCBzaWdodGluZ3MpDQojIEFuZCBub3QgdGhlIGhpZ2hlc3QgY291bnQgYXQgYSBzaW5nbGUgc2lnaHRpbmcNCg0KIyBncm91cCBieSBiaXJkIG5hbWUgYW5kIHRha2UgYSBzdW0gb2YgY291bnQsIGpvaW4gdGhpcyBiYWNrIGludG8gdGhlIHRhYmxlDQojIHRvIGFsbG93IG1vcmUgbmFtZXMgaW5mbyB0byBiZSBwdWxsZWQsIGFycmFuZ2UgYW5kIHNsaWNlIGhlYWQgdG8gZ2V0IHRvcCBoaXQNCnNlYWJpcmRzICU+JSANCiAgZ3JvdXBfYnkoc3BlY2llc19jb21tb25fbmFtZSkgJT4lIA0KICBzdW1tYXJpc2UodG90YWxfY291bnQgPSBzdW0oY291bnQpKSAlPiUgDQogIHJpZ2h0X2pvaW4oc2VhYmlyZHMsICJzcGVjaWVzX2NvbW1vbl9uYW1lIikgJT4lIA0KICBzZWxlY3Qoc3BlY2llc19jb21tb25fbmFtZSwgDQogICAgICAgICBzcGVjaWVzX3NjaWVudGlmaWNfbmFtZSwgDQogICAgICAgICBzcGVjaWVzX2FiYnJldmlhdGlvbiwgdG90YWxfY291bnQpICU+JQ0KICBhcnJhbmdlKGRlc2ModG90YWxfY291bnQpKSAlPiUNCiAgc2xpY2VfaGVhZCgpDQogIA0KIyBBbnN3ZXI6IEEgQmxhY2stYmlsbGVkIGd1bGwsIGNvdW50ID0gNzczMg0KYGBgDQoNCiMjIyBUYXNrIDMgV2hpY2ggYmlyZCBoYWQgdGhlIGhpZ2hlc3QgdG90YWwgY291bnQgYWJvdmUgYSBsYXRpdHVkZSBvZiAtMzA/DQoNCmBgYHtyfQ0KIyBzYW1lIGFzIFEyIGJ1dCB3aXRoIGEgZmlsdGVyIGJlZm9yZSBmb3IgbGF0aXR1ZGUgPiAtMzANCnNlYWJpcmRzICU+JSANCiAgZmlsdGVyKGxhdCA+IC0zMCkgJT4lIA0KICBncm91cF9ieShzcGVjaWVzX2NvbW1vbl9uYW1lKSAlPiUgDQogIHN1bW1hcmlzZSh0b3RhbF9jb3VudCA9IHN1bShjb3VudCkpICU+JSANCiAgcmlnaHRfam9pbihzZWFiaXJkcywgInNwZWNpZXNfY29tbW9uX25hbWUiKSAlPiUgDQogIHNlbGVjdChzcGVjaWVzX2NvbW1vbl9uYW1lLCANCiAgICAgICAgIHNwZWNpZXNfc2NpZW50aWZpY19uYW1lLCANCiAgICAgICAgIHNwZWNpZXNfYWJicmV2aWF0aW9uLCB0b3RhbF9jb3VudCkgJT4lDQogIGFycmFuZ2UoZGVzYyh0b3RhbF9jb3VudCkpICU+JSANCiAgc2xpY2VfaGVhZCgpDQojIEFuc3dlcjogQSBXZWRnZS10YWlsZWQgc2hlYXJ3YXRlciwgY291bnQgODU1DQpgYGANCg0KIyMjIFRhc2sgNCBIb3cgbWFueSBkaWZmZXJlbnQgdHlwZXMgb2YgYmlyZHMgd2VyZSBvbmx5IGV2ZXIgc2VlbiBpbiBncm91cHMgb2YgMT8NCg0KYGBge3J9DQojIG9rIHNvIHRoZXJlcyBnb3QgdG8gYmUgYSBiZXR0ZXIgd2F5IGJ1dCBpIGVuZGVkIHVwIGFkZGluZyB0d28gY29sdW1ucyBvbg0KIyB3aXRoIHRoZSBpbmRpdmlkdWFsIHNpZ2h0aW5ncyBhbmQgdGhlIHRvdGFsIGNvdW50LiBJZiB0aGVzZSB3ZXJlIGVxdWFsIHdpdGggbm8NCiMgTkEgdmFsdWVzIHdoaWNoIHdlcmUgZHJvcHBlZCB0aGVuIGFsbCBtdXN0IGhhdmUgYmVlbiBzaWdodGluZ3Mgb2Ygb25lIGJpcmQNCg0KIyBtYWtlIG91ciB0d28gdGFibGUgd2l0aCB0aGUgY291bnQgYW5kIHN1bSB3ZSBuZWVkDQpzZWFiaXJkc19jb3VudGluZyA8LSBzZWFiaXJkcyAlPiUgDQogIGRyb3BfbmEoY291bnQpICU+JSANCiAgZ3JvdXBfYnkoc3BlY2llc19jb21tb25fbmFtZSkgJT4lIA0KICBzdW1tYXJpc2UoY291bnRfb2Zfc2lnaHRpbmdzID0gbigpLCANCiAgICAgICAgICAgIHRvdGFsX2NvdW50ID0gc3VtKGNvdW50LCBuYS5ybSA9IFRSVUUpKSANCiAgDQojIGpvaW4gdGhlc2Ugb250byBvdXIgb3JpZ2luYWwgdGFibGUNCnNlYWJpcmRzX3BsdXNfY291bnRzIDwtIGxlZnRfam9pbihzZWFiaXJkcywgDQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgc2VhYmlyZHNfY291bnRpbmcsDQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgInNwZWNpZXNfY29tbW9uX25hbWUiICkNCg0KI2ZpbHRlciBmb3IgaW5kaXZpZHVhbCBzaWdodGluZ3MgKGNvdW50ID0gdG90YWwgY291bnQpIG1lYW5pbmcgdGhhdCBlYWNoIA0KIyBzaWdodGluZyBwZXIgYmlyZCBtdXN0IGhhdmUgYmVlbiBhbiBpbmRpdmlkdWFsIA0KdGFza19mb3VyX2RhdGEgPC0gc2VhYmlyZHNfcGx1c19jb3VudHMgJT4lIA0KICBmaWx0ZXIoY291bnRfb2Zfc2lnaHRpbmdzID09IHRvdGFsX2NvdW50KSAlPiUgDQogIGdyb3VwX2J5KHNwZWNpZXNfY29tbW9uX25hbWUpICU+JSANCiAgc3VtbWFyaXNlKG4oKSkgJT4lIA0KICBucm93KCkNCnRhc2tfZm91cl9kYXRhDQpgYGANCg0KIyMjIFRhc2sgNSBIb3cgbWFueSBwZW5ndWlucyB3ZXJlIHNlZW4NCg0KYGBge3J9DQojIE5vdGUgaGVyZSBJJ3ZlIGNhbGN1bGF0ZWQgY291bnQgb2YgcGVuZ3VpbnMgc2VlbiBub3QgdGhlIG51bWJlciBvZiBzaWdodGluZ3MNCg0KIyBoZXJlIHdlIGZpbHRlciBmb3IgYW55IG5hbWVzIGNvbnRhaW5pbmcgcGVuZ3VpbiB0aGVuIHdlIGNvdW50IHRoZSB0b3RhbCBmb3IgdGhlIGNvdW50IGNvbHVtbg0Kc2VhYmlyZHMgJT4lIA0KICBmaWx0ZXIoc3RyX2RldGVjdChzcGVjaWVzX2NvbW1vbl9uYW1lLA0KICAgICAgICAgICAgICAgICAgICAiKD9pKS4qcGVuZ3VpbisuKiIpKSAlPiUgDQogIHN1bW1hcmlzZShzdW0oY291bnQsIG5hLnJtID0gVCkpDQoNCiMgMTU4IHBlbmd1aW5zIHdlcmUgc2Vlbg0KYGBgDQoNCg==</div>
 
 
 

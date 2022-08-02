@@ -25,14 +25,12 @@ candy_2017_clean <- candy_2017 %>%
 
 # First Look at Data  -----------------------------------------------------
 
+# used glimpse(), summary(), view(), skimr::skim() on each to get an idea
 
-
-
-# lets have a look at column names
+# lets also have a look at column names
 names(candy_2015_clean)
 names(candy_2016_clean)
 names(candy_2017_clean)
-
 
 # Order of Operations:
 # Get large pivot data the same for all 3 datasets
@@ -40,7 +38,7 @@ names(candy_2017_clean)
 # then investigate other columns
 
 # let first start with all the columns between "100_grand_bar" and 
-# "york peppermint butter"
+# "york peppermint butter" these are out pivot to longer columns
 candy_2015_clean <- candy_2015_clean %>% 
   rename("100_grand_bar" = "x100_grand_bar") %>% 
   relocate(butterfinger, .after = bubble_gum) %>% 
@@ -75,10 +73,10 @@ candy_2017_long <- candy_2017_clean %>%
 
 # Ok pivots look good lets look through each dataset and see which columns are 
 # required and which can go. In this decision I am thinking of the upcoming join
-# of the three datasets. It looks like this will have to be a bind_rows fucntion 
+# of the three data frames. It looks like this will have to be a bind_rows function 
+# I will hope to keep each column that's in at least 2 of the 3 data frames.
 
-
-# 2015
+# 2015 Table
 
 
 # lets work out how many NA's are across all columns and sort by highest
@@ -127,7 +125,7 @@ candy_2017_long <- candy_2017_long %>%
 
 # Ok lets recap. We have removed the easy columns so far - the full NA's and 
 # columns with very little data. Candy_2017_long has fewer columns than the 
-# others - lets use this as a template for the other datas columns and try to 
+# others - lets use this as a template for the other data frame columns and try to 
 # get our column names matching to prepare data for a future join
 
 names(candy_2015_long)
@@ -160,7 +158,7 @@ candy_2016_long <- candy_2016_long %>%
 relocate(dress, day, candy_type, candy_rating, .after = other_comments)
 
 # drop columns which dont appear elsewhere, have little values - i have
-# detailed this in the assumptions column
+# detailed this in the assumptions 
 candy_2016_long <- candy_2016_long %>%
   select(-(23:24))
 
@@ -170,9 +168,9 @@ names(candy_2016_long) # looks good
 
 candy_2017_long <- candy_2017_long %>% 
   rename(id = internal_id) %>% 
-  select(-click_coordinates_x_y) %>% 
+  select(-click_coordinates_x_y) %>% # only in this 1 data frame
   mutate(guess_mints = NA, betty_or_veronica = NA, favourite_font = NA,
-         separation_jk_rowling = NA, separation_jj_abrams = NA, separation_beyonce = NA, separation_bieber = NA,            separation_kevin_bacon = NA, separation_francis_bacon_1561_1626 = NA)
+         separation_jk_rowling = NA, separation_jj_abrams = NA, separation_beyonce = NA, separation_bieber = NA,            separation_kevin_bacon = NA, separation_francis_bacon_1561_1626 = NA) # add in columns that are in other 2
 
 names(candy_2016_long) == names(candy_2017_long) # columns all match!
 
@@ -206,8 +204,7 @@ candy_2015_long <- candy_2015_long %>%
          -check_all_that_apply_i_cried_tears_of_sadness_at_the_end_of)
 
 # add in columns in line with others - these will need to be NA as theres no data
-# only alternative woul be to lose all data from other tables 
-
+# only alternative would be to lose all data from other tables 
 candy_2015_long <- candy_2015_long %>%
   mutate(gender = NA, country = NA, state_province_county_etc = NA)
 
@@ -229,16 +226,60 @@ candy_2016_long <- candy_2016_long %>%
 candy_2017_long <- candy_2017_long %>%
   mutate(id = as.character(id))
 
+# Going to delete all columns not strictly needed for the tasks
+# This is purely for performance as my PC is running so slow
+
+candy_2015_long <- candy_2015_long %>% 
+select(-(state_province_county_etc:day)) %>% 
+  select(-(guess_mints:separation_francis_bacon_1561_1626))
+candy_2016_long <- candy_2016_long %>% 
+  select(-(state_province_county_etc:day)) %>% 
+  select(-(guess_mints:separation_francis_bacon_1561_1626))
+candy_2017_long <- candy_2017_long %>% 
+  select(-(state_province_county_etc:day)) %>% 
+  select(-(guess_mints:separation_francis_bacon_1561_1626))
+
+
+# Joining the three tables ------------------------------------------------
+
 # Lets join the 3 sets together
-candy_combined <- bind_rows(candy_2015_long, candy_2016_long, candy_2017_long, .id = "year")
+candy_combined <- bind_rows(candy_2015_long, 
+                            candy_2016_long, 
+                            candy_2017_long, 
+                            .id = "year") 
+# last line adds a column to let us know original table data is from
 
 
+# Cleaning the column data ------------------------------------------------
 
-# Cleaning country column
+# We have our tables combined! Yay! But wait - they are extremely dirty
+# Lets go through column by column and have a look
 
-table(candy_combined["country"]) # look at dirty column 'country' eek
 
-#get a few easy ones with regex
+## Cleaning candy_type column ----------------------------------------------
+
+
+table(candy_combined["candy_type"])
+
+# OK so there are a few obvious duplicates with slightly different names
+# There are some slightly the same but ambiguous - these will be left
+
+candy_combined <- candy_combined %>% 
+  mutate(candy_type = recode(candy_type,
+  "anonymous_brown_globs_that_come_in_black_and_orange_wrappers_a_k_a_mary_janes" = "mary_janes"),
+  candy_type = recode(candy_type,"bonkers_the_candy" = "bonkers"),
+  candy_type = recode(candy_type,"boxo_raisins" = "box_o_raisins"),
+  candy_type = recode(candy_type,"licorice_yes_black" = "licorice"),
+  candy_type = recode(candy_type,"sweetums_a_friend_to_diabetes" = "sweetums"))
+
+
+## Cleaning country column -------------------------------------------------
+
+
+# count(candy_combined, country)
+# table(candy_combined["country"]) # look at dirty column 'country' eek
+
+# get a few easy ones with regex
 candy_combined <- candy_combined %>% 
   mutate(country = if_else(grepl("(?i)usa+", country),"USA",country)) %>% 
   mutate(country = if_else(grepl("(?i)united s+", country),"USA",country)) %>% 
@@ -253,12 +294,16 @@ usa_outliers = c("Alaska", "California", "EUA", "Merica", "Murica", "murrika",
                  "USSA", "'merica")
 change_to_NA = c(1, 30.0, 32, 35, 44.0, 45, 45.0, 46, 47.0, 51.0, 54.0)
 change_to_NA2 = c("30.0", "44.0", "45.0", "47.0", "51.0", "54.0")
-silly_values = c("A tropical island south of the equator", "A", "Atlantis",
-                 "Canae", "cascadia ", "Cascadia", "Denial", "Earth", "Fear and Loathing", 
-                 "god's country", "I don't know anymore", "insanity lately", 
-                 "there isn't one for old men", "soviet canuckistan", "Narnia", "Neverland",
-                 "one of the best ones", "See above", "Somewhere", "subscribe to dm4uz3 on youtube",
-                 "The republic of Cascadia", "this one", "Europe", " Cascadia", "Cascadia ")
+silly_values = c(
+  "A tropical island south of the equator", "A", "Atlantis",
+  "Canae", "cascadia ", "Cascadia", "Denial", "Earth", "Fear and Loathing", 
+  "god's country", "I don't know anymore", "insanity lately", 
+  "there isn't one for old men", "soviet canuckistan", "Narnia", "Neverland",
+  "one of the best ones", "See above", "Somewhere", 
+  "Subscribe To Dm4uz3 On Youtube", "The republic of Cascadia", "this one", 
+  "Europe", " Cascadia", "Cascadia ", " Subscribe To Dm4uz3 On Youtube",
+  "Subscribe To Dm4uz3 On Youtube ")
+
 # use the vectors above 
 candy_combined <- candy_combined %>%
 mutate(country = if_else(country %in% usa_outliers ,
@@ -267,7 +312,8 @@ mutate(country = if_else(country %in% usa_outliers ,
 candy_combined <- candy_combined %>%
   mutate(country = if_else(country %in% silly_values|
                              country %in% change_to_NA|
-                             country %in% change_to_NA2, NA_character_, country)) %>% 
+                             country %in% change_to_NA2, 
+                           NA_character_, country)) %>% 
   mutate(country = str_to_title(country)) # change to title case to help
 
 # recode anything else
@@ -284,31 +330,38 @@ mutate(country = recode(country, "The Netherlands" = "Netherlands"),
        country = recode(country, "Uk" = "United Kingdom"),
        country = recode(country, "United Kindom" = "United Kingdom"))
 
-table(candy_combined["country"])
+table(candy_combined["country"]) # much better!
 
 
-# Cleaning age column
 
-table(candy_combined["age"])
+## Cleaning age column -----------------------------------------------------
 
-#oldest person ever was 122. lets take out everything above that as NA
+
+# oldest person ever was 122. lets take out everything above that as NA
 # lets keep in the 0 values - technically this could be babies in a pram?
 
 # change the column from a character to numeric
 candy_combined <- candy_combined %>%
   mutate(age = as.numeric(age))
 
-# clearn out values bigger than 122 - oldest ever person
+# clean out values bigger than 122 - oldest ever person
 candy_combined <- candy_combined %>%
   mutate(age = ifelse(age>122, NA, age))
 
-# Year column
 
+## Cleaning year column ----------------------------------------------------
+
+
+# change the id value brought over from the bind rows to an actual year
+# alter the column to be numeric rather than character
 candy_combined <- candy_combined %>%
   mutate(year = recode(year, "1" = "2015"),
          year = recode(year, "2" = "2016"),
-         year = recode(year, "3" = "2017"))
+         year = recode(year, "3" = "2017"),
+         year = as.numeric(year))
 
+
+# Write our data to candy_clean.csv ---------------------------------------
 
 
 candy_combined %>%

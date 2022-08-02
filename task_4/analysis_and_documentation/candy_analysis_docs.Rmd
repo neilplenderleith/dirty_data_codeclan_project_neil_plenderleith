@@ -4,28 +4,30 @@ author: "Neil"
 date: "2022-07-31"
 output: html_document
 ---
-
+## Load Libraries
 ```{r}
 library(readr)
 library(tidyverse)
 library(here)
 ```
 
+## Load Data
+
 ```{r}
 candy_clean <- read_csv(here("clean_data/candy_clean.csv"))
 ```
+
+##Tasks
+
 ### Task 1 What is the total number of candy ratings given across the three years.
 
 ```{r}
-
+# This would be the number of rows in candy_rating != NA
 candy_clean %>% 
-  count(!is.na(candy_rating)) # total ratings - 767302
+  drop_na(candy_rating) %>% 
+  nrow()
 
-# candy_clean %>%
-#   summarise(across(.fns = ~ sum(is.na(.x)))) # 141198	NAs
-
-# candy_clean %>%
-# colSums(!is.na(candy_clean$candy_rating))
+  # total ratings - 767302
 
 ```
 
@@ -35,8 +37,8 @@ candy_clean %>%
 
 # filter for Yes to going out then average the age column
 candy_clean %>% 
-   filter(going_out == "Yes") %>% 
-summarise(avg_age = mean(age, na.rm = TRUE))
+  filter(going_out == "Yes") %>% 
+  summarise(avg_age = mean(age, na.rm = TRUE))
 
 # Average_age is 35.22
 ```
@@ -74,7 +76,7 @@ candy_clean %>%
   filter(candy_rating == "JOY") %>% 
   ungroup() %>% 
   arrange(desc(count_of_rating)) %>% 
-  slice_max(count_of_rating, n = 5)
+  slice_max(count_of_rating, n = 1)
 
 # Answer : any_full_sized_candy_bar
 
@@ -90,17 +92,22 @@ candy_clean %>%
 # Answer : lollipops
 ```
 
+### Task 5 How many people rated Starburst as despair?
+
 ```{r}
+# filter for starburst and despair then count the rows
 candy_clean %>% 
-  filter(candy_type == "starburst" & candy_rating == "DESPAIR") %>% 
-nrow()
+  filter(candy_type == "starburst" & 
+           candy_rating == "DESPAIR") %>% 
+  nrow()
 
 # 1990 people thought starburst was despair-worthy
 ```
-### Change the dataset for new ordering system
+
+#### Change the dataset for new ordering system
 
 ```{r}
-
+# add on a column which gives each column a score according to this new scoring method
 candy_clean <- candy_clean %>% 
  mutate(candy_rating_new_system = case_when ( candy_rating == "DESPAIR" ~ -1,
                                               candy_rating == "JOY" ~ 1,
@@ -114,17 +121,20 @@ candy_clean <- candy_clean %>%
 ### Task 6 What was the most popular candy bar by this rating system for each gender in the dataset
 
 ```{r}
+# Filter for female gender, group by candy type then assign each a value
+# according to the sum of the new voting criteria, arrange and slice top hit
 candy_clean %>% 
-    filter(gender == "Female") %>% 
+  filter(gender == "Female") %>% 
   group_by(candy_type) %>% 
   summarise(new_rating_total = sum(candy_rating_new_system)) %>% 
   arrange(desc(new_rating_total)) %>% 
   slice_head(n=1)
-
 # Female answer : Any full sizer candy bar - 875 count
 
+# Filter for male gender, group by candy type then assign each a value
+# according to the sum of the new voting criteria, arrange and slice top hit
 candy_clean %>% 
-    filter(gender == "Male") %>% 
+  filter(gender == "Male") %>% 
   group_by(candy_type) %>% 
   summarise(new_rating_total = sum(candy_rating_new_system)) %>% 
   arrange(desc(new_rating_total)) %>% 
@@ -137,7 +147,8 @@ candy_clean %>%
 ### Task 7 What was the most popular candy bar in each year?
 
 ```{r}
-
+# filter for year, group by candy type, sum the new rating system for each 
+# candy type, arrange by highest and slice the top hit
 candy_clean %>% 
   filter(year == 2015) %>% 
   group_by(candy_type) %>% 
@@ -162,12 +173,20 @@ candy_clean %>%
 
 ```
 
+### Task 8 What was the most popular candy bar by this rating for people in US, Canada, UK, and all other countries?
+
 ```{r}
+# filter out the country NA values, group by country and candy type, 
+# summarise new rating system by country and candy type
+# arrange the total rating for each candy type BY GROUP
+# slice the head for each group - return top candy type per country
 candy_clean %>% 
   filter(!is.na(country)) %>% 
   group_by(country, candy_type) %>% 
   summarise(new_rating_total = sum(candy_rating_new_system)) %>% 
   arrange(desc(new_rating_total), by_group = TRUE) %>% 
 slice(1)
+# This returns data where total rating = 1 and are tied.
+# I would consider filtering this data for total rating > 1.
 ```
 
