@@ -51,11 +51,37 @@ rename(species_common_name = species_common_name_taxon_age_sex_plumage_phase,
        species_scientific_name = species_scientific_name_taxon_age_sex_plumage_phase,
        bird_count = count) # count is easily confused with the function
 
+# Lose some more non - essential columns
+seabirds <- seabirds %>% 
+  select(-(nfeed:record_y)) %>% 
+  select(-(ew:depth))
+
+seabirds <- seabirds %>% 
+  
+
+
+# look at the bird_count column - there are some huge estimates for bird sightings
+# looking at the codes in the data the bird_count column is birds spotted within a 10
+# minute window - is 99999 even possible? Its difficult here to decide what to keep in 
+# and what to take out? Doing some googling reveals the largest colony of shearwaters 
+# is 3 million so 99999 is perhaps understandable. Lets leave these values as they stand
+# seabirds %>% 
+# count(bird_count) %>% 
+# slice_max(bird_count, n = 20)
+
+
+
+
+
+
+
 
 # Can we use this data now? It has a lot of NAs but i suppose a lot are just
 # the way the data is recorded and the way the dataset is setup. Not every
 # observation would have all fields completed. If I was just wanting data to 
 # answer the tasks I could easily cut many columns
+
+
 
 seabirds %>% 
 write_csv(here("clean_data/seabirds.csv"))

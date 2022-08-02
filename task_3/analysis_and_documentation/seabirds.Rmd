@@ -30,9 +30,7 @@ seabirds <- read_csv(here("clean_data/seabirds.csv"))
 # to allow more names info to be pulled, arrange and slice head to get top hit
 seabirds %>% 
   group_by(species_common_name) %>% 
-  summarise(count_of_sightings = n()) %>% 
-  arrange(desc(count_of_sightings))
-          
+  summarise(count_of_sightings = n()) %>%
   right_join(seabirds, "species_common_name") %>% 
   select(species_common_name, 
          species_scientific_name, 
@@ -54,15 +52,14 @@ seabirds %>%
   drop_na(bird_count) %>% 
   group_by(species_common_name) %>% 
   summarise(total_count = sum(bird_count)) %>% 
-  arrange(desc(total_count)) %>% 
   right_join(seabirds, "species_common_name") %>% 
   select(species_common_name, 
          species_scientific_name, 
          species_abbreviation, total_count) %>%
-  arrange(desc(total_count)) %>%
-  slice_head()
+  arrange(desc(total_count)) %>% 
+  slice_head(n=1)
   
-# Answer: A Black-billed gull, count = 7732
+# Answer: Short-tailed shearwater, count = 982553
 ```
 
 ### Task 3 Which bird had the highest total count above a latitude of -30?
@@ -73,7 +70,6 @@ seabirds %>%
   filter(lat > -30) %>% 
   group_by(species_common_name) %>% 
   summarise(total_count = sum(bird_count)) %>%
-  arrange(desc(total_count))
   right_join(seabirds, "species_common_name") %>% 
   select(species_common_name, 
          species_scientific_name, 
@@ -92,10 +88,10 @@ seabirds %>%
 
 # make our two table with the count and sum we need
 seabirds_counting <- seabirds %>% 
-  drop_na(count) %>% 
+  drop_na(bird_count) %>% 
   group_by(species_common_name) %>% 
   summarise(count_of_sightings = n(), 
-            total_count = sum(count, na.rm = TRUE)) 
+            total_count = sum(bird_count, na.rm = TRUE)) 
   
 # join these onto our original table
 seabirds_plus_counts <- left_join(seabirds, 
@@ -110,6 +106,8 @@ task_four_data <- seabirds_plus_counts %>%
   summarise(n()) %>% 
   nrow()
 task_four_data
+
+# 86 birds only sighted individually
 ```
 
 ### Task 5 How many penguins were seen
@@ -121,7 +119,7 @@ task_four_data
 seabirds %>% 
   filter(str_detect(species_common_name,
                     "(?i).*penguin+.*")) %>% 
-  summarise(sum(count, na.rm = T))
+  summarise(sum(bird_count, na.rm = T))
 
 # 158 penguins were seen
 ```
