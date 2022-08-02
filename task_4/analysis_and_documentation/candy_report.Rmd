@@ -66,7 +66,6 @@ candy_2015_clean <- candy_2015_clean %>%
   relocate(butterfinger, .after = bubble_gum) %>% 
   relocate(necco_wafers, .after = minibags_of_chips)
            
-           
 candy_2016_clean <- candy_2016_clean %>% 
   rename("100_grand_bar" = "x100_grand_bar")
 
@@ -100,7 +99,6 @@ candy_2017_long <- candy_2017_clean %>%
 
 # 2015 Table
 
-
 # lets work out how many NA's are across all columns and sort by highest
 NA_2015 <- candy_2015_long %>%
   summarise(across(.fns = ~ sum(is.na(.x)))) %>% 
@@ -128,7 +126,7 @@ NA_2016 <- candy_2016_long %>%
 candy_2016_long <- candy_2016_long %>% 
   select(-york_peppermint_patties_ignore)
 
-#2017
+# 2017
 
 # lets work out how many NA's are across all columns and sort by highest
 NA_2017 <- candy_2017_long %>%
@@ -143,7 +141,6 @@ NA_2017 <- candy_2017_long %>%
 candy_2017_long <- candy_2017_long %>% 
   select(-x114, 
          -starts_with("media"))
-
 
 # Ok lets recap. We have removed the easy columns so far - the full NA's and 
 # columns with very little data. Candy_2017_long has fewer columns than the 
@@ -173,7 +170,6 @@ candy_2016_long <- candy_2016_long %>%
 
 candy_2016_long <- candy_2016_long %>% 
   rename_with( ~ str_replace(., pattern = "please_.*celebrities_", replacement = "separation_"))
- 
 
 # reorder to agree more with 2017
 candy_2016_long <- candy_2016_long %>%
@@ -248,7 +244,6 @@ candy_2016_long <- candy_2016_long %>%
 candy_2017_long <- candy_2017_long %>%
   mutate(id = as.character(id))
 
-
 ## Performance related data cleanse ----------------------------------------
 
 # Going to delete all columns not strictly needed for the tasks
@@ -297,9 +292,7 @@ candy_combined <- candy_combined %>%
   candy_type = recode(candy_type,"licorice_yes_black" = "licorice"),
   candy_type = recode(candy_type,"sweetums_a_friend_to_diabetes" = "sweetums"))
 
-
-## Cleaning country column -------------------------------------------------
-
+## Cleaning country column ------------------------------------------------
 
 # count(candy_combined, country)
 # table(candy_combined["country"]) # look at dirty column 'country' eek
@@ -357,10 +350,7 @@ mutate(country = recode(country, "The Netherlands" = "Netherlands"),
 
 #table(candy_combined["country"]) # much better!
 
-
-
 ## Cleaning age column -----------------------------------------------------
-
 
 # oldest person ever was 122. lets take out everything above that as NA
 # lets keep in the 0 values - technically this could be babies in a pram?
@@ -373,9 +363,7 @@ candy_combined <- candy_combined %>%
 candy_combined <- candy_combined %>%
   mutate(age = ifelse(age>122, NA, age))
 
-
 ## Cleaning year column ----------------------------------------------------
-
 
 # change the id value brought over from the bind rows to an actual year
 # alter the column to be numeric rather than character
@@ -385,9 +373,7 @@ candy_combined <- candy_combined %>%
          year = recode(year, "3" = "2017"),
          year = as.numeric(year))
 
-
 # Write our data to candy_clean.csv ---------------------------------------
-
 
 candy_combined %>%
 write_csv(here("clean_data/candy_clean.csv"))
@@ -397,6 +383,190 @@ write_csv(here("clean_data/candy_clean.csv"))
 
 # Answers to Task Brief Questions
 
+## Load Libraries
+```{r}
+library(readr)
+library(tidyverse)
+library(here)
+```
+
+## Load Data
+
+```{r}
+candy_clean <- read_csv(here("clean_data/candy_clean.csv"))
+```
+
+##Tasks
+
+### Task 1 What is the total number of candy ratings given across the three years.
+
+```{r}
+# This would be the number of rows in candy_rating != NA
+candy_clean %>% 
+  drop_na(candy_rating) %>% 
+  nrow()
+
+  # total ratings - 767302
+
+```
+
+### Task 2 What was the average age of people who are going out trick or treating?
+
+```{r}
+
+# filter for Yes to going out then average the age column
+candy_clean %>% 
+  filter(going_out == "Yes") %>% 
+  summarise(avg_age = mean(age, na.rm = TRUE))
+
+# Average_age is 35.22
+```
+
+### Task 3 What was the average age of people who are not going trick or treating?
+
+```{r}
+
+# filter for No to going out then average the age column
+candy_clean %>% 
+   filter(going_out == "No") %>% 
+summarise(avg_age = mean(age, na.rm = TRUE))
+
+# Average age is 39.26
+```
+
+### Task 4 For each of joy, despair and meh, which candy bar received the most of these ratings?
+
+```{r}
+# Despair
+candy_clean %>% 
+  group_by(candy_type) %>% 
+  count(candy_rating, name = "count_of_rating") %>% 
+  filter(candy_rating == "DESPAIR") %>% 
+  ungroup() %>% 
+  arrange(desc(count_of_rating)) %>% 
+  slice_max(count_of_rating, n = 1)
+
+# Answer : broken_glow_stick
+
+# Joy
+candy_clean %>% 
+  group_by(candy_type) %>% 
+  count(candy_rating, name = "count_of_rating") %>% 
+  filter(candy_rating == "JOY") %>% 
+  ungroup() %>% 
+  arrange(desc(count_of_rating)) %>% 
+  slice_max(count_of_rating, n = 1)
+
+# Answer : any_full_sized_candy_bar
+
+# Meh
+candy_clean %>% 
+  group_by(candy_type) %>% 
+  count(candy_rating, name = "count_of_rating") %>% 
+  filter(candy_rating == "MEH") %>% 
+  ungroup() %>% 
+  arrange(desc(count_of_rating)) %>% 
+  slice_max(count_of_rating, n = 1)
+
+# Answer : lollipops
+```
+
+### Task 5 How many people rated Starburst as despair?
+
+```{r}
+# filter for starburst and despair then count the rows
+candy_clean %>% 
+  filter(candy_type == "starburst" & 
+           candy_rating == "DESPAIR") %>% 
+  nrow()
+
+# 1990 people thought starburst was despair-worthy
+```
+
+#### Change the dataset for new ordering system
+
+```{r}
+# add on a column which gives each column a score according to this new scoring method
+candy_clean <- candy_clean %>% 
+ mutate(candy_rating_new_system = case_when ( candy_rating == "DESPAIR" ~ -1,
+                                              candy_rating == "JOY" ~ 1,
+                                              TRUE ~ 0
+ ))
+```
+
+
+### Task 6 What was the most popular candy bar by this rating system for each gender in the dataset
+
+```{r}
+# Filter for female gender, group by candy type then assign each a value
+# according to the sum of the new voting criteria, arrange and slice top hit
+candy_clean %>% 
+  filter(gender == "Female") %>% 
+  group_by(candy_type) %>% 
+  summarise(new_rating_total = sum(candy_rating_new_system)) %>% 
+  arrange(desc(new_rating_total)) %>% 
+  slice_head(n=1)
+# Female answer : Any full sizer candy bar - 875 count
+
+# Filter for male gender, group by candy type then assign each a value
+# according to the sum of the new voting criteria, arrange and slice top hit
+candy_clean %>% 
+  filter(gender == "Male") %>% 
+  group_by(candy_type) %>% 
+  summarise(new_rating_total = sum(candy_rating_new_system)) %>% 
+  arrange(desc(new_rating_total)) %>% 
+  slice_head(n=1)
+
+# Male answer : Any full sizer candy bar - 1584 count
+
+```
+
+### Task 7 What was the most popular candy bar in each year?
+
+```{r}
+# filter for year, group by candy type, sum the new rating system for each 
+# candy type, arrange by highest and slice the top hit
+candy_clean %>% 
+  filter(year == 2015) %>% 
+  group_by(candy_type) %>% 
+  summarise(new_rating_total = sum(candy_rating_new_system)) %>% 
+  arrange(desc(new_rating_total)) %>% 
+  slice_head(n=1)
+
+candy_clean %>% 
+  filter(year == 2016) %>% 
+  group_by(candy_type) %>% 
+  summarise(new_rating_total = sum(candy_rating_new_system)) %>% 
+  arrange(desc(new_rating_total)) %>% 
+  slice_head(n=1)
+
+candy_clean %>% 
+  filter(year == 2017) %>% 
+  group_by(candy_type) %>% 
+  summarise(new_rating_total = sum(candy_rating_new_system)) %>% 
+  arrange(desc(new_rating_total)) %>% 
+  slice_head(n=1)
+
+
+```
+
+### Task 8 What was the most popular candy bar by this rating for people in US, Canada, UK, and all other countries?
+
+```{r}
+# filter out the country NA values, group by country and candy type, 
+# summarise new rating system by country and candy type
+# arrange the total rating for each candy type BY GROUP
+# slice the head for each group - return top candy type per country
+candy_clean %>% 
+  filter(!is.na(country)) %>% 
+  group_by(country, candy_type) %>% 
+  summarise(new_rating_total = sum(candy_rating_new_system)) %>% 
+  arrange(desc(new_rating_total), by_group = TRUE) %>% 
+slice(1)
+# This returns data where total rating = 1 and are tied.
+# I would consider filtering this data for total rating > 1.
+```
+
 # Any other analysis or conclusions
 
-Dont allow people free reign with a survey - limit possible responses
+Dont allow people free reign with a survey!!! Limit possible responses.

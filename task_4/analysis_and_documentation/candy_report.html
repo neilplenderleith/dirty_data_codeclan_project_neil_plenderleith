@@ -382,24 +382,24 @@ treating, age, gender etc.</p>
 <div id="list-of-assumptions" class="section level1">
 <h1>List of Assumptions</h1>
 <ol style="list-style-type: decimal">
-<li>I have tried where at all possible to leave in as much data as
-possible. I did wonder if I should trim the data down to the minimum
-required for the tasks but ended up keeping in every column which
-existed in at least two of the three datasets. UPDATE - I ened up
-trimming everything due to performance issues with my PC. But the
-cleaning script is still written to leave these in up until the last
-line before the merge which chops out all extra columns.</li>
+<li>I have tried to leave in as much data as possible. I did wonder if I
+should trim the data down to the minimum required for the tasks but
+ended up keeping in every column which existed in at least two of the
+three datasets. UPDATE - I ended up trimming down to bare minimum due to
+performance issues with my PC. But the cleaning script is still written
+to leave these in up until the last line before the merge which chops
+out all extra columns.</li>
 <li>I have made some assumptions around spelling mistakes and
 amalgamating these with what I thought must have been meant.
 e.g. boxo_raisins == box_o_raisins, sweetums_a_friend_to_diabetes =
 sweetums etc. I have labelled these as I go</li>
-<li>Theres a myriad of responses in the country column. This should
-REALLY be a dropdown on the quesntionnaire/survey. I have amalgamted as
+<li>There is a myriad of responses in the country column. This should
+REALLY be a drop down on the questionnaire/survey. I have amalgamated as
 logically as possible. Outliers were tied to NA values. Could these have
 been labelled “smart_answer” or something like that?</li>
 <li>Task 8 - should possible be filtered there are total counts of 0 and
-1 in there which do not accrately report anything at all. Perhaps should
-be filtered for total_count &gt; 1 at the least.</li>
+1 in there which do not accurately report anything at all. Perhaps
+should be filtered for total_count &gt; 1 at the least.</li>
 </ol>
 </div>
 <div id="steps-to-clean-data" class="section level1">
@@ -462,7 +462,6 @@ candy_2015_clean &lt;- candy_2015_clean %&gt;%
   relocate(butterfinger, .after = bubble_gum) %&gt;% 
   relocate(necco_wafers, .after = minibags_of_chips)
            
-           
 candy_2016_clean &lt;- candy_2016_clean %&gt;% 
   rename(&quot;100_grand_bar&quot; = &quot;x100_grand_bar&quot;)
 
@@ -496,7 +495,6 @@ candy_2017_long &lt;- candy_2017_clean %&gt;%
 
 # 2015 Table
 
-
 # lets work out how many NA&#39;s are across all columns and sort by highest
 NA_2015 &lt;- candy_2015_long %&gt;%
   summarise(across(.fns = ~ sum(is.na(.x)))) %&gt;% 
@@ -524,7 +522,7 @@ NA_2016 &lt;- candy_2016_long %&gt;%
 candy_2016_long &lt;- candy_2016_long %&gt;% 
   select(-york_peppermint_patties_ignore)
 
-#2017
+# 2017
 
 # lets work out how many NA&#39;s are across all columns and sort by highest
 NA_2017 &lt;- candy_2017_long %&gt;%
@@ -539,7 +537,6 @@ NA_2017 &lt;- candy_2017_long %&gt;%
 candy_2017_long &lt;- candy_2017_long %&gt;% 
   select(-x114, 
          -starts_with(&quot;media&quot;))
-
 
 # Ok lets recap. We have removed the easy columns so far - the full NA&#39;s and 
 # columns with very little data. Candy_2017_long has fewer columns than the 
@@ -569,7 +566,6 @@ candy_2016_long &lt;- candy_2016_long %&gt;%
 
 candy_2016_long &lt;- candy_2016_long %&gt;% 
   rename_with( ~ str_replace(., pattern = &quot;please_.*celebrities_&quot;, replacement = &quot;separation_&quot;))
- 
 
 # reorder to agree more with 2017
 candy_2016_long &lt;- candy_2016_long %&gt;%
@@ -646,7 +642,6 @@ candy_2016_long &lt;- candy_2016_long %&gt;%
 candy_2017_long &lt;- candy_2017_long %&gt;%
   mutate(id = as.character(id))
 
-
 ## Performance related data cleanse ----------------------------------------
 
 # Going to delete all columns not strictly needed for the tasks
@@ -695,9 +690,7 @@ candy_combined &lt;- candy_combined %&gt;%
   candy_type = recode(candy_type,&quot;licorice_yes_black&quot; = &quot;licorice&quot;),
   candy_type = recode(candy_type,&quot;sweetums_a_friend_to_diabetes&quot; = &quot;sweetums&quot;))
 
-
-## Cleaning country column -------------------------------------------------
-
+## Cleaning country column ------------------------------------------------
 
 # count(candy_combined, country)
 # table(candy_combined[&quot;country&quot;]) # look at dirty column &#39;country&#39; eek
@@ -755,10 +748,7 @@ mutate(country = recode(country, &quot;The Netherlands&quot; = &quot;Netherlands
 
 #table(candy_combined[&quot;country&quot;]) # much better!
 
-
-
 ## Cleaning age column -----------------------------------------------------
-
 
 # oldest person ever was 122. lets take out everything above that as NA
 # lets keep in the 0 values - technically this could be babies in a pram?
@@ -771,9 +761,7 @@ candy_combined &lt;- candy_combined %&gt;%
 candy_combined &lt;- candy_combined %&gt;%
   mutate(age = ifelse(age&gt;122, NA, age))
 
-
 ## Cleaning year column ----------------------------------------------------
-
 
 # change the id value brought over from the bind rows to an actual year
 # alter the column to be numeric rather than character
@@ -783,20 +771,236 @@ candy_combined &lt;- candy_combined %&gt;%
          year = recode(year, &quot;3&quot; = &quot;2017&quot;),
          year = as.numeric(year))
 
-
 # Write our data to candy_clean.csv ---------------------------------------
-
 
 candy_combined %&gt;%
 write_csv(here(&quot;clean_data/candy_clean.csv&quot;))</code></pre>
 </div>
 <div id="answers-to-task-brief-questions" class="section level1">
 <h1>Answers to Task Brief Questions</h1>
+<div id="load-libraries" class="section level2">
+<h2>Load Libraries</h2>
+<pre class="r"><code>library(readr)
+library(tidyverse)
+library(here)</code></pre>
+</div>
+<div id="load-data" class="section level2">
+<h2>Load Data</h2>
+<pre class="r"><code>candy_clean &lt;- read_csv(here(&quot;clean_data/candy_clean.csv&quot;))</code></pre>
+<pre><code>## Rows: 908500 Columns: 8
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr (6): id, going_out, gender, country, candy_type, candy_rating
+## dbl (2): year, age
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<p>##Tasks</p>
+<div id="task-1-what-is-the-total-number-of-candy-ratings-given-across-the-three-years." class="section level3">
+<h3>Task 1 What is the total number of candy ratings given across the
+three years.</h3>
+<pre class="r"><code># This would be the number of rows in candy_rating != NA
+candy_clean %&gt;% 
+  drop_na(candy_rating) %&gt;% 
+  nrow()</code></pre>
+<pre><code>## [1] 767302</code></pre>
+<pre class="r"><code>  # total ratings - 767302</code></pre>
+</div>
+<div id="task-2-what-was-the-average-age-of-people-who-are-going-out-trick-or-treating" class="section level3">
+<h3>Task 2 What was the average age of people who are going out trick or
+treating?</h3>
+<pre class="r"><code># filter for Yes to going out then average the age column
+candy_clean %&gt;% 
+  filter(going_out == &quot;Yes&quot;) %&gt;% 
+  summarise(avg_age = mean(age, na.rm = TRUE))</code></pre>
+<pre><code>## # A tibble: 1 × 1
+##   avg_age
+##     &lt;dbl&gt;
+## 1    35.2</code></pre>
+<pre class="r"><code># Average_age is 35.22</code></pre>
+</div>
+<div id="task-3-what-was-the-average-age-of-people-who-are-not-going-trick-or-treating" class="section level3">
+<h3>Task 3 What was the average age of people who are not going trick or
+treating?</h3>
+<pre class="r"><code># filter for No to going out then average the age column
+candy_clean %&gt;% 
+   filter(going_out == &quot;No&quot;) %&gt;% 
+summarise(avg_age = mean(age, na.rm = TRUE))</code></pre>
+<pre><code>## # A tibble: 1 × 1
+##   avg_age
+##     &lt;dbl&gt;
+## 1    39.3</code></pre>
+<pre class="r"><code># Average age is 39.26</code></pre>
+</div>
+<div id="task-4-for-each-of-joy-despair-and-meh-which-candy-bar-received-the-most-of-these-ratings" class="section level3">
+<h3>Task 4 For each of joy, despair and meh, which candy bar received
+the most of these ratings?</h3>
+<pre class="r"><code># Despair
+candy_clean %&gt;% 
+  group_by(candy_type) %&gt;% 
+  count(candy_rating, name = &quot;count_of_rating&quot;) %&gt;% 
+  filter(candy_rating == &quot;DESPAIR&quot;) %&gt;% 
+  ungroup() %&gt;% 
+  arrange(desc(count_of_rating)) %&gt;% 
+  slice_max(count_of_rating, n = 1)</code></pre>
+<pre><code>## # A tibble: 1 × 3
+##   candy_type        candy_rating count_of_rating
+##   &lt;chr&gt;             &lt;chr&gt;                  &lt;int&gt;
+## 1 broken_glow_stick DESPAIR                 7905</code></pre>
+<pre class="r"><code># Answer : broken_glow_stick
+
+# Joy
+candy_clean %&gt;% 
+  group_by(candy_type) %&gt;% 
+  count(candy_rating, name = &quot;count_of_rating&quot;) %&gt;% 
+  filter(candy_rating == &quot;JOY&quot;) %&gt;% 
+  ungroup() %&gt;% 
+  arrange(desc(count_of_rating)) %&gt;% 
+  slice_max(count_of_rating, n = 1)</code></pre>
+<pre><code>## # A tibble: 1 × 3
+##   candy_type               candy_rating count_of_rating
+##   &lt;chr&gt;                    &lt;chr&gt;                  &lt;int&gt;
+## 1 any_full_sized_candy_bar JOY                     7589</code></pre>
+<pre class="r"><code># Answer : any_full_sized_candy_bar
+
+# Meh
+candy_clean %&gt;% 
+  group_by(candy_type) %&gt;% 
+  count(candy_rating, name = &quot;count_of_rating&quot;) %&gt;% 
+  filter(candy_rating == &quot;MEH&quot;) %&gt;% 
+  ungroup() %&gt;% 
+  arrange(desc(count_of_rating)) %&gt;% 
+  slice_max(count_of_rating, n = 1)</code></pre>
+<pre><code>## # A tibble: 1 × 3
+##   candy_type candy_rating count_of_rating
+##   &lt;chr&gt;      &lt;chr&gt;                  &lt;int&gt;
+## 1 lollipops  MEH                     1570</code></pre>
+<pre class="r"><code># Answer : lollipops</code></pre>
+</div>
+<div id="task-5-how-many-people-rated-starburst-as-despair" class="section level3">
+<h3>Task 5 How many people rated Starburst as despair?</h3>
+<pre class="r"><code># filter for starburst and despair then count the rows
+candy_clean %&gt;% 
+  filter(candy_type == &quot;starburst&quot; &amp; 
+           candy_rating == &quot;DESPAIR&quot;) %&gt;% 
+  nrow()</code></pre>
+<pre><code>## [1] 1990</code></pre>
+<pre class="r"><code># 1990 people thought starburst was despair-worthy</code></pre>
+<div id="change-the-dataset-for-new-ordering-system" class="section level4">
+<h4>Change the dataset for new ordering system</h4>
+<pre class="r"><code># add on a column which gives each column a score according to this new scoring method
+candy_clean &lt;- candy_clean %&gt;% 
+ mutate(candy_rating_new_system = case_when ( candy_rating == &quot;DESPAIR&quot; ~ -1,
+                                              candy_rating == &quot;JOY&quot; ~ 1,
+                                              TRUE ~ 0
+ ))</code></pre>
+</div>
+</div>
+<div id="task-6-what-was-the-most-popular-candy-bar-by-this-rating-system-for-each-gender-in-the-dataset" class="section level3">
+<h3>Task 6 What was the most popular candy bar by this rating system for
+each gender in the dataset</h3>
+<pre class="r"><code># Filter for female gender, group by candy type then assign each a value
+# according to the sum of the new voting criteria, arrange and slice top hit
+candy_clean %&gt;% 
+  filter(gender == &quot;Female&quot;) %&gt;% 
+  group_by(candy_type) %&gt;% 
+  summarise(new_rating_total = sum(candy_rating_new_system)) %&gt;% 
+  arrange(desc(new_rating_total)) %&gt;% 
+  slice_head(n=1)</code></pre>
+<pre><code>## # A tibble: 1 × 2
+##   candy_type               new_rating_total
+##   &lt;chr&gt;                               &lt;dbl&gt;
+## 1 any_full_sized_candy_bar              875</code></pre>
+<pre class="r"><code># Female answer : Any full sizer candy bar - 875 count
+
+# Filter for male gender, group by candy type then assign each a value
+# according to the sum of the new voting criteria, arrange and slice top hit
+candy_clean %&gt;% 
+  filter(gender == &quot;Male&quot;) %&gt;% 
+  group_by(candy_type) %&gt;% 
+  summarise(new_rating_total = sum(candy_rating_new_system)) %&gt;% 
+  arrange(desc(new_rating_total)) %&gt;% 
+  slice_head(n=1)</code></pre>
+<pre><code>## # A tibble: 1 × 2
+##   candy_type               new_rating_total
+##   &lt;chr&gt;                               &lt;dbl&gt;
+## 1 any_full_sized_candy_bar             1584</code></pre>
+<pre class="r"><code># Male answer : Any full sizer candy bar - 1584 count</code></pre>
+</div>
+<div id="task-7-what-was-the-most-popular-candy-bar-in-each-year" class="section level3">
+<h3>Task 7 What was the most popular candy bar in each year?</h3>
+<pre class="r"><code># filter for year, group by candy type, sum the new rating system for each 
+# candy type, arrange by highest and slice the top hit
+candy_clean %&gt;% 
+  filter(year == 2015) %&gt;% 
+  group_by(candy_type) %&gt;% 
+  summarise(new_rating_total = sum(candy_rating_new_system)) %&gt;% 
+  arrange(desc(new_rating_total)) %&gt;% 
+  slice_head(n=1)</code></pre>
+<pre><code>## # A tibble: 1 × 2
+##   candy_type               new_rating_total
+##   &lt;chr&gt;                               &lt;dbl&gt;
+## 1 any_full_sized_candy_bar             4603</code></pre>
+<pre class="r"><code>candy_clean %&gt;% 
+  filter(year == 2016) %&gt;% 
+  group_by(candy_type) %&gt;% 
+  summarise(new_rating_total = sum(candy_rating_new_system)) %&gt;% 
+  arrange(desc(new_rating_total)) %&gt;% 
+  slice_head(n=1)</code></pre>
+<pre><code>## # A tibble: 1 × 2
+##   candy_type               new_rating_total
+##   &lt;chr&gt;                               &lt;dbl&gt;
+## 1 any_full_sized_candy_bar             1037</code></pre>
+<pre class="r"><code>candy_clean %&gt;% 
+  filter(year == 2017) %&gt;% 
+  group_by(candy_type) %&gt;% 
+  summarise(new_rating_total = sum(candy_rating_new_system)) %&gt;% 
+  arrange(desc(new_rating_total)) %&gt;% 
+  slice_head(n=1)</code></pre>
+<pre><code>## # A tibble: 1 × 2
+##   candy_type               new_rating_total
+##   &lt;chr&gt;                               &lt;dbl&gt;
+## 1 any_full_sized_candy_bar             1542</code></pre>
+</div>
+<div id="task-8-what-was-the-most-popular-candy-bar-by-this-rating-for-people-in-us-canada-uk-and-all-other-countries" class="section level3">
+<h3>Task 8 What was the most popular candy bar by this rating for people
+in US, Canada, UK, and all other countries?</h3>
+<pre class="r"><code># filter out the country NA values, group by country and candy type, 
+# summarise new rating system by country and candy type
+# arrange the total rating for each candy type BY GROUP
+# slice the head for each group - return top candy type per country
+candy_clean %&gt;% 
+  filter(!is.na(country)) %&gt;% 
+  group_by(country, candy_type) %&gt;% 
+  summarise(new_rating_total = sum(candy_rating_new_system)) %&gt;% 
+  arrange(desc(new_rating_total), by_group = TRUE) %&gt;% 
+slice(1)</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;country&#39;. You can override using the
+## `.groups` argument.</code></pre>
+<pre><code>## # A tibble: 39 × 3
+## # Groups:   country [39]
+##    country    candy_type                          new_rating_total
+##    &lt;chr&gt;      &lt;chr&gt;                                          &lt;dbl&gt;
+##  1 Australia  any_full_sized_candy_bar                           6
+##  2 Austria    100_grand_bar                                      1
+##  3 Belgium    cash_or_other_forms_of_legal_tender                1
+##  4 Brasil     100_grand_bar                                      1
+##  5 Canada     any_full_sized_candy_bar                         252
+##  6 Cascadia   100_grand_bar                                      1
+##  7 China      any_full_sized_candy_bar                           2
+##  8 Costa Rica 100_grand_bar                                      1
+##  9 Croatia    any_full_sized_candy_bar                           1
+## 10 Denmark    any_full_sized_candy_bar                           2
+## # … with 29 more rows</code></pre>
+<pre class="r"><code># This returns data where total rating = 1 and are tied.
+# I would consider filtering this data for total rating &gt; 1.</code></pre>
+</div>
+</div>
 </div>
 <div id="any-other-analysis-or-conclusions" class="section level1">
 <h1>Any other analysis or conclusions</h1>
-<p>Dont allow people free reign with a survey - limit possible
-responses</p>
+<p>Dont allow people free reign with a survey!!! Limit possible
+responses.</p>
 </div>
 
 
