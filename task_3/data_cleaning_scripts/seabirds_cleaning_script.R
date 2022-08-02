@@ -54,10 +54,12 @@ rename(species_common_name = species_common_name_taxon_age_sex_plumage_phase,
 # Lose some more non - essential columns
 seabirds <- seabirds %>% 
   select(-(nfeed:record_y)) %>% 
-  select(-(ew:depth))
+  select(-(ew:depth)) %>% 
+  select(-(csmeth:longecell), -wanplum)
 
+#Lets tidy up the time column to just display the time and not the (incorect) date
 seabirds <- seabirds %>% 
-  
+  mutate(time = str_remove(time, "^[0-9]{4}-[0-9]+-[0-9]+ "))
 
 
 # look at the bird_count column - there are some huge estimates for bird sightings
