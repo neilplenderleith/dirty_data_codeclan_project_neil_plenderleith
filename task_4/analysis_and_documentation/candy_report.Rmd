@@ -1,3 +1,25 @@
+---
+title: "Candy_report"
+author: "Neil"
+date: "2022-08-02"
+output:
+  word_document: default
+  html_document: default
+---
+# Brief Introduction to the Dataset
+
+The data is in three parts, one file for each year 2015 - 2017. Sadly none of the datasets agree on how they are set out - many of the columns are different. It broadly records peoples experience of going trick or treating and their ratings (Despair, Joy or Meh) for various types of candy handed out. Also collected are whether they are going trick or treating, age, gender etc. 
+
+# List of Assumptions
+
+1. I have tried where at all possible to leave in as much data as possible. I did wonder if I should trim the data down to the minimum required for the tasks but ended up keeping in every column which existed in at least two of the three datasets. UPDATE - I ened up trimming everything due to performance issues with my PC. But the cleaning script is still written to leave these in up until the last line before the merge which chops out all extra columns.
+2. I have made some assumptions around spelling mistakes and amalgamating these with what I thought must have been meant. e.g. boxo_raisins == box_o_raisins, sweetums_a_friend_to_diabetes = sweetums etc. I have labelled these as I go
+3. Theres a myriad of responses in the country column. This should REALLY be a dropdown on the quesntionnaire/survey. I have amalgamted as logically as possible. Outliers were tied to NA values. Could these have been labelled "smart_answer" or something like that?
+4. Task 8 - should possible be filtered there are total counts of 0 and 1 in there which do not accrately report anything at all. Perhaps should be filtered for total_count > 1 at the least.
+
+# Steps to clean data
+
+```{r}
 
 # Libraries ---------------------------------------------------------------
 
@@ -287,8 +309,7 @@ candy_combined <- candy_combined %>%
   mutate(country = if_else(grepl("(?i)usa+", country),"USA",country)) %>% 
   mutate(country = if_else(grepl("(?i)united s+", country),"USA",country)) %>% 
   mutate(country = if_else(grepl("(?i)amer", country),"USA",country)) %>% 
-  mutate(country = if_else(grepl("(?i)stat", country),"USA",country)) %>% 
-  mutate(country = if_else(grepl("(?i)subscribe+.*", country),NA_character_,country)) 
+  mutate(country = if_else(grepl("(?i)stat", country),"USA",country))
 
 #make vectors of USA outliers and some to change to NA values
 usa_outliers = c("Alaska", "California", "EUA", "Merica", "Murica", "murrika",
@@ -305,7 +326,8 @@ silly_values = c(
   "there isn't one for old men", "soviet canuckistan", "Narnia", "Neverland",
   "one of the best ones", "See above", "Somewhere", 
   "Subscribe To Dm4uz3 On Youtube", "The republic of Cascadia", "this one", 
-  "Europe", " Cascadia", "Cascadia ")
+  "Europe", " Cascadia", "Cascadia ", " Subscribe To Dm4uz3 On Youtube",
+  "Subscribe To Dm4uz3 On Youtube ")
 
 # use the vectors above 
 candy_combined <- candy_combined %>%
@@ -343,17 +365,13 @@ table(candy_combined["country"]) # much better!
 # oldest person ever was 122. lets take out everything above that as NA
 # lets keep in the 0 values - technically this could be babies in a pram?
 
-
-
-
 # change the column from a character to numeric
 candy_combined <- candy_combined %>%
   mutate(age = as.numeric(age))
+
 # clean out values bigger than 122 - oldest ever person
 candy_combined <- candy_combined %>%
   mutate(age = ifelse(age>122, NA, age))
-
-table(candy_combined["age"])
 
 
 ## Cleaning year column ----------------------------------------------------
@@ -373,3 +391,12 @@ candy_combined <- candy_combined %>%
 
 candy_combined %>%
 write_csv(here("clean_data/candy_clean.csv"))
+
+```
+
+
+# Answers to Task Brief Questions
+
+# Any other analysis or conclusions
+
+Dont allow people free reign with a survey - limit possible responses
