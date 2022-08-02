@@ -3,8 +3,8 @@ title: "Candy_report"
 author: "Neil"
 date: "2022-08-02"
 output:
-  word_document: default
   html_document: default
+  word_document: default
 ---
 # Brief Introduction to the Dataset
 
@@ -12,10 +12,10 @@ The data is in three parts, one file for each year 2015 - 2017. Sadly none of th
 
 # List of Assumptions
 
-1. I have tried where at all possible to leave in as much data as possible. I did wonder if I should trim the data down to the minimum required for the tasks but ended up keeping in every column which existed in at least two of the three datasets. UPDATE - I ened up trimming everything due to performance issues with my PC. But the cleaning script is still written to leave these in up until the last line before the merge which chops out all extra columns.
+1. I have tried to leave in as much data as possible. I did wonder if I should trim the data down to the minimum required for the tasks but ended up keeping in every column which existed in at least two of the three datasets. UPDATE - I ended up trimming down to bare minimum due to performance issues with my PC. But the cleaning script is still written to leave these in up until the last line before the merge which chops out all extra columns.
 2. I have made some assumptions around spelling mistakes and amalgamating these with what I thought must have been meant. e.g. boxo_raisins == box_o_raisins, sweetums_a_friend_to_diabetes = sweetums etc. I have labelled these as I go
-3. Theres a myriad of responses in the country column. This should REALLY be a dropdown on the quesntionnaire/survey. I have amalgamted as logically as possible. Outliers were tied to NA values. Could these have been labelled "smart_answer" or something like that?
-4. Task 8 - should possible be filtered there are total counts of 0 and 1 in there which do not accrately report anything at all. Perhaps should be filtered for total_count > 1 at the least.
+3. There is a myriad of responses in the country column. This should REALLY be a drop down on the questionnaire/survey. I have amalgamated as logically as possible. Outliers were tied to NA values. Could these have been labelled "smart_answer" or something like that?
+4. Task 8 - should possible be filtered there are total counts of 0 and 1 in there which do not accurately report anything at all. Perhaps should be filtered for total_count > 1 at the least.
 
 # Steps to clean data
 
@@ -50,9 +50,9 @@ candy_2017_clean <- candy_2017 %>%
 # used glimpse(), summary(), view(), skimr::skim() on each to get an idea
 
 # lets also have a look at column names
-names(candy_2015_clean)
-names(candy_2016_clean)
-names(candy_2017_clean)
+#names(candy_2015_clean)
+#names(candy_2016_clean)
+#names(candy_2017_clean)
 
 # Order of Operations:
 # Get large pivot data the same for all 3 datasets
@@ -150,9 +150,9 @@ candy_2017_long <- candy_2017_long %>%
 # others - lets use this as a template for the other data frame columns and try to 
 # get our column names matching to prepare data for a future join
 
-names(candy_2015_long)
-names(candy_2016_long)
-names(candy_2017_long)
+#names(candy_2015_long)
+#names(candy_2016_long)
+#names(candy_2017_long)
 
 # lets get 2016 into shape - change col names to agree with 2017
 candy_2016_long <- candy_2016_long %>% 
@@ -184,7 +184,7 @@ relocate(dress, day, candy_type, candy_rating, .after = other_comments)
 candy_2016_long <- candy_2016_long %>%
   select(-(23:24))
 
-names(candy_2016_long) # looks good
+#names(candy_2016_long) # looks good
 
 # lets tweak 2017 in line with 2016 above
 
@@ -284,7 +284,7 @@ candy_combined <- bind_rows(candy_2015_long,
 ## Cleaning candy_type column ----------------------------------------------
 
 
-table(candy_combined["candy_type"])
+#table(candy_combined["candy_type"])
 
 # OK so there are a few obvious duplicates with slightly different names
 # There are some slightly the same but ambiguous - these will be left
@@ -355,7 +355,7 @@ mutate(country = recode(country, "The Netherlands" = "Netherlands"),
        country = recode(country, "Uk" = "United Kingdom"),
        country = recode(country, "United Kindom" = "United Kingdom"))
 
-table(candy_combined["country"]) # much better!
+#table(candy_combined["country"]) # much better!
 
 
 
