@@ -16,7 +16,9 @@ The dataset is in .xlx format with 4 sheets. The main two are bird sightings and
 
 ## List of Assumptions
 
-I have assumed the cleaned data will go on to be used in other analyses and therefore I have not trimmed it massively. Were this not the case I would have cut 45 columns or so which were not required for our 5 tasks. I did trim 3 very nearly empty columns in the end (4 more were borderline) but I have erred on the side of keeping data in however incomplete rather than dropping columns at will. Likewise I havent gone crazy with weeding out NA values as I believe these tell a story in this data and the nature of not being able to collect all data points for every sighting.
+1. I have assumed the cleaned data will go on to be used in other analyses and therefore I have not trimmed it massively. Were this not the case I would have cut 45 columns or so which were not required for our 5 tasks. I did trim 3 very nearly empty columns in the end (4 more were borderline) but I have erred on the side of keeping data in however incomplete rather than dropping columns at will. 
+
+2. Likewise I havent gone crazy with weeding out NA values as I believe these tell a story in this data and the nature of not being able to collect all data points for every sighting.
 
 ## Steps to Clean Data
 

@@ -48,11 +48,14 @@ seabirds <- seabirds %>%
 # lets change some long column names
 seabirds <- seabirds %>% 
 rename(species_common_name = species_common_name_taxon_age_sex_plumage_phase,
-       species_scientific_name = species_scientific_name_taxon_age_sex_plumage_phase)
+       species_scientific_name = species_scientific_name_taxon_age_sex_plumage_phase,
+       bird_count = count) # count is easily confused with the function
+
 
 # Can we use this data now? It has a lot of NAs but i suppose a lot are just
 # the way the data is recorded and the way the dataset is setup. Not every
-# observation would have all fields completed.
+# observation would have all fields completed. If I was just wanting data to 
+# answer the tasks I could easily cut many columns
 
 seabirds %>% 
 write_csv(here("clean_data/seabirds.csv"))
