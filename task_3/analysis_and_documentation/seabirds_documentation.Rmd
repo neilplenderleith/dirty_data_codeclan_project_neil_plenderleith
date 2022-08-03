@@ -1,0 +1,219 @@
+
+# Seabirds Project Neil Plenderleith CodeClan DR16
+
+## 1. Brief Introduction to the Dataset
+
+The dataset is in .xlx format with 4 sheets. The main two sheets are bird sightings and the ship they are sighted from. There are also 2 sheets which describe the column data and abbreviations etc. There are a lot of NA values! I can understand a lot of these will be from incomplete sightings where not all data points can possible be collected from every sighting.
+
+## 2. List of Assumptions
+
+1. I did initially trim 3 very nearly empty columns thinking that I would leave the rest of the columns. However, after getting to know the data a bit better and completing the tasks I ended up removing much of the data - should it be necessary in the future this could be joined back in. 
+
+2. Likewise I haven't gone crazy with NA values as I believe these tell a story in this data and the nature of not being able to collect all data points for every sighting.
+
+3. I have assumed that the very large numbers in the bird_count column are ok. Having googled
+the birds it appear they can be in colonies of 3 million so an estimated sighting of 99999 is perhaps not as crazy as it looked at first sight. Similarly the values 10000 - 99999 have been left out as well as these numbers of sightings must exist in colonies of such numbers.
+
+## 3. Steps to Clean Data
+
+### Load the required libraries, read in the data and join the two tables
+```{r}
+# Load Libraries ---------------------------------------------------------------
+
+library(readxl)
+library(here)
+library(tidyverse)
+library(janitor)
+
+# Load Data ---------------------------------------------------------------
+
+birds <- read_xls(here("raw_data/seabirds.xls"), 
+                  sheet = "Bird data by record ID")
+ships <- read_xls(here("raw_data/seabirds.xls"), 
+                  sheet = "Ship data by record ID")
+
+# Join Tables -------------------------------------------------------------
+
+seabirds <- left_join(birds, ships, "RECORD ID")
+
+```
+
+### Next I got a look at the data and made a plan for cleaning. 
+```{r}
+# Investigate Data --------------------------------------------------------
+
+glimpse(seabirds)
+summary(seabirds)
+skimr::skim(seabirds)
+
+na_count <- seabirds %>%
+summarise(across(.fns = ~ sum(is.na(.x)))) 
+#this counts N/A values across all columns
+```
+
+### Cleaning the data
+1. Sort column names
+2. Drop 3 columns with very few values out of 49019 (4 more cols were borderline but we will keep these for now)
+3. Change names of 2 long column names
+4. Rename the count function to bird_count - too easily confused with the count function
+5. Sort time column - it currently displays and old date as well as time
+6. UPDATE - in the end I dropped a few columns from the data that were not specifically required by the tasks - these could always be added on later should the need arise
+7. Investigate bird_count column - there are some high values in there!
+```{r}
+
+# Cleaning Data -----------------------------------------------------------
+
+# Sort all these uppercase column names
+seabirds <- clean_names(seabirds)
+
+# Drop cols sex, sal and plphase very few values
+seabirds <- seabirds %>% 
+  select(-sex, -sal, -plphase)
+
+# Change some long column names
+seabirds <- seabirds %>% 
+rename(species_common_name = species_common_name_taxon_age_sex_plumage_phase,
+       species_scientific_name = species_scientific_name_taxon_age_sex_plumage_phase,
+       bird_count = count) # count is easily confused with the function
+
+# Lets tidy up the time column to just display the time and not the (incorrect) date
+seabirds <- seabirds %>% 
+  mutate(time = str_remove(time, "^[0-9]{4}-[0-9]+-[0-9]+ "))
+
+# Lose some more non - essential columns
+seabirds <- seabirds %>% 
+  select(-(nfeed:record_y)) %>% 
+  select(-(ew:depth)) %>% 
+  select(-(csmeth:longecell), -wanplum)
+
+# investigate bird_count column
+seabirds %>% 
+count(bird_count) %>% 
+slice_max(bird_count, n = 20)
+
+```
+Looking at the bird_count column - there are some huge estimates for bird sightings. Looking at the codes in the raw data the bird_count column is birds spotted within a 10 minute window - is 99999 even possible? Its difficult here to decide what to keep in and what to take out? Doing some googling reveals the largest colony of shearwaters is 3 million so 99999 is perhaps understandable. Lets leave these big values as they stand.
+
+Can we use this data now? It has a lot of NAs but i suppose a lot are just the way the data is recorded and the way the dataset is setup. Not every observation would have all fields completed.
+
+### Finish by writing our cleaned data
+```{r}
+seabirds %>% 
+write_csv(here("clean_data/seabirds.csv"))
+```
+
+## 4. Tasks
+
+
+### Libraries and data
+
+library(tidyverse)
+```{r}
+library(tidyverse)
+library(readr)
+library(here)
+
+seabirds <- read_csv(here("clean_data/seabirds.csv"))
+
+```
+
+### Task 1 Which bird had the most individual sightings?
+
+```{r}
+# group by bird name and take a count of occurrences, join this back into the table
+# to allow more names info to be pulled, arrange and slice head to get top hit
+seabirds %>% 
+  group_by(species_common_name) %>% 
+  summarise(count_of_sightings = n()) %>%
+  right_join(seabirds, "species_common_name") %>% 
+  select(species_common_name, 
+         species_scientific_name, 
+         species_abbreviation, count_of_sightings) %>%
+  arrange(desc(count_of_sightings))  %>% 
+  slice_head()
+# Answer:Wandering albatross sensu lato PL2, count 3104
+```
+
+### Task 2 Which bird had the highest total count?
+
+```{r}
+# Note i've taken this to mean highest count (adding the count of all sightings)
+# And not the highest count at a single sighting
+
+# group by bird name and take a sum of count, join this back into the table
+# to allow more names info to be pulled, arrange and slice head to get top hit
+seabirds %>% 
+  drop_na(bird_count) %>% 
+  group_by(species_common_name) %>% 
+  summarise(total_count = sum(bird_count)) %>% 
+  right_join(seabirds, "species_common_name") %>% 
+  select(species_common_name, 
+         species_scientific_name, 
+         species_abbreviation, total_count) %>%
+  arrange(desc(total_count)) %>% 
+  slice_head(n=1)
+  
+# Answer: Short-tailed shearwater, count = 982553
+```
+
+### Task 3 Which bird had the highest total count above a latitude of -30?
+
+```{r}
+# same as Q2 but with a filter before for latitude > -30
+seabirds %>% 
+  filter(lat > -30) %>% 
+  group_by(species_common_name) %>% 
+  summarise(total_count = sum(bird_count)) %>%
+  right_join(seabirds, "species_common_name") %>% 
+  select(species_common_name, 
+         species_scientific_name, 
+         species_abbreviation, total_count) %>%
+  arrange(desc(total_count)) %>% 
+  slice_head()
+# Answer: A Wedge-tailed shearwater, count 855
+```
+
+### Task 4 How many different types of birds were only ever seen in groups of 1?
+
+```{r}
+# ok so theres got to be a better way but i ended up adding two columns on
+# with the individual sightings and the total count. If these were equal with no
+# NA values which were dropped then all must have been sightings of one bird
+
+# make our two table with the count and sum we need
+seabirds_counting <- seabirds %>% 
+  drop_na(bird_count) %>% 
+  group_by(species_common_name) %>% 
+  summarise(count_of_sightings = n(), 
+            total_count = sum(bird_count, na.rm = TRUE)) 
+  
+# join these onto our original table
+seabirds_plus_counts <- left_join(seabirds, 
+                                  seabirds_counting,
+                                  "species_common_name" )
+
+#filter for individual sightings (count = total count) meaning that each 
+# sighting per bird must have been an individual 
+task_four_data <- seabirds_plus_counts %>% 
+  filter(count_of_sightings == total_count) %>% 
+  group_by(species_common_name) %>% 
+  summarise(n()) %>% 
+  nrow()
+task_four_data
+
+# 86 birds only sighted individually
+```
+
+### Task 5 How many penguins were seen
+
+```{r}
+# Note here I've calculated count of penguins seen not the number of sightings
+
+# here we filter for any names containing penguin then we count the total for the count column
+seabirds %>% 
+  filter(str_detect(species_common_name,
+                    "(?i).*penguin+.*")) %>% 
+  summarise(sum(bird_count, na.rm = T))
+
+# 158 penguins were seen
+```

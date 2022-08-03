@@ -129,7 +129,7 @@ candy_clean %>%
   summarise(new_rating_total = sum(candy_rating_new_system)) %>% 
   arrange(desc(new_rating_total)) %>% 
   slice_head(n=1)
-# Female answer : Any full sizer candy bar - 875 count
+# Female answer : Any full sized candy bar - 875 count
 
 # Filter for male gender, group by candy type then assign each a value
 # according to the sum of the new voting criteria, arrange and slice top hit
@@ -140,7 +140,7 @@ candy_clean %>%
   arrange(desc(new_rating_total)) %>% 
   slice_head(n=1)
 
-# Male answer : Any full sizer candy bar - 1584 count
+# Male answer : Any full sized candy bar - 1584 count
 
 ```
 
@@ -170,7 +170,7 @@ candy_clean %>%
   arrange(desc(new_rating_total)) %>% 
   slice_head(n=1)
 
-
+# Answer: Full sized candy bar for each again!
 ```
 
 ### Task 8 What was the most popular candy bar by this rating for people in US, Canada, UK, and all other countries?
@@ -188,5 +188,14 @@ candy_clean %>%
 slice(1)
 # This returns data where total rating = 1 and are tied.
 # I would consider filtering this data for total rating > 1.
+
+candy_clean %>% 
+  filter(!is.na(country)) %>% 
+  mutate(country = if_else(country %in% c("Usa", "Canada", "United Kingdom"), country, "Other")) %>%   group_by(country, candy_type) %>% 
+  summarise(new_rating_total = sum(candy_rating_new_system)) %>% 
+  arrange(desc(new_rating_total), by_group = TRUE) %>% 
+  slice(1)
+
+
 ```
 

@@ -1793,12 +1793,13 @@ here::here()</code></pre>
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2VhYmlyZHMgPC0gcmVhZF9jc3YoaGVyZShcImNsZWFuX2RhdGEvc2VhYmlyZHMuY3N2XCIpKVxuYGBgIn0= -->
 <pre class="r"><code>seabirds &lt;- read_csv(here(&quot;clean_data/seabirds.csv&quot;))</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiUm93czogNDkwMTkgQ29sdW1uczogMTnilIDilIAgQ29sdW1uIHNwZWNpZmljYXRpb24g4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSAXG5EZWxpbWl0ZXI6IFwiLFwiXG5jaHIgICAoNyk6IHNwZWNpZXNfY29tbW9uX25hbWUsIHNwZWNpZXNfc2NpZW50aWZpY19uYW1lLCBzcGVjaWVzX2FiYnJldmlhdGlvbiwgYWcuLi5cbmRibCAgKDEwKTogcmVjb3JkX3gsIHJlY29yZF9pZCwgd2FucGx1bSwgYmlyZF9jb3VudCwgbGF0LCBsb25nLCBtb250aCwgbG9uZzM2MCwgbC4uLlxuZHR0bSAgKDIpOiBkYXRlLCB0aW1lXG7ihLkgVXNlIGBzcGVjKClgIHRvIHJldHJpZXZlIHRoZSBmdWxsIGNvbHVtbiBzcGVjaWZpY2F0aW9uIGZvciB0aGlzIGRhdGEuXG7ihLkgU3BlY2lmeSB0aGUgY29sdW1uIHR5cGVzIG9yIHNldCBgc2hvd19jb2xfdHlwZXMgPSBGQUxTRWAgdG8gcXVpZXQgdGhpcyBtZXNzYWdlLlxuIn0= -->
-<pre><code>Rows: 49019 Columns: 19── Column specification ─────────────────────────────────────────────────────────────
+<!-- rnb-output-begin eyJkYXRhIjoiUm93czogNDkwMTkgQ29sdW1uczogMTLilIDilIAgQ29sdW1uIHNwZWNpZmljYXRpb24g4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSA4pSAXG5EZWxpbWl0ZXI6IFwiLFwiXG5jaHIgICg1KTogc3BlY2llc19jb21tb25fbmFtZSwgc3BlY2llc19zY2llbnRpZmljX25hbWUsIHNwZWNpZXNfYWJicmV2aWF0aW9uLCBhZ2UsIG9ic1xuZGJsICAoNSk6IHJlY29yZF94LCByZWNvcmRfaWQsIGJpcmRfY291bnQsIGxhdCwgbG9uZ1xuZHR0bSAoMSk6IGRhdGVcbnRpbWUgKDEpOiB0aW1lXG7ihLkgVXNlIGBzcGVjKClgIHRvIHJldHJpZXZlIHRoZSBmdWxsIGNvbHVtbiBzcGVjaWZpY2F0aW9uIGZvciB0aGlzIGRhdGEuXG7ihLkgU3BlY2lmeSB0aGUgY29sdW1uIHR5cGVzIG9yIHNldCBgc2hvd19jb2xfdHlwZXMgPSBGQUxTRWAgdG8gcXVpZXQgdGhpcyBtZXNzYWdlLlxuIn0= -->
+<pre><code>Rows: 49019 Columns: 12── Column specification ───────────────────────────────────────────────────────────────
 Delimiter: &quot;,&quot;
-chr   (7): species_common_name, species_scientific_name, species_abbreviation, ag...
-dbl  (10): record_x, record_id, wanplum, bird_count, lat, long, month, long360, l...
-dttm  (2): date, time
+chr  (5): species_common_name, species_scientific_name, species_abbreviation, age, obs
+dbl  (5): record_x, record_id, bird_count, lat, long
+dttm (1): date
+time (1): time
 ℹ Use `spec()` to retrieve the full column specification for this data.
 ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 <!-- rnb-output-end -->
@@ -1824,7 +1825,7 @@ seabirds %&gt;%
   arrange(desc(count_of_sightings))  %&gt;% 
   slice_head()</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibnJvdyI6MSwibmNvbCI6NCwic3VtbWFyeSI6eyJBIHRpYmJsZSI6WyIxIMOXIDQiXX19LCJyZGYiOiJINHNJQUFBQUFBQUFCbTFTUVV2RE1CVE91bFpaY1NwTzhCcjB2SXA2OFNwTVFSQVYyWEMzOHRwbVc3Qk5TcFBxanY3eXpaY3VnUkVNSkgxNTMvdVM3M3ZweDJSK0Y4OWpRa2lmaEVHUDlDTU1TVFNiUG8zdkNXWncweU1oR1pqdkdvdEdHSVE0VC9lQXkwOFFCV3U0V0ZJb005Q05WSW9xSmxSTFM5Q1N2ci9jZW95ckNaY1ZLeGhRRUpyWHNzQmlydWcxWmV1MkJLSCtvUXduejI4UHI5UEgrY3lDd3c0a1I5U1RHUW1vbUxMczBDWkhxbVk1WnlyTlpWVkprWm9hQzEwNFNPR0thaFk4MzRmUEhReFoxckJ2RHBwTFliR3pYTFpDcDNLUktyNWNhV3lBOHNRTUd2bVRPRUZHY2ZDTHl4YUhyem92UVNuUGMxeUFobVRSR0RXRWJEektvYXlORmlRRjVsVWlqOXhydk1SSks0eVNZcHl2V3ZFMXZqRVg3SHJZRGR2UGJybzQzRjBaYk8xUmtUM3FnSWtsRjY1RlVRa1pLKzNtR0IxM2hwTWEvd2p0bkdCV0pWcHFjSFZ4TGt1WDZieVJ6UjgrSktQdGpBSUFBQT09In0= -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibnJvdyI6MSwibmNvbCI6NCwic3VtbWFyeSI6eyJBIHRpYmJsZSI6WyIxIMOXIDQiXX19LCJyZGYiOiJINHNJQUFBQUFBQUFCbTFTUVV2RE1CVE91bFpaY1NwTzhCcjB2QXJ1NGxXWWdpQXFzdUZ1NWJYTnRtQ2JsQ2JWSGYzbG15OWRBaU1ZU1ByeXZ2Y2wzL2ZTaitsaUVpOWlRa2lmaEVHUDlDTU1TVFNmUFkzdkNXWncweU1oR1pqdkJvdEdHSVE0encrQTYwOFFCV3U0V0ZFb005Q05WSW9xSmxSTFM5Q1N2ci9jZVl5YktaY1ZLeGhRRUpyWHNzQmlydWd0Wlp1MkJLSCtvUXluejI4UHI3UEh4ZHlDd3c0a0o5U1RHUW1vbUxMczBDWkhxbVk1WnlyTlpWVkprWm9hQzEwNVNPR0thcFk4UDRRdkhReFoxckJ2RHBwTFliR0xYTFpDcDNLWktyNWFhMnlBOHNRTUd2bVRPRUZHY2ZDTHl3Nkhyem92UVNuUGMxeUFobVRaR0RXRWJEM0tzYXlORmlRRjVsVWlqOXhydk1SWks0eVNZcHl2Vy9FMW5wZ0w5ajNzaHUxbk4xMGM3cThNZHZhb3lCNTF4TVNLQzllaXFJU01sWFp6aW80N3cwbU5mNFIyVGpDckVpMDF1TG80bDZYTGRON0k5Zzk2WUI4cmpBSUFBQT09In0= -->
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":["species_common_name"],"name":[1],"type":["chr"],"align":["left"]},{"label":["species_scientific_name"],"name":[2],"type":["chr"],"align":["left"]},{"label":["species_abbreviation"],"name":[3],"type":["chr"],"align":["left"]},{"label":["count_of_sightings"],"name":[4],"type":["int"],"align":["right"]}],"data":[{"1":"Wandering albatross sensu lato PL2","2":"Diomedea antipodensis / exulans PL2","3":"DIOANTEXU PL2","4":"3104"}],"options":{"columns":{"min":{},"max":[10],"total":[4]},"rows":{"min":[10],"max":[10],"total":[1]},"pages":{}}}
@@ -1841,7 +1842,7 @@ seabirds %&gt;%
 <h3>Task 2 Which bird had the highest total count?</h3>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBOb3RlIGl2ZSB0YWtlbiB0aGlzIHRvIG1lYW4gaGlnaGVzdCBjb3VudCAoYWRkaW5nIHRoZSBjb3VudCBvZiBhbGwgc2lnaHRpbmdzKVxuIyBBbmQgbm90IHRoZSBoaWdoZXN0IGNvdW50IGF0IGEgc2luZ2xlIHNpZ2h0aW5nXG5cbiMgZ3JvdXAgYnkgYmlyZCBuYW1lIGFuZCB0YWtlIGEgc3VtIG9mIGNvdW50LCBqb2luIHRoaXMgYmFjayBpbnRvIHRoZSB0YWJsZVxuIyB0byBhbGxvdyBtb3JlIG5hbWVzIGluZm8gdG8gYmUgcHVsbGVkLCBhcnJhbmdlIGFuZCBzbGljZSBoZWFkIHRvIGdldCB0b3AgaGl0XG5zZWFiaXJkcyAlPiUgXG4gIGRyb3BfbmEoYmlyZF9jb3VudCkgJT4lIFxuICBncm91cF9ieShzcGVjaWVzX2NvbW1vbl9uYW1lKSAlPiUgXG4gIHN1bW1hcmlzZSh0b3RhbF9jb3VudCA9IHN1bShiaXJkX2NvdW50KSkgJT4lIFxuICAjYXJyYW5nZShkZXNjKHRvdGFsX2NvdW50KSkgJT4lIFxuICByaWdodF9qb2luKHNlYWJpcmRzLCBcInNwZWNpZXNfY29tbW9uX25hbWVcIikgJT4lIFxuICBzZWxlY3Qoc3BlY2llc19jb21tb25fbmFtZSwgXG4gICAgICAgICBzcGVjaWVzX3NjaWVudGlmaWNfbmFtZSwgXG4gICAgICAgICBzcGVjaWVzX2FiYnJldmlhdGlvbiwgdG90YWxfY291bnQpICU+JVxuICBhcnJhbmdlKGRlc2ModG90YWxfY291bnQpKSAlPiUgXG4gIHNsaWNlX2hlYWQobj0xKVxuYGBgIn0= -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBOb3RlIGl2ZSB0YWtlbiB0aGlzIHRvIG1lYW4gaGlnaGVzdCBjb3VudCAoYWRkaW5nIHRoZSBjb3VudCBvZiBhbGwgc2lnaHRpbmdzKVxuIyBBbmQgbm90IHRoZSBoaWdoZXN0IGNvdW50IGF0IGEgc2luZ2xlIHNpZ2h0aW5nXG5cbiMgZ3JvdXAgYnkgYmlyZCBuYW1lIGFuZCB0YWtlIGEgc3VtIG9mIGNvdW50LCBqb2luIHRoaXMgYmFjayBpbnRvIHRoZSB0YWJsZVxuIyB0byBhbGxvdyBtb3JlIG5hbWVzIGluZm8gdG8gYmUgcHVsbGVkLCBhcnJhbmdlIGFuZCBzbGljZSBoZWFkIHRvIGdldCB0b3AgaGl0XG5zZWFiaXJkcyAlPiUgXG4gIGRyb3BfbmEoYmlyZF9jb3VudCkgJT4lIFxuICBncm91cF9ieShzcGVjaWVzX2NvbW1vbl9uYW1lKSAlPiUgXG4gIHN1bW1hcmlzZSh0b3RhbF9jb3VudCA9IHN1bShiaXJkX2NvdW50KSkgJT4lIFxuICByaWdodF9qb2luKHNlYWJpcmRzLCBcInNwZWNpZXNfY29tbW9uX25hbWVcIikgJT4lIFxuICBzZWxlY3Qoc3BlY2llc19jb21tb25fbmFtZSwgXG4gICAgICAgICBzcGVjaWVzX3NjaWVudGlmaWNfbmFtZSwgXG4gICAgICAgICBzcGVjaWVzX2FiYnJldmlhdGlvbiwgdG90YWxfY291bnQpICU+JVxuICBhcnJhbmdlKGRlc2ModG90YWxfY291bnQpKSAlPiUgXG4gIHNsaWNlX2hlYWQobj0xKVxuYGBgIn0= -->
 <pre class="r"><code># Note ive taken this to mean highest count (adding the count of all sightings)
 # And not the highest count at a single sighting
 
@@ -1851,7 +1852,6 @@ seabirds %&gt;%
   drop_na(bird_count) %&gt;% 
   group_by(species_common_name) %&gt;% 
   summarise(total_count = sum(bird_count)) %&gt;% 
-  #arrange(desc(total_count)) %&gt;% 
   right_join(seabirds, &quot;species_common_name&quot;) %&gt;% 
   select(species_common_name, 
          species_scientific_name, 
@@ -1859,7 +1859,7 @@ seabirds %&gt;%
   arrange(desc(total_count)) %&gt;% 
   slice_head(n=1)</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibnJvdyI6MSwibmNvbCI6NCwic3VtbWFyeSI6eyJBIHRpYmJsZSI6WyIxIMOXIDQiXX19LCJyZGYiOiJINHNJQUFBQUFBQUFCbDFSWFV2RE1CUzk3VnBsbFUxaGlxLzdBeTJvTDc0S3VrY1p1c0hlUnRxbU50Z21JeC9PUjMrNGJONTBEZFJjU0hwenpyM0pPYmR2ejV1SFpKTUF3QWlpTUlCUmpDbkU2OVVpZlFSRThCQkFCR1A3L2NhaUdTWVJycXNCY2Z0ZUM2bFRUVmhEeTdtcUtaRjdvcW4weW02V3Bxb1lOMnF1S1RkTUNxVWxVMTdSMlhLOVdMMjhZamExNkZQNmV3OWQvSk1TYzlKUzF4cjE0RXp0YU1HbzJoYWliUVhmMmhxbjBGRUtkNjVaeFlvaGZlMW9rdWVTZmpHaW1lQTlkNkdGSmczZWFiajJWSXlsMkdkT3lRUlgrSVBiRWNPWFd6UkUrVTZUa21pU1ZkTEtBRGg0TGVkaVowVmdVMmhISG52TmdUL2NTOE90a2pJdGFzTS8wenY3UUVlZll0TG53U0NQVGsrR3gvNnEyUDBDeWo4WWQ3T0pHNUxUcGo5TTBYRm5PTnRKaHZQb25TQ3FzbTVPRGlsRTQ1RE9HeHorQUxuRE9lRnBBZ0FBIn0= -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibnJvdyI6MSwibmNvbCI6NCwic3VtbWFyeSI6eyJBIHRpYmJsZSI6WyIxIMOXIDQiXX19LCJyZGYiOiJINHNJQUFBQUFBQUFCbDFSeTA3RE1CRGNwQW1vUVMxSUJYSHREeVFINE1BVkNYcEVGYlJTYjVXVE9NUWlzU3MvS0VjK0hMV3MwMWdLWHNuT2VtYlhudG04UFcvdWswMENBQ09Jd2dCR01hWVFyMWVMOUJFUXdVTUFFWXp0OXh1TFpwaEV1SzRHeE8xN0xhUk9OV0VOTGVlcXBrVHVpYWJTSzd0Wm1xcGkzS2k1cHR3d0taU1dUSGxGWjh2MVl2WHlpdG5Vb2svcDd4MTA4VTlLekVsTFhXdlVnek8xb3dXamFsdUl0aFY4YTJ1Y1FrY3AzTGxtRlN1RzlMV2pTWjVMK3NXSVpvTDMzSVVXbWpSNHArSGFVekdXWXA4NUpSTmM0UTl1Und4ZmJ0RVE1VHROU3FKSlZra3JBK0RndFp5TG5SV0JUYUVkZWV3MUIvNXdMdzIzU3NxMHFBMy9UQi9zQXgxOWlrbWZCNE04T2owWkh2dXJZdmNMS1A5ZzNNMG1ia2hPbS80d1JjZWQ0V3duR2M2amQ0S295cm81T2FRUWpVTTZiM0Q0QTFKdmJ0UnBBZ0FBIn0= -->
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":["species_common_name"],"name":[1],"type":["chr"],"align":["left"]},{"label":["species_scientific_name"],"name":[2],"type":["chr"],"align":["left"]},{"label":["species_abbreviation"],"name":[3],"type":["chr"],"align":["left"]},{"label":["total_count"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"Short-tailed shearwater","2":"Puffinus tenuirostris","3":"PUFTEN","4":"982553"}],"options":{"columns":{"min":{},"max":[10],"total":[4]},"rows":{"min":[10],"max":[10],"total":[1]},"pages":{}}}
@@ -1891,7 +1891,7 @@ seabirds %&gt;%
   arrange(desc(total_count)) %&gt;% 
   slice_head()</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibnJvdyI6MSwibmNvbCI6NCwic3VtbWFyeSI6eyJBIHRpYmJsZSI6WyIxIMOXIDQiXX19LCJyZGYiOiJINHNJQUFBQUFBQUFCbDFSd1U3RE1BeDF1eGEwb2czRWtManVCMW9KY2VFSUF1MWNJU1oybTlJMDNTTGFwR3BTeHBFelg4VFhiVGh0STVWWVN1SzhaOGZQenV2TDVqN2FSQUF3Z2NEM1lCS2lDK0g2YlJVL0FDSjQ4U0NBcVRtL01HaUJUb0RyYWtUY3ZyTjh4MkpOZU1ueXBkb3owaHlJWm8wVGRwMjJSY0ZGcTVZMW9iemd0RlZPeEZtNlhxVlB6K2pORGZyNDh3dTkvZE1SQ2xJeG14b000RUxWakhLbXRsUldsUlJiRTJQbFdVcmhMclNwUEtadkxFMnlyR0dmbkdndXhjQmRhS2xKaVcrMlFqc3FwbzA4SkZiSkRKZi9qZHNKelpWTFM2TGNUcU9jYUpJVWpaRUJjSFJTem1WdFJHQ1NiK1lkT3NtZU85bkxWaGdsZVV6M3JmaUk3MHlCanU1dE52amV5QS82a3Y1cGVDcTBYOERFamdzN203QWtHU3VIeXh3NzdocE82b2JqUElaT0VGVkpOeWVMVUZsYXBPc05qbis1c1BpMFpnSUFBQT09In0= -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibnJvdyI6MSwibmNvbCI6NCwic3VtbWFyeSI6eyJBIHRpYmJsZSI6WyIxIMOXIDQiXX19LCJyZGYiOiJINHNJQUFBQUFBQUFCbDFSd1U3RE1BeDF1eGEwb2czRWtManVCOW9MUXVJSUF1MWNJU1oybTlJMDNTTGFwR3BTeHBFelg4VFhiVGh0STVWWVN1SzhaOGZQenV2TDVpN2FSQUF3Z2NEM1lCS2lDK0g2YlJVL0FDSjQ4U0NBcVRtL01HaUJUb0RyYWtUY3ZyTjh4MkpOZU1ueXBkb3owaHlJWm8wVGRwMjJSY0ZGcTVZMW9iemd0RlZPeEZtNlhxVlB6K2pORGZyNDh3dTkvZE1SQ2xJeG14b000RUxWakhLbXRsUldsUlJiRTJQbFdVcmhMclNwUEtadkxFMnlyR0dmbkdndXhjQmRhS2xKaVcrMlFqc3FwbzA4SkZiSkRKZi9qZHNKelpWTFM2TGNUcU9jYUpJVWpaRUJjSFJTem1WdFJHQ1NiK1lkT3NtZU85bkxWaGdsZVV6M3JmaUk3MDJCanU1dE52amV5QS82a3Y1cGVDcTBYOERFamdzN203QWtHU3VIeXh3NzdocE82b2JqUElaT0VGVkpOeWVMVUZsYXBPc05qbjl3UHZIaVpnSUFBQT09In0= -->
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":["species_common_name"],"name":[1],"type":["chr"],"align":["left"]},{"label":["species_scientific_name"],"name":[2],"type":["chr"],"align":["left"]},{"label":["species_abbreviation"],"name":[3],"type":["chr"],"align":["left"]},{"label":["total_count"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"Wedge-tailed shearwater","2":"Puffinus pacificus","3":"PUFPAC","4":"855"}],"options":{"columns":{"min":{},"max":[10],"total":[4]},"rows":{"min":[10],"max":[10],"total":[1]},"pages":{}}}
@@ -1938,6 +1938,9 @@ task_four_data</code></pre>
 <!-- rnb-output-begin eyJkYXRhIjoiWzFdIDg2XG4ifQ== -->
 <pre><code>[1] 86</code></pre>
 <!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyA4NiBiaXJkcyBvbmx5IHNpZ2h0ZWQgaW5kaXZpZHVhbGx5XG5gYGAifQ== -->
+<pre class="r"><code># 86 birds only sighted individually</code></pre>
+<!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 </div>
@@ -1954,7 +1957,7 @@ seabirds %&gt;%
                     &quot;(?i).*penguin+.*&quot;)) %&gt;% 
   summarise(sum(bird_count, na.rm = T))</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibnJvdyI6MSwibmNvbCI6MSwic3VtbWFyeSI6eyJBIHRpYmJsZSI6WyIxIMOXIDEiXX19LCJyZGYiOiJINHNJQUFBQUFBQUFCbDFRd1c3Q01BeDFDOWxFSlJqU2JweDZCR21OaExqc01tbUhpUStZUU9JMmhiU3dpdFpCYVNvNDd0UDJaVENuU3lTSUpjZjJrNS90bDgrUHpTTFpKQURRZzM0Y1FZOVJDbXk5V21hdlFBZ1ZFZlJoWU9PWm1wNDdBR0JrNDd2OGhYKzdhMlFvNnFLaFpId0RUcHEybm01TG5YOUoxYUo1U1ZGd1hhZHY2V29XMEFkYW5iZ2ZNU1NQZitpNWtvVjdaQ1dhY0UrU0N5UDRUaE9mcWt0QWVWUkhVeW9rVW15VnNJQWM2UUI0YXRGZWttZnl1OFZETnJjTDNBK0F1eTV5ZnBQYmxmSFZqV0p1MUVPQit4SUxmM3NsdGtYbGloRXA3Z1R6b3k3UmVDV0VOdHdvSTN4ZklsWGxrVTRiWFA0QUlsN0VMOEFCQUFBPSJ9 -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibnJvdyI6MSwibmNvbCI6MSwic3VtbWFyeSI6eyJBIHRpYmJsZSI6WyIxIMOXIDEiXX19LCJyZGYiOiJINHNJQUFBQUFBQUFCbDFRd1c3Q01BeDFDOWxFSlJqU2JweDZCR25OaFFPN1ROcGg0Z01ta0xoTklTMnNvblZRbWdxTys3UjlHY3pwRWdsaXliSDk1R2Y3NWZOak0wODJDUUQwb0I5SDBHT1VBbHV2bHRrckVFSkZCSDBZMkhpbXB1Y09BQmpaK0M1LzRkL3VHaG1LdW1nb0dkK0FrNmF0cDl0UzUxOVN0V2hlVWhSYzErbGJ1cG9GOUlGV0orNUhETW5qSDNxdVpPRWVXWWttM0pQa3dnaSswOFNuNmhKUUh0WFJsQXFKRkZzbExDQkhPZ0NlV3JTWDVKbjhidkdRTGV3Qzl3UGdyb3VjMytSMlpYeDFvNWdiOVZEZ3ZzVEMzMTZKYlZHNVlrU0tPOEg4cUVzMFhnbWhEVGZLQ04rWFNGVjVwTk1HbHordmxIRy93QUVBQUE9PSJ9 -->
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":["sum(bird_count, na.rm = T)"],"name":[1],"type":["dbl"],"align":["right"]}],"data":[{"1":"158"}],"options":{"columns":{"min":{},"max":[10],"total":[1]},"rows":{"min":[10],"max":[10],"total":[1]},"pages":{}}}
@@ -2018,7 +2021,7 @@ $(document).ready(function () {
 <!-- code folding -->
 <script>
 $(document).ready(function () {
-  window.initializeSourceEmbed("seabirds.Rmd");
+  window.initializeSourceEmbed("seabirds_analysis_code.Rmd");
   window.initializeCodeFolding("show" === "show");
 });
 </script>

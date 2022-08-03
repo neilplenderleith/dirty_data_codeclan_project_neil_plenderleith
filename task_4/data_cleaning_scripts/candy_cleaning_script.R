@@ -261,7 +261,6 @@ candy_combined <- bind_rows(candy_2015_long,
 
 ## Cleaning candy_type column ----------------------------------------------
 
-
 table(candy_combined["candy_type"])
 
 # OK so there are a few obvious duplicates with slightly different names
@@ -277,7 +276,6 @@ candy_combined <- candy_combined %>%
 
 
 ## Cleaning country column -------------------------------------------------
-
 
 # count(candy_combined, country)
 # table(candy_combined["country"]) # look at dirty column 'country' eek
@@ -336,15 +334,10 @@ mutate(country = recode(country, "The Netherlands" = "Netherlands"),
 table(candy_combined["country"]) # much better!
 
 
-
 ## Cleaning age column -----------------------------------------------------
-
 
 # oldest person ever was 122. lets take out everything above that as NA
 # lets keep in the 0 values - technically this could be babies in a pram?
-
-
-
 
 # change the column from a character to numeric
 candy_combined <- candy_combined %>%
@@ -358,7 +351,6 @@ table(candy_combined["age"])
 
 ## Cleaning year column ----------------------------------------------------
 
-
 # change the id value brought over from the bind rows to an actual year
 # alter the column to be numeric rather than character
 candy_combined <- candy_combined %>%
@@ -367,9 +359,12 @@ candy_combined <- candy_combined %>%
          year = recode(year, "3" = "2017"),
          year = as.numeric(year))
 
+# ID Column ---------------------------------------------------------------
+
+# Ive retained the ID column as a character column. Its as good a unique id as 
+# any and the tables dont agree on it so its fine as is. 
 
 # Write our data to candy_clean.csv ---------------------------------------
-
 
 candy_combined %>%
 write_csv(here("clean_data/candy_clean.csv"))

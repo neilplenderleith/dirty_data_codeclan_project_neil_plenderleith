@@ -25,9 +25,9 @@ seabirds <- left_join(birds, ships, "RECORD ID")
 # I've kept these commented in case anyone running the code didn't 
 # want all the output!
 
-# na_count <- seabirds %>%
-#  summarise(across(.fns = ~ sum(is.na(.x)))) 
-# this counts N/A values across all columns
+na_count <- seabirds %>%
+summarise(across(.fns = ~ sum(is.na(.x)))) 
+#this counts N/A values across all columns
 
 # Cleaning Data -----------------------------------------------------------
 
@@ -51,13 +51,15 @@ rename(species_common_name = species_common_name_taxon_age_sex_plumage_phase,
        species_scientific_name = species_scientific_name_taxon_age_sex_plumage_phase,
        bird_count = count) # count is easily confused with the function
 
+# UPDATE - In the end I decided to lose more non essential columns for the tasks
+# These can be joined later if more anaylysis is required
 # Lose some more non - essential columns
 seabirds <- seabirds %>% 
   select(-(nfeed:record_y)) %>% 
   select(-(ew:depth)) %>% 
   select(-(csmeth:longecell), -wanplum)
 
-#Lets tidy up the time column to just display the time and not the (incorect) date
+#Lets tidy up the time column to just display the time and not the (incorrect) date
 seabirds <- seabirds %>% 
   mutate(time = str_remove(time, "^[0-9]{4}-[0-9]+-[0-9]+ "))
 
@@ -70,13 +72,6 @@ seabirds <- seabirds %>%
 # seabirds %>% 
 # count(bird_count) %>% 
 # slice_max(bird_count, n = 20)
-
-
-
-
-
-
-
 
 # Can we use this data now? It has a lot of NAs but i suppose a lot are just
 # the way the data is recorded and the way the dataset is setup. Not every

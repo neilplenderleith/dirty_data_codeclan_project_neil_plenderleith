@@ -6,19 +6,20 @@ output:
   html_document: default
   word_document: default
 ---
-# Brief Introduction to the Dataset
+# 1. Brief Introduction to the Dataset
 
 The data is in three parts, one file for each year 2015 - 2017. Sadly none of the datasets agree on how they are set out - many of the columns are different. It broadly records peoples experience of going trick or treating and their ratings (Despair, Joy or Meh) for various types of candy handed out. Also collected are whether they are going trick or treating, age, gender etc. 
 
-# List of Assumptions
+# 2. List of Assumptions
 
 1. I have tried to leave in as much data as possible. I did wonder if I should trim the data down to the minimum required for the tasks but ended up keeping in every column which existed in at least two of the three datasets. UPDATE - I ended up trimming down to bare minimum due to performance issues with my PC. But the cleaning script is still written to leave these in up until the last line before the merge which chops out all extra columns.
 2. I have made some assumptions around spelling mistakes and amalgamating these with what I thought must have been meant. e.g. boxo_raisins == box_o_raisins, sweetums_a_friend_to_diabetes = sweetums etc. I have labelled these as I go
-3. There is a myriad of responses in the country column. This should REALLY be a drop down on the questionnaire/survey. I have amalgamated as logically as possible. Outliers were tied to NA values. Could these have been labelled "smart_answer" or something like that?
-4. Task 8 - should possible be filtered there are total counts of 0 and 1 in there which do not accurately report anything at all. Perhaps should be filtered for total_count > 1 at the least.
+3. There are a myriad of responses in the country column. This should REALLY be a drop down on the questionnaire/survey. I have amalgamated as logically as possible. Outliers were tied to NA values. Could these have been labelled "smart_answer" or something like that?
+4. Task 8 - should possibly be filtered there are total counts of 0 and 1 in there which do not accurately report anything at all. Perhaps should be filtered for total_count > 1 at the least.
 
-# Steps to clean data
+# 3. Steps to clean data
 
+### Libraries and load data
 ```{r}
 
 # Libraries ---------------------------------------------------------------
@@ -381,22 +382,16 @@ write_csv(here("clean_data/candy_clean.csv"))
 ```
 
 
-# Answers to Task Brief Questions
+# 4. Answers to Task Brief Questions
 
-## Load Libraries
+### Load Libraries and data
 ```{r}
 library(readr)
 library(tidyverse)
 library(here)
-```
 
-## Load Data
-
-```{r}
 candy_clean <- read_csv(here("clean_data/candy_clean.csv"))
 ```
-
-##Tasks
 
 ### Task 1 What is the total number of candy ratings given across the three years.
 
@@ -567,6 +562,6 @@ slice(1)
 # I would consider filtering this data for total rating > 1.
 ```
 
-# Any other analysis or conclusions
+# 5. Any other analysis or conclusions
 
 Dont allow people free reign with a survey!!! Limit possible responses.
