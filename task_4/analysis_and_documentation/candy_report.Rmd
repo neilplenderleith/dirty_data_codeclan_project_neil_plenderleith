@@ -21,7 +21,6 @@ The data is in three parts, one file for each year 2015 - 2017. Sadly none of th
 
 ### Libraries and load data
 ```{r}
-
 # Libraries ---------------------------------------------------------------
 
 library(tidyverse)
@@ -34,8 +33,17 @@ library(janitor)
 candy_2015 <- read_excel(here("raw_data/boing-boing-candy-2015.xlsx"))
 candy_2016 <- read_excel(here("raw_data/boing-boing-candy-2016.xlsx"))
 candy_2017 <- read_excel(here("raw_data/boing-boing-candy-2017.xlsx"))
+```
 
+## 3.1 Pre-join Cleaning
 
+### Clean column names and first look at the data
+
+First Look at Data  
+
+I used glimpse(), summary(), view(), skimr::skim() on each to get an idea of the datasets
+
+```{r}
 # Clean Column Names ------------------------------------------------------
 
 # lets pass through clean_names to get rid of punctuation and bad column names
@@ -46,20 +54,20 @@ candy_2016_clean <- candy_2016 %>%
 candy_2017_clean <- candy_2017 %>% 
   clean_names()
 
-# First Look at Data  -----------------------------------------------------
-
-# used glimpse(), summary(), view(), skimr::skim() on each to get an idea
-
-# lets also have a look at column names
+# commented these out to avoid lots of code output
 #names(candy_2015_clean)
 #names(candy_2016_clean)
 #names(candy_2017_clean)
+# these look better
+```
 
-# Order of Operations:
-# Get large pivot data the same for all 3 datasets
-# perform pivot on all three
-# then investigate other columns
+Order of Operations:
+Get large pivot data the same for all 3 datasets
+perform pivot on all three
+then investigate other columns
 
+### Pivot longer and some cleaning beforehand
+```{r}
 # let first start with all the columns between "100_grand_bar" and 
 # "york peppermint butter" these are out pivot to longer columns
 candy_2015_clean <- candy_2015_clean %>% 
@@ -91,13 +99,14 @@ candy_2017_long <- candy_2017_clean %>%
   pivot_longer(`100_grand_bar`:york_peppermint_patties, 
                names_to = "candy_type", 
                values_to = "candy_rating")
+```
 
 
-# Ok pivots look good lets look through each dataset and see which columns are 
-# required and which can go. In this decision I am thinking of the upcoming join
-# of the three data frames. It looks like this will have to be a bind_rows function 
-# I will hope to keep each column that's in at least 2 of the 3 data frames.
+### Cleaning columns - dropping NA columns and others only in 1 dataset
 
+Pivots look good lets look through each dataset and see which columns are required and which can go. In this decision I am thinking of the upcoming join of the three data frames. It looks like this will have to be a bind_rows function I will hope to keep each column that's in at least 2 of the 3 data frames.
+
+```{r}
 # 2015 Table
 
 # lets work out how many NA's are across all columns and sort by highest
@@ -142,16 +151,13 @@ NA_2017 <- candy_2017_long %>%
 candy_2017_long <- candy_2017_long %>% 
   select(-x114, 
          -starts_with("media"))
+```
 
-# Ok lets recap. We have removed the easy columns so far - the full NA's and 
-# columns with very little data. Candy_2017_long has fewer columns than the 
-# others - lets use this as a template for the other data frame columns and try to 
-# get our column names matching to prepare data for a future join
+Ok lets recap. We have removed the easy columns so far - the full NA's and the columns with very little data. Candy_2017_long has fewer columns than the others - lets use this as a template for the other data frame columns and try to get our column names matching to prepare data for a future bind_rows.
 
-#names(candy_2015_long)
-#names(candy_2016_long)
-#names(candy_2017_long)
+### Cleaning columns - names and order, 2016/2017
 
+```{r}
 # lets get 2016 into shape - change col names to agree with 2017
 candy_2016_long <- candy_2016_long %>% 
    rename(
@@ -176,7 +182,7 @@ candy_2016_long <- candy_2016_long %>%
 candy_2016_long <- candy_2016_long %>%
 relocate(dress, day, candy_type, candy_rating, .after = other_comments)
 
-# drop columns which dont appear elsewhere, have little values - i have
+# drop columns which don't appear elsewhere, have little values - i have
 # detailed this in the assumptions 
 candy_2016_long <- candy_2016_long %>%
   select(-(23:24))
@@ -192,7 +198,13 @@ candy_2017_long <- candy_2017_long %>%
          separation_jk_rowling = NA, separation_jj_abrams = NA, separation_beyonce = NA, separation_bieber = NA,            separation_kevin_bacon = NA, separation_francis_bacon_1561_1626 = NA) # add in columns that are in other 2
 
 names(candy_2016_long) == names(candy_2017_long) # columns all match!
+```
 
+Ok so we have candy_2016 and candy_2017 matching perfect for a bind_rows. lets work on 2015 - a bit more to do here
+
+### Cleaning columns in year 2015
+
+```{r}
 # OK time for 2015 to match the other two years
 candy_2015_long <- candy_2015_long %>% 
   rename(
@@ -238,18 +250,19 @@ names(candy_2015_long) == names(candy_2016_long)
 # So we now have 3 datasets ready to be bound together
 # Then we can look at the columns like country that need cleaned up
 
+# lets mutate the id fields into characters for the sake of the join
 candy_2015_long <- candy_2015_long %>%
   mutate(id = as.character(id))
 candy_2016_long <- candy_2016_long %>%
   mutate(id = as.character(id))
 candy_2017_long <- candy_2017_long %>%
   mutate(id = as.character(id))
+```
 
-## Performance related data cleanse ----------------------------------------
+### Further data cleanse 
+Performed here for performance - my PC is slowing down so much with all this data kept. Having done the tasks with the full dataset (slowly!) I've come back to tidy up - these columns are not needed and can always be added at a later date if required. All that time wasted but nevermind!
 
-# Going to delete all columns not strictly needed for the tasks
-# This is purely for performance as my PC is running so slow
-
+```{r}
 candy_2015_long <- candy_2015_long %>% 
 select(-(state_province_county_etc:day)) %>% 
   select(-(guess_mints:separation_francis_bacon_1561_1626))
@@ -259,28 +272,25 @@ candy_2016_long <- candy_2016_long %>%
 candy_2017_long <- candy_2017_long %>% 
   select(-(state_province_county_etc:day)) %>% 
   select(-(guess_mints:separation_francis_bacon_1561_1626))
+```
 
+### Join
 
-# Joining the three tables ------------------------------------------------
+Lets join the tables here with a bind_rows - easy now that weve got the columns in order. Also add an id column to let us differentiate the year the data comes from.
 
-# Lets join the 3 sets together
+```{r}
 candy_combined <- bind_rows(candy_2015_long, 
                             candy_2016_long, 
                             candy_2017_long, 
                             .id = "year") 
 # last line adds a column to let us know original table data is from
+```
 
+## 3.2 Column Cleaning
 
-# Cleaning the column data ------------------------------------------------
-
-# We have our tables combined! Yay! But wait - they are extremely dirty
-# Lets go through column by column and have a look
-
-
-## Cleaning candy_type column ----------------------------------------------
-
-
-#table(candy_combined["candy_type"])
+### candy_type column cleaning
+```{r}
+#table(candy_combined["candy_type"]) commented out to avoid massive output
 
 # OK so there are a few obvious duplicates with slightly different names
 # There are some slightly the same but ambiguous - these will be left
@@ -292,7 +302,10 @@ candy_combined <- candy_combined %>%
   candy_type = recode(candy_type,"boxo_raisins" = "box_o_raisins"),
   candy_type = recode(candy_type,"licorice_yes_black" = "licorice"),
   candy_type = recode(candy_type,"sweetums_a_friend_to_diabetes" = "sweetums"))
+```
 
+### country column cleaning
+```{r}
 ## Cleaning country column ------------------------------------------------
 
 # count(candy_combined, country)
@@ -350,7 +363,10 @@ mutate(country = recode(country, "The Netherlands" = "Netherlands"),
        country = recode(country, "United Kindom" = "United Kingdom"))
 
 #table(candy_combined["country"]) # much better!
+```
 
+### age column cleaning
+```{r}
 ## Cleaning age column -----------------------------------------------------
 
 # oldest person ever was 122. lets take out everything above that as NA
@@ -363,7 +379,10 @@ candy_combined <- candy_combined %>%
 # clean out values bigger than 122 - oldest ever person
 candy_combined <- candy_combined %>%
   mutate(age = ifelse(age>122, NA, age))
+```
 
+### year column cleaning
+```{r}
 ## Cleaning year column ----------------------------------------------------
 
 # change the id value brought over from the bind rows to an actual year
@@ -373,7 +392,10 @@ candy_combined <- candy_combined %>%
          year = recode(year, "2" = "2016"),
          year = recode(year, "3" = "2017"),
          year = as.numeric(year))
+```
 
+## 3.3 Write Clean Data
+```{r}
 # Write our data to candy_clean.csv ---------------------------------------
 
 candy_combined %>%
@@ -565,3 +587,5 @@ slice(1)
 # 5. Any other analysis or conclusions
 
 Dont allow people free reign with a survey!!! Limit possible responses.
+
+Could have written a fucntion for the repepetive tasks with multiple code chunks like q4,6,7

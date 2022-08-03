@@ -42,9 +42,10 @@ seabirds <- left_join(birds, ships, "RECORD ID")
 ```{r}
 # Investigate Data --------------------------------------------------------
 
-glimpse(seabirds)
-summary(seabirds)
-skimr::skim(seabirds)
+# commented these out to avoid massive output
+#glimpse(seabirds)
+#summary(seabirds)
+#skimr::skim(seabirds)
 
 na_count <- seabirds %>%
 summarise(across(.fns = ~ sum(is.na(.x)))) 

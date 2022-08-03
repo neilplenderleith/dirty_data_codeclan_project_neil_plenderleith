@@ -9,11 +9,9 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Neil" />
 
-<meta name="date" content="2022-08-02" />
 
-<title>Candy_report</title>
+<title>seabirds_documentation.knit</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -363,52 +361,51 @@ pre code {
 
 
 
-<h1 class="title toc-ignore">Candy_report</h1>
-<h4 class="author">Neil</h4>
-<h4 class="date">2022-08-02</h4>
 
 </div>
 
 
-<div id="brief-introduction-to-the-dataset" class="section level1">
-<h1>1. Brief Introduction to the Dataset</h1>
-<p>The data is in three parts, one file for each year 2015 - 2017. Sadly
-none of the datasets agree on how they are set out - many of the columns
-are different. It broadly records peoples experience of going trick or
-treating and their ratings (Despair, Joy or Meh) for various types of
-candy handed out. Also collected are whether they are going trick or
-treating, age, gender etc.</p>
+<div id="seabirds-project-neil-plenderleith-codeclan-dr16" class="section level1">
+<h1>Seabirds Project Neil Plenderleith CodeClan DR16</h1>
+<div id="brief-introduction-to-the-dataset" class="section level2">
+<h2>1. Brief Introduction to the Dataset</h2>
+<p>The dataset is in .xlx format with 4 sheets. The main two sheets are
+bird sightings and the ship they are sighted from. There are also 2
+sheets which describe the column data and abbreviations etc. There are a
+lot of NA values! I can understand a lot of these will be from
+incomplete sightings where not all data points can possible be collected
+from every sighting.</p>
 </div>
-<div id="list-of-assumptions" class="section level1">
-<h1>2. List of Assumptions</h1>
+<div id="list-of-assumptions" class="section level2">
+<h2>2. List of Assumptions</h2>
 <ol style="list-style-type: decimal">
-<li>I have tried to leave in as much data as possible. I did wonder if I
-should trim the data down to the minimum required for the tasks but
-ended up keeping in every column which existed in at least two of the
-three datasets. UPDATE - I ended up trimming down to bare minimum due to
-performance issues with my PC. But the cleaning script is still written
-to leave these in up until the last line before the merge which chops
-out all extra columns.</li>
-<li>I have made some assumptions around spelling mistakes and
-amalgamating these with what I thought must have been meant.
-e.g. boxo_raisins == box_o_raisins, sweetums_a_friend_to_diabetes =
-sweetums etc. I have labelled these as I go</li>
-<li>There are a myriad of responses in the country column. This should
-REALLY be a drop down on the questionnaire/survey. I have amalgamated as
-logically as possible. Outliers were tied to NA values. Could these have
-been labelled “smart_answer” or something like that?</li>
-<li>Task 8 - should possibly be filtered there are total counts of 0 and
-1 in there which do not accurately report anything at all. Perhaps
-should be filtered for total_count &gt; 1 at the least.</li>
+<li><p>I did initially trim 3 very nearly empty columns thinking that I
+would leave the rest of the columns. However, after getting to know the
+data a bit better and completing the tasks I ended up removing much of
+the data - should it be necessary in the future this could be joined
+back in.</p></li>
+<li><p>Likewise I haven’t gone crazy with NA values as I believe these
+tell a story in this data and the nature of not being able to collect
+all data points for every sighting.</p></li>
+<li><p>I have assumed that the very large numbers in the bird_count
+column are ok. Having googled the birds it appear they can be in
+colonies of 3 million so an estimated sighting of 99999 is perhaps not
+as crazy as it looked at first sight. Similarly the values 10000 - 99999
+have been left out as well as these numbers of sightings must exist in
+colonies of such numbers.</p></li>
 </ol>
 </div>
-<div id="steps-to-clean-data" class="section level1">
-<h1>3. Steps to clean data</h1>
-<div id="libraries-and-load-data" class="section level3">
-<h3>Libraries and load data</h3>
-<pre class="r"><code># Libraries ---------------------------------------------------------------
+<div id="steps-to-clean-data" class="section level2">
+<h2>3. Steps to Clean Data</h2>
+<div id="load-the-required-libraries-read-in-the-data-and-join-the-two-tables" class="section level3">
+<h3>Load the required libraries, read in the data and join the two
+tables</h3>
+<pre class="r"><code># Load Libraries ---------------------------------------------------------------
 
-library(tidyverse)</code></pre>
+library(readxl)
+library(here)</code></pre>
+<pre><code>## here() starts at C:/Users/neilp/Documents/CODECLAN/dirty_data_codeclan_project_neil_plenderleith/task_3</code></pre>
+<pre class="r"><code>library(tidyverse)</code></pre>
 <pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
 <pre><code>## ✔ ggplot2 3.3.6     ✔ purrr   0.3.4
 ## ✔ tibble  3.1.7     ✔ dplyr   1.0.9
@@ -417,609 +414,1175 @@ library(tidyverse)</code></pre>
 <pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()</code></pre>
-<pre class="r"><code>library(readxl)
-library(here)</code></pre>
-<pre><code>## here() starts at C:/Users/neilp/Documents/CODECLAN/dirty_data_codeclan_project_neil_plenderleith/task_4</code></pre>
 <pre class="r"><code>library(janitor)</code></pre>
 <pre><code>## 
 ## Attaching package: &#39;janitor&#39;</code></pre>
 <pre><code>## The following objects are masked from &#39;package:stats&#39;:
 ## 
 ##     chisq.test, fisher.test</code></pre>
-<pre class="r"><code># Load in Raw Data --------------------------------------------------------
+<pre class="r"><code># Load Data ---------------------------------------------------------------
 
-candy_2015 &lt;- read_excel(here(&quot;raw_data/boing-boing-candy-2015.xlsx&quot;))
-candy_2016 &lt;- read_excel(here(&quot;raw_data/boing-boing-candy-2016.xlsx&quot;))
-candy_2017 &lt;- read_excel(here(&quot;raw_data/boing-boing-candy-2017.xlsx&quot;))</code></pre>
-<pre><code>## New names:
-## • `` -&gt; `...114`</code></pre>
+birds &lt;- read_xls(here(&quot;raw_data/seabirds.xls&quot;), 
+                  sheet = &quot;Bird data by record ID&quot;)</code></pre>
+<pre><code>## Warning: Expecting logical in I21756 / R21756C9: got &#39;M&#39;</code></pre>
+<pre class="r"><code>ships &lt;- read_xls(here(&quot;raw_data/seabirds.xls&quot;), 
+                  sheet = &quot;Ship data by record ID&quot;)
+
+# Join Tables -------------------------------------------------------------
+
+seabirds &lt;- left_join(birds, ships, &quot;RECORD ID&quot;)</code></pre>
 </div>
-<div id="pre-join-cleaning" class="section level2">
-<h2>3.1 Pre-join Cleaning</h2>
-<div id="clean-column-names-and-first-look-at-the-data" class="section level3">
-<h3>Clean column names and first look at the data</h3>
-<p>First Look at Data</p>
-<p>I used glimpse(), summary(), view(), skimr::skim() on each to get an
-idea of the datasets</p>
-<pre class="r"><code># Clean Column Names ------------------------------------------------------
+<div id="next-i-got-a-look-at-the-data-and-made-a-plan-for-cleaning." class="section level3">
+<h3>Next I got a look at the data and made a plan for cleaning.</h3>
+<pre class="r"><code># Investigate Data --------------------------------------------------------
 
-# lets pass through clean_names to get rid of punctuation and bad column names
-candy_2015_clean &lt;- candy_2015 %&gt;% 
-  clean_names()
-candy_2016_clean &lt;- candy_2016 %&gt;% 
-  clean_names()
-candy_2017_clean &lt;- candy_2017 %&gt;% 
-  clean_names()
-
-# commented these out to avoid lots of code output
-#names(candy_2015_clean)
-#names(candy_2016_clean)
-#names(candy_2017_clean)
-# these look better</code></pre>
-<p>Order of Operations: Get large pivot data the same for all 3 datasets
-perform pivot on all three then investigate other columns</p>
+glimpse(seabirds)</code></pre>
+<pre><code>## Rows: 49,019
+## Columns: 52
+## $ RECORD.x                                                       &lt;dbl&gt; 1, 2, 3…
+## $ `RECORD ID`                                                    &lt;dbl&gt; 1083001…
+## $ `Species common name (taxon [AGE / SEX / PLUMAGE PHASE])`      &lt;chr&gt; &quot;Royal …
+## $ `Species  scientific name (taxon [AGE /SEX /  PLUMAGE PHASE])` &lt;chr&gt; &quot;Diomed…
+## $ `Species abbreviation`                                         &lt;chr&gt; &quot;DIOEPO…
+## $ AGE                                                            &lt;chr&gt; NA, NA,…
+## $ WANPLUM                                                        &lt;dbl&gt; NA, NA,…
+## $ PLPHASE                                                        &lt;chr&gt; NA, NA,…
+## $ SEX                                                            &lt;lgl&gt; NA, NA,…
+## $ COUNT                                                          &lt;dbl&gt; 6, 2, 8…
+## $ NFEED                                                          &lt;dbl&gt; 0, 0, 0…
+## $ OCFEED                                                         &lt;chr&gt; &quot;N&quot;, &quot;N…
+## $ NSOW                                                           &lt;dbl&gt; 0, 0, 0…
+## $ OCSOW                                                          &lt;chr&gt; &quot;N&quot;, &quot;N…
+## $ NSOICE                                                         &lt;dbl&gt; 0, 0, 0…
+## $ OCSOICE                                                        &lt;chr&gt; &quot;N&quot;, &quot;N…
+## $ OCSOSHP                                                        &lt;chr&gt; &quot;N&quot;, &quot;N…
+## $ OCINHD                                                         &lt;chr&gt; &quot;N&quot;, &quot;N…
+## $ NFLYP                                                          &lt;dbl&gt; 0, 0, 0…
+## $ OCFLYP                                                         &lt;chr&gt; &quot;N&quot;, &quot;N…
+## $ NACC                                                           &lt;dbl&gt; 6, 2, 8…
+## $ OCACC                                                          &lt;chr&gt; &quot;Y&quot;, &quot;Y…
+## $ NFOLL                                                          &lt;dbl&gt; 0, 0, 0…
+## $ OCFOL                                                          &lt;chr&gt; &quot;N&quot;, &quot;N…
+## $ OCMOULT                                                        &lt;chr&gt; &quot;U&quot;, &quot;U…
+## $ OCNATFED                                                       &lt;chr&gt; &quot;N&quot;, &quot;N…
+## $ RECORD.y                                                       &lt;dbl&gt; 1, 1, 1…
+## $ DATE                                                           &lt;dttm&gt; 1975-1…
+## $ TIME                                                           &lt;dttm&gt; 1899-1…
+## $ LAT                                                            &lt;dbl&gt; -45.916…
+## $ LONG                                                           &lt;dbl&gt; 165.400…
+## $ EW                                                             &lt;chr&gt; &quot;E&quot;, &quot;E…
+## $ SACT                                                           &lt;dbl&gt; 1, 1, 1…
+## $ SPEED                                                          &lt;dbl&gt; 15.0, 1…
+## $ SDIR                                                           &lt;dbl&gt; NA, NA,…
+## $ CLD                                                            &lt;dbl&gt; 2, 2, 2…
+## $ PREC                                                           &lt;dbl&gt; 8, 8, 8…
+## $ WSPEED                                                         &lt;dbl&gt; 5, 5, 5…
+## $ WDIR                                                           &lt;dbl&gt; NA, NA,…
+## $ ATMP                                                           &lt;lgl&gt; NA, NA,…
+## $ APRS                                                           &lt;dbl&gt; NA, NA,…
+## $ SSTE                                                           &lt;dbl&gt; 5, 5, 5…
+## $ STMP                                                           &lt;dbl&gt; NA, NA,…
+## $ SAL                                                            &lt;lgl&gt; NA, NA,…
+## $ DEPTH                                                          &lt;dbl&gt; NA, NA,…
+## $ OBS                                                            &lt;chr&gt; &quot;JEFF&quot;,…
+## $ CSMETH                                                         &lt;chr&gt; &quot;F&quot;, &quot;F…
+## $ MONTH                                                          &lt;dbl&gt; 10, 10,…
+## $ SEASN                                                          &lt;chr&gt; &quot;spring…
+## $ LONG360                                                        &lt;dbl&gt; 165.400…
+## $ LATCELL                                                        &lt;dbl&gt; -45.5, …
+## $ LONGECELL                                                      &lt;dbl&gt; 165.5, …</code></pre>
+<pre class="r"><code>summary(seabirds)</code></pre>
+<pre><code>##     RECORD.x       RECORD ID       
+##  Min.   :    1   Min.   : 1083001  
+##  1st Qu.:12256   1st Qu.: 6059010  
+##  Median :24510   Median :13004002  
+##  Mean   :24510   Mean   :39568084  
+##  3rd Qu.:36765   3rd Qu.:84016021  
+##  Max.   :49019   Max.   :88007036  
+##                                    
+##  Species common name (taxon [AGE / SEX / PLUMAGE PHASE])
+##  Length:49019                                           
+##  Class :character                                       
+##  Mode  :character                                       
+##                                                         
+##                                                         
+##                                                         
+##                                                         
+##  Species  scientific name (taxon [AGE /SEX /  PLUMAGE PHASE])
+##  Length:49019                                                
+##  Class :character                                            
+##  Mode  :character                                            
+##                                                              
+##                                                              
+##                                                              
+##                                                              
+##  Species abbreviation     AGE               WANPLUM        PLPHASE         
+##  Length:49019         Length:49019       Min.   :1.00    Length:49019      
+##  Class :character     Class :character   1st Qu.:2.00    Class :character  
+##  Mode  :character     Mode  :character   Median :2.00    Mode  :character  
+##                                          Mean   :2.51                      
+##                                          3rd Qu.:3.00                      
+##                                          Max.   :5.00                      
+##                                          NA&#39;s   :39444                     
+##     SEX              COUNT              NFEED             OCFEED         
+##  Mode :logical   Min.   :    1.00   Min.   :    0.00   Length:49019      
+##  FALSE:3         1st Qu.:    1.00   1st Qu.:    0.00   Class :character  
+##  NA&#39;s :49016     Median :    2.00   Median :    0.00   Mode  :character  
+##                  Mean   :   41.93   Mean   :   11.31                     
+##                  3rd Qu.:    4.00   3rd Qu.:    0.00                     
+##                  Max.   :99999.00   Max.   :99999.00                     
+##                  NA&#39;s   :2699       NA&#39;s   :26448                        
+##       NSOW             OCSOW               NSOICE          OCSOICE         
+##  Min.   :    0.00   Length:49019       Min.   :  0.000   Length:49019      
+##  1st Qu.:    0.00   Class :character   1st Qu.:  0.000   Class :character  
+##  Median :    0.00   Mode  :character   Median :  0.000   Mode  :character  
+##  Mean   :    4.13                      Mean   :  0.025                     
+##  3rd Qu.:    0.00                      3rd Qu.:  0.000                     
+##  Max.   :20000.00                      Max.   :300.000                     
+##  NA&#39;s   :26448                         NA&#39;s   :26448                       
+##    OCSOSHP             OCINHD              NFLYP             OCFLYP         
+##  Length:49019       Length:49019       Min.   :    0.00   Length:49019      
+##  Class :character   Class :character   1st Qu.:    0.00   Class :character  
+##  Mode  :character   Mode  :character   Median :    0.00   Mode  :character  
+##                                        Mean   :   23.61                     
+##                                        3rd Qu.:    1.00                     
+##                                        Max.   :99999.00                     
+##                                        NA&#39;s   :26448                        
+##       NACC            OCACC               NFOLL           OCFOL          
+##  Min.   :   0.00   Length:49019       Min.   : 0.000   Length:49019      
+##  1st Qu.:   0.00   Class :character   1st Qu.: 0.000   Class :character  
+##  Median :   0.00   Mode  :character   Median : 0.000   Mode  :character  
+##  Mean   :   0.34                      Mean   : 0.996                     
+##  3rd Qu.:   0.00                      3rd Qu.: 1.000                     
+##  Max.   :1000.00                      Max.   :50.000                     
+##  NA&#39;s   :26448                        NA&#39;s   :26448                      
+##    OCMOULT            OCNATFED            RECORD.y    
+##  Length:49019       Length:49019       Min.   :    1  
+##  Class :character   Class :character   1st Qu.: 3080  
+##  Mode  :character   Mode  :character   Median : 6222  
+##                                        Mean   : 6164  
+##                                        3rd Qu.: 9145  
+##                                        Max.   :12310  
+##                                        NA&#39;s   :1      
+##       DATE                              TIME                       
+##  Min.   :1969-07-31 00:00:00.000   Min.   :1899-12-31 01:00:00.00  
+##  1st Qu.:1980-03-31 00:00:00.000   1st Qu.:1899-12-31 09:50:00.00  
+##  Median :1984-02-17 00:00:00.000   Median :1899-12-31 12:30:00.00  
+##  Mean   :1982-11-16 07:07:27.851   Mean   :1899-12-31 12:41:24.36  
+##  3rd Qu.:1986-03-08 00:00:00.000   3rd Qu.:1899-12-31 15:30:00.00  
+##  Max.   :1990-12-21 00:00:00.000   Max.   :1900-01-01 00:00:00.00  
+##  NA&#39;s   :1                         NA&#39;s   :7                       
+##       LAT              LONG            EW                 SACT      
+##  Min.   :-69.00   Min.   : 50.0   Length:49019       Min.   :1.000  
+##  1st Qu.:-41.10   1st Qu.:151.0   Class :character   1st Qu.:1.000  
+##  Median :-38.75   Median :163.2   Mode  :character   Median :1.000  
+##  Mean   :-39.39   Mean   :160.0                      Mean   :1.654  
+##  3rd Qu.:-36.00   3rd Qu.:172.8                      3rd Qu.:1.000  
+##  Max.   :-19.00   Max.   :180.0                      Max.   :9.000  
+##  NA&#39;s   :31       NA&#39;s   :32                         NA&#39;s   :1      
+##      SPEED            SDIR            CLD             PREC       
+##  Min.   : 0.0    Min.   :  0.0   Min.   :0.000   Min.   : 0.000  
+##  1st Qu.: 9.0    1st Qu.: 87.0   1st Qu.:1.000   1st Qu.: 0.000  
+##  Median :14.0    Median :134.0   Median :1.000   Median : 0.000  
+##  Mean   :11.4    Mean   :155.2   Mean   :1.067   Mean   : 0.941  
+##  3rd Qu.:15.5    3rd Qu.:227.0   3rd Qu.:2.000   3rd Qu.: 0.000  
+##  Max.   :22.0    Max.   :358.0   Max.   :2.000   Max.   :11.000  
+##  NA&#39;s   :16940   NA&#39;s   :43000   NA&#39;s   :18466   NA&#39;s   :18513   
+##      WSPEED            WDIR         ATMP              APRS      
+##  Min.   : 0.000   Min.   :  0.0   Mode:logical   Min.   : 991   
+##  1st Qu.: 2.000   1st Qu.: 80.0   TRUE:4857      1st Qu.:1009   
+##  Median : 4.000   Median :203.0   NA&#39;s:44162     Median :1015   
+##  Mean   : 3.775   Mean   :178.2                  Mean   :1014   
+##  3rd Qu.: 5.000   3rd Qu.:270.0                  3rd Qu.:1021   
+##  Max.   :12.000   Max.   :350.0                  Max.   :1040   
+##  NA&#39;s   :17878    NA&#39;s   :41993                  NA&#39;s   :46018  
+##       SSTE            STMP         SAL              DEPTH       
+##  Min.   :1.000   Min.   :-1.00   Mode:logical   Min.   :  60.0  
+##  1st Qu.:3.000   1st Qu.:12.00   TRUE:5         1st Qu.: 170.0  
+##  Median :4.000   Median :14.60   NA&#39;s:49014     Median : 310.0  
+##  Mean   :3.611   Mean   :14.02                  Mean   : 364.6  
+##  3rd Qu.:4.000   3rd Qu.:16.20                  3rd Qu.: 480.0  
+##  Max.   :6.000   Max.   :27.00                  Max.   :2200.0  
+##  NA&#39;s   :18206   NA&#39;s   :45189                  NA&#39;s   :47717   
+##      OBS               CSMETH              MONTH           SEASN          
+##  Length:49019       Length:49019       Min.   : 1.000   Length:49019      
+##  Class :character   Class :character   1st Qu.: 4.000   Class :character  
+##  Mode  :character   Mode  :character   Median : 7.000   Mode  :character  
+##                                        Mean   : 7.028                     
+##                                        3rd Qu.:10.000                     
+##                                        Max.   :12.000                     
+##                                        NA&#39;s   :1                          
+##     LONG360         LATCELL         LONGECELL    
+##  Min.   : 50.0   Min.   :-69.50   Min.   : 50.5  
+##  1st Qu.:151.0   1st Qu.:-41.50   1st Qu.:151.5  
+##  Median :163.2   Median :-38.50   Median :163.5  
+##  Mean   :160.0   Mean   :-39.62   Mean   :160.2  
+##  3rd Qu.:172.8   3rd Qu.:-36.50   3rd Qu.:172.5  
+##  Max.   :184.4   Max.   :-19.50   Max.   :184.5  
+##  NA&#39;s   :32      NA&#39;s   :31       NA&#39;s   :32</code></pre>
+<pre class="r"><code>skimr::skim(seabirds)</code></pre>
+<table>
+<caption>Data summary</caption>
+<tbody>
+<tr class="odd">
+<td align="left">Name</td>
+<td align="left">seabirds</td>
+</tr>
+<tr class="even">
+<td align="left">Number of rows</td>
+<td align="left">49019</td>
+</tr>
+<tr class="odd">
+<td align="left">Number of columns</td>
+<td align="left">52</td>
+</tr>
+<tr class="even">
+<td align="left">_______________________</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Column type frequency:</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">character</td>
+<td align="left">19</td>
+</tr>
+<tr class="odd">
+<td align="left">logical</td>
+<td align="left">3</td>
+</tr>
+<tr class="even">
+<td align="left">numeric</td>
+<td align="left">28</td>
+</tr>
+<tr class="odd">
+<td align="left">POSIXct</td>
+<td align="left">2</td>
+</tr>
+<tr class="even">
+<td align="left">________________________</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Group variables</td>
+<td align="left">None</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: character</strong></p>
+<table>
+<colgroup>
+<col width="51%" />
+<col width="8%" />
+<col width="11%" />
+<col width="3%" />
+<col width="3%" />
+<col width="5%" />
+<col width="7%" />
+<col width="9%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">skim_variable</th>
+<th align="right">n_missing</th>
+<th align="right">complete_rate</th>
+<th align="right">min</th>
+<th align="right">max</th>
+<th align="right">empty</th>
+<th align="right">n_unique</th>
+<th align="right">whitespace</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Species common name (taxon [AGE / SEX / PLUMAGE
+PHASE])</td>
+<td align="right">0</td>
+<td align="right">1.00</td>
+<td align="right">9</td>
+<td align="right">56</td>
+<td align="right">0</td>
+<td align="right">322</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">Species scientific name (taxon [AGE /SEX / PLUMAGE
+PHASE])</td>
+<td align="right">1101</td>
+<td align="right">0.98</td>
+<td align="right">8</td>
+<td align="right">55</td>
+<td align="right">0</td>
+<td align="right">310</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">Species abbreviation</td>
+<td align="right">691</td>
+<td align="right">0.99</td>
+<td align="right">5</td>
+<td align="right">18</td>
+<td align="right">0</td>
+<td align="right">320</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">AGE</td>
+<td align="right">38837</td>
+<td align="right">0.21</td>
+<td align="right">2</td>
+<td align="right">5</td>
+<td align="right">0</td>
+<td align="right">4</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">PLPHASE</td>
+<td align="right">48938</td>
+<td align="right">0.00</td>
+<td align="right">3</td>
+<td align="right">5</td>
+<td align="right">0</td>
+<td align="right">4</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">OCFEED</td>
+<td align="right">691</td>
+<td align="right">0.99</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">3</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">OCSOW</td>
+<td align="right">691</td>
+<td align="right">0.99</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">3</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">OCSOICE</td>
+<td align="right">691</td>
+<td align="right">0.99</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">3</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">OCSOSHP</td>
+<td align="right">691</td>
+<td align="right">0.99</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">3</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">OCINHD</td>
+<td align="right">691</td>
+<td align="right">0.99</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">3</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">OCFLYP</td>
+<td align="right">691</td>
+<td align="right">0.99</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">3</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">OCACC</td>
+<td align="right">692</td>
+<td align="right">0.99</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">3</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">OCFOL</td>
+<td align="right">691</td>
+<td align="right">0.99</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">3</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">OCMOULT</td>
+<td align="right">691</td>
+<td align="right">0.99</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">3</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">OCNATFED</td>
+<td align="right">691</td>
+<td align="right">0.99</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">3</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">EW</td>
+<td align="right">32</td>
+<td align="right">1.00</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">OBS</td>
+<td align="right">1</td>
+<td align="right">1.00</td>
+<td align="right">4</td>
+<td align="right">4</td>
+<td align="right">0</td>
+<td align="right">26</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">CSMETH</td>
+<td align="right">1</td>
+<td align="right">1.00</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">SEASN</td>
+<td align="right">1</td>
+<td align="right">1.00</td>
+<td align="right">6</td>
+<td align="right">6</td>
+<td align="right">0</td>
+<td align="right">4</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: logical</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">skim_variable</th>
+<th align="right">n_missing</th>
+<th align="right">complete_rate</th>
+<th align="right">mean</th>
+<th align="left">count</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">SEX</td>
+<td align="right">49016</td>
+<td align="right">0.0</td>
+<td align="right">0</td>
+<td align="left">FAL: 3</td>
+</tr>
+<tr class="even">
+<td align="left">ATMP</td>
+<td align="right">44162</td>
+<td align="right">0.1</td>
+<td align="right">1</td>
+<td align="left">TRU: 4857</td>
+</tr>
+<tr class="odd">
+<td align="left">SAL</td>
+<td align="right">49014</td>
+<td align="right">0.0</td>
+<td align="right">1</td>
+<td align="left">TRU: 5</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: numeric</strong></p>
+<table style="width:100%;">
+<colgroup>
+<col width="11%" />
+<col width="8%" />
+<col width="11%" />
+<col width="9%" />
+<col width="9%" />
+<col width="8%" />
+<col width="8%" />
+<col width="9%" />
+<col width="9%" />
+<col width="9%" />
+<col width="4%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">skim_variable</th>
+<th align="right">n_missing</th>
+<th align="right">complete_rate</th>
+<th align="right">mean</th>
+<th align="right">sd</th>
+<th align="right">p0</th>
+<th align="right">p25</th>
+<th align="right">p50</th>
+<th align="right">p75</th>
+<th align="right">p100</th>
+<th align="left">hist</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">RECORD.x</td>
+<td align="right">0</td>
+<td align="right">1.00</td>
+<td align="right">24510.00</td>
+<td align="right">14150.71</td>
+<td align="right">1.0</td>
+<td align="right">12255.5</td>
+<td align="right">24510.00</td>
+<td align="right">36764.50</td>
+<td align="right">49019.00</td>
+<td align="left">▇▇▇▇▇</td>
+</tr>
+<tr class="even">
+<td align="left">RECORD ID</td>
+<td align="right">0</td>
+<td align="right">1.00</td>
+<td align="right">39568083.99</td>
+<td align="right">35937141.23</td>
+<td align="right">1083001.0</td>
+<td align="right">6059010.0</td>
+<td align="right">13004002.00</td>
+<td align="right">84016021.00</td>
+<td align="right">88007036.00</td>
+<td align="left">▇▁▁▃▅</td>
+</tr>
+<tr class="odd">
+<td align="left">WANPLUM</td>
+<td align="right">39444</td>
+<td align="right">0.20</td>
+<td align="right">2.51</td>
+<td align="right">1.06</td>
+<td align="right">1.0</td>
+<td align="right">2.0</td>
+<td align="right">2.00</td>
+<td align="right">3.00</td>
+<td align="right">5.00</td>
+<td align="left">▅▇▇▃▁</td>
+</tr>
+<tr class="even">
+<td align="left">COUNT</td>
+<td align="right">2699</td>
+<td align="right">0.94</td>
+<td align="right">41.93</td>
+<td align="right">1283.41</td>
+<td align="right">1.0</td>
+<td align="right">1.0</td>
+<td align="right">2.00</td>
+<td align="right">4.00</td>
+<td align="right">99999.00</td>
+<td align="left">▇▁▁▁▁</td>
+</tr>
+<tr class="odd">
+<td align="left">NFEED</td>
+<td align="right">26448</td>
+<td align="right">0.46</td>
+<td align="right">11.31</td>
+<td align="right">744.11</td>
+<td align="right">0.0</td>
+<td align="right">0.0</td>
+<td align="right">0.00</td>
+<td align="right">0.00</td>
+<td align="right">99999.00</td>
+<td align="left">▇▁▁▁▁</td>
+</tr>
+<tr class="even">
+<td align="left">NSOW</td>
+<td align="right">26448</td>
+<td align="right">0.46</td>
+<td align="right">4.13</td>
+<td align="right">164.37</td>
+<td align="right">0.0</td>
+<td align="right">0.0</td>
+<td align="right">0.00</td>
+<td align="right">0.00</td>
+<td align="right">20000.00</td>
+<td align="left">▇▁▁▁▁</td>
+</tr>
+<tr class="odd">
+<td align="left">NSOICE</td>
+<td align="right">26448</td>
+<td align="right">0.46</td>
+<td align="right">0.02</td>
+<td align="right">2.10</td>
+<td align="right">0.0</td>
+<td align="right">0.0</td>
+<td align="right">0.00</td>
+<td align="right">0.00</td>
+<td align="right">300.00</td>
+<td align="left">▇▁▁▁▁</td>
+</tr>
+<tr class="even">
+<td align="left">NFLYP</td>
+<td align="right">26448</td>
+<td align="right">0.46</td>
+<td align="right">23.61</td>
+<td align="right">1195.52</td>
+<td align="right">0.0</td>
+<td align="right">0.0</td>
+<td align="right">0.00</td>
+<td align="right">1.00</td>
+<td align="right">99999.00</td>
+<td align="left">▇▁▁▁▁</td>
+</tr>
+<tr class="odd">
+<td align="left">NACC</td>
+<td align="right">26448</td>
+<td align="right">0.46</td>
+<td align="right">0.34</td>
+<td align="right">7.49</td>
+<td align="right">0.0</td>
+<td align="right">0.0</td>
+<td align="right">0.00</td>
+<td align="right">0.00</td>
+<td align="right">1000.00</td>
+<td align="left">▇▁▁▁▁</td>
+</tr>
+<tr class="even">
+<td align="left">NFOLL</td>
+<td align="right">26448</td>
+<td align="right">0.46</td>
+<td align="right">1.00</td>
+<td align="right">2.42</td>
+<td align="right">0.0</td>
+<td align="right">0.0</td>
+<td align="right">0.00</td>
+<td align="right">1.00</td>
+<td align="right">50.00</td>
+<td align="left">▇▁▁▁▁</td>
+</tr>
+<tr class="odd">
+<td align="left">RECORD.y</td>
+<td align="right">1</td>
+<td align="right">1.00</td>
+<td align="right">6164.49</td>
+<td align="right">3499.91</td>
+<td align="right">1.0</td>
+<td align="right">3080.0</td>
+<td align="right">6222.00</td>
+<td align="right">9145.00</td>
+<td align="right">12310.00</td>
+<td align="left">▇▆▇▇▇</td>
+</tr>
+<tr class="even">
+<td align="left">LAT</td>
+<td align="right">31</td>
+<td align="right">1.00</td>
+<td align="right">-39.39</td>
+<td align="right">5.45</td>
+<td align="right">-69.0</td>
+<td align="right">-41.1</td>
+<td align="right">-38.75</td>
+<td align="right">-36.00</td>
+<td align="right">-19.00</td>
+<td align="left">▁▁▇▇▁</td>
+</tr>
+<tr class="odd">
+<td align="left">LONG</td>
+<td align="right">32</td>
+<td align="right">1.00</td>
+<td align="right">159.95</td>
+<td align="right">16.92</td>
+<td align="right">50.0</td>
+<td align="right">151.0</td>
+<td align="right">163.17</td>
+<td align="right">172.79</td>
+<td align="right">179.98</td>
+<td align="left">▁▁▁▃▇</td>
+</tr>
+<tr class="even">
+<td align="left">SACT</td>
+<td align="right">1</td>
+<td align="right">1.00</td>
+<td align="right">1.65</td>
+<td align="right">1.97</td>
+<td align="right">1.0</td>
+<td align="right">1.0</td>
+<td align="right">1.00</td>
+<td align="right">1.00</td>
+<td align="right">9.00</td>
+<td align="left">▇▁▁▁▁</td>
+</tr>
+<tr class="odd">
+<td align="left">SPEED</td>
+<td align="right">16940</td>
+<td align="right">0.65</td>
+<td align="right">11.40</td>
+<td align="right">5.90</td>
+<td align="right">0.0</td>
+<td align="right">9.0</td>
+<td align="right">14.00</td>
+<td align="right">15.50</td>
+<td align="right">22.00</td>
+<td align="left">▃▁▅▇▂</td>
+</tr>
+<tr class="even">
+<td align="left">SDIR</td>
+<td align="right">43000</td>
+<td align="right">0.12</td>
+<td align="right">155.18</td>
+<td align="right">98.74</td>
+<td align="right">0.0</td>
+<td align="right">87.0</td>
+<td align="right">134.00</td>
+<td align="right">227.00</td>
+<td align="right">358.00</td>
+<td align="left">▅▇▅▃▃</td>
+</tr>
+<tr class="odd">
+<td align="left">CLD</td>
+<td align="right">18466</td>
+<td align="right">0.62</td>
+<td align="right">1.07</td>
+<td align="right">0.67</td>
+<td align="right">0.0</td>
+<td align="right">1.0</td>
+<td align="right">1.00</td>
+<td align="right">2.00</td>
+<td align="right">2.00</td>
+<td align="left">▃▁▇▁▃</td>
+</tr>
+<tr class="even">
+<td align="left">PREC</td>
+<td align="right">18513</td>
+<td align="right">0.62</td>
+<td align="right">0.94</td>
+<td align="right">2.48</td>
+<td align="right">0.0</td>
+<td align="right">0.0</td>
+<td align="right">0.00</td>
+<td align="right">0.00</td>
+<td align="right">11.00</td>
+<td align="left">▇▁▁▁▁</td>
+</tr>
+<tr class="odd">
+<td align="left">WSPEED</td>
+<td align="right">17878</td>
+<td align="right">0.64</td>
+<td align="right">3.77</td>
+<td align="right">1.86</td>
+<td align="right">0.0</td>
+<td align="right">2.0</td>
+<td align="right">4.00</td>
+<td align="right">5.00</td>
+<td align="right">12.00</td>
+<td align="left">▆▇▆▁▁</td>
+</tr>
+<tr class="even">
+<td align="left">WDIR</td>
+<td align="right">41993</td>
+<td align="right">0.14</td>
+<td align="right">178.15</td>
+<td align="right">105.79</td>
+<td align="right">0.0</td>
+<td align="right">80.0</td>
+<td align="right">203.00</td>
+<td align="right">270.00</td>
+<td align="right">350.00</td>
+<td align="left">▆▃▃▇▅</td>
+</tr>
+<tr class="odd">
+<td align="left">APRS</td>
+<td align="right">46018</td>
+<td align="right">0.06</td>
+<td align="right">1014.35</td>
+<td align="right">9.19</td>
+<td align="right">991.0</td>
+<td align="right">1009.0</td>
+<td align="right">1015.00</td>
+<td align="right">1021.00</td>
+<td align="right">1040.00</td>
+<td align="left">▂▃▇▅▁</td>
+</tr>
+<tr class="even">
+<td align="left">SSTE</td>
+<td align="right">18206</td>
+<td align="right">0.63</td>
+<td align="right">3.61</td>
+<td align="right">1.08</td>
+<td align="right">1.0</td>
+<td align="right">3.0</td>
+<td align="right">4.00</td>
+<td align="right">4.00</td>
+<td align="right">6.00</td>
+<td align="left">▂▇▇▃▁</td>
+</tr>
+<tr class="odd">
+<td align="left">STMP</td>
+<td align="right">45189</td>
+<td align="right">0.08</td>
+<td align="right">14.02</td>
+<td align="right">4.08</td>
+<td align="right">-1.0</td>
+<td align="right">12.0</td>
+<td align="right">14.60</td>
+<td align="right">16.20</td>
+<td align="right">27.00</td>
+<td align="left">▁▁▇▅▁</td>
+</tr>
+<tr class="even">
+<td align="left">DEPTH</td>
+<td align="right">47717</td>
+<td align="right">0.03</td>
+<td align="right">364.64</td>
+<td align="right">313.69</td>
+<td align="right">60.0</td>
+<td align="right">170.0</td>
+<td align="right">310.00</td>
+<td align="right">480.00</td>
+<td align="right">2200.00</td>
+<td align="left">▇▂▁▁▁</td>
+</tr>
+<tr class="odd">
+<td align="left">MONTH</td>
+<td align="right">1</td>
+<td align="right">1.00</td>
+<td align="right">7.03</td>
+<td align="right">3.54</td>
+<td align="right">1.0</td>
+<td align="right">4.0</td>
+<td align="right">7.00</td>
+<td align="right">10.00</td>
+<td align="right">12.00</td>
+<td align="left">▆▃▃▃▇</td>
+</tr>
+<tr class="even">
+<td align="left">LONG360</td>
+<td align="right">32</td>
+<td align="right">1.00</td>
+<td align="right">160.02</td>
+<td align="right">17.00</td>
+<td align="right">50.0</td>
+<td align="right">151.0</td>
+<td align="right">163.17</td>
+<td align="right">172.79</td>
+<td align="right">184.42</td>
+<td align="left">▁▁▁▅▇</td>
+</tr>
+<tr class="odd">
+<td align="left">LATCELL</td>
+<td align="right">31</td>
+<td align="right">1.00</td>
+<td align="right">-39.62</td>
+<td align="right">5.42</td>
+<td align="right">-69.5</td>
+<td align="right">-41.5</td>
+<td align="right">-38.50</td>
+<td align="right">-36.50</td>
+<td align="right">-19.50</td>
+<td align="left">▁▁▇▇▁</td>
+</tr>
+<tr class="even">
+<td align="left">LONGECELL</td>
+<td align="right">32</td>
+<td align="right">1.00</td>
+<td align="right">160.24</td>
+<td align="right">16.90</td>
+<td align="right">50.5</td>
+<td align="right">151.5</td>
+<td align="right">163.50</td>
+<td align="right">172.50</td>
+<td align="right">184.50</td>
+<td align="left">▁▁▁▅▇</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: POSIXct</strong></p>
+<table>
+<colgroup>
+<col width="14%" />
+<col width="10%" />
+<col width="14%" />
+<col width="20%" />
+<col width="11%" />
+<col width="20%" />
+<col width="9%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">skim_variable</th>
+<th align="right">n_missing</th>
+<th align="right">complete_rate</th>
+<th align="left">min</th>
+<th align="left">max</th>
+<th align="left">median</th>
+<th align="right">n_unique</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">DATE</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="left">1969-07-31 00:00:00</td>
+<td align="left">1990-12-21</td>
+<td align="left">1984-02-17 00:00:00</td>
+<td align="right">1435</td>
+</tr>
+<tr class="even">
+<td align="left">TIME</td>
+<td align="right">7</td>
+<td align="right">1</td>
+<td align="left">1899-12-31 01:00:00</td>
+<td align="left">1900-01-01</td>
+<td align="left">1899-12-31 12:30:00</td>
+<td align="right">315</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>na_count &lt;- seabirds %&gt;%
+summarise(across(.fns = ~ sum(is.na(.x)))) 
+#this counts N/A values across all columns</code></pre>
 </div>
-<div id="pivot-longer-and-some-cleaning-beforehand" class="section level3">
-<h3>Pivot longer and some cleaning beforehand</h3>
-<pre class="r"><code># let first start with all the columns between &quot;100_grand_bar&quot; and 
-# &quot;york peppermint butter&quot; these are out pivot to longer columns
-candy_2015_clean &lt;- candy_2015_clean %&gt;% 
-  rename(&quot;100_grand_bar&quot; = &quot;x100_grand_bar&quot;) %&gt;% 
-  relocate(butterfinger, .after = bubble_gum) %&gt;% 
-  relocate(necco_wafers, .after = minibags_of_chips)
-           
-candy_2016_clean &lt;- candy_2016_clean %&gt;% 
-  rename(&quot;100_grand_bar&quot; = &quot;x100_grand_bar&quot;)
+<div id="cleaning-the-data" class="section level3">
+<h3>Cleaning the data</h3>
+<ol style="list-style-type: decimal">
+<li>Sort column names</li>
+<li>Drop 3 columns with very few values out of 49019 (4 more cols were
+borderline but we will keep these for now)</li>
+<li>Change names of 2 long column names</li>
+<li>Rename the count function to bird_count - too easily confused with
+the count function</li>
+<li>Sort time column - it currently displays and old date as well as
+time</li>
+<li>UPDATE - in the end I dropped a few columns from the data that were
+not specifically required by the tasks - these could always be added on
+later should the need arise</li>
+<li>Investigate bird_count column - there are some high values in
+there!</li>
+</ol>
+<pre class="r"><code># Cleaning Data -----------------------------------------------------------
 
-# 2017 data required a q1_, q2_ etc removed from the column names
-candy_2017_clean &lt;- candy_2017_clean %&gt;% 
-  rename_with( ~ str_remove(., pattern = &quot;q[0-90-9]+_&quot;))
+# Sort all these uppercase column names
+seabirds &lt;- clean_names(seabirds)
 
+# Drop cols sex, sal and plphase very few values
+seabirds &lt;- seabirds %&gt;% 
+  select(-sex, -sal, -plphase)
 
-# pivot longer on all three datasets for the candy and rating columns
+# Change some long column names
+seabirds &lt;- seabirds %&gt;% 
+rename(species_common_name = species_common_name_taxon_age_sex_plumage_phase,
+       species_scientific_name = species_scientific_name_taxon_age_sex_plumage_phase,
+       bird_count = count) # count is easily confused with the function
 
-candy_2015_long &lt;- candy_2015_clean %&gt;% 
-  pivot_longer(`100_grand_bar`:york_peppermint_patties, 
-               names_to = &quot;candy_type&quot;, 
-               values_to = &quot;candy_rating&quot;)
+# Lets tidy up the time column to just display the time and not the (incorrect) date
+seabirds &lt;- seabirds %&gt;% 
+  mutate(time = str_remove(time, &quot;^[0-9]{4}-[0-9]+-[0-9]+ &quot;))
 
-candy_2016_long &lt;- candy_2016_clean %&gt;% 
-  pivot_longer(`100_grand_bar`:york_peppermint_patties, 
-               names_to = &quot;candy_type&quot;, 
-               values_to = &quot;candy_rating&quot;)
+# Lose some more non - essential columns
+seabirds &lt;- seabirds %&gt;% 
+  select(-(nfeed:record_y)) %&gt;% 
+  select(-(ew:depth)) %&gt;% 
+  select(-(csmeth:longecell), -wanplum)
 
-candy_2017_long &lt;- candy_2017_clean %&gt;% 
-  pivot_longer(`100_grand_bar`:york_peppermint_patties, 
-               names_to = &quot;candy_type&quot;, 
-               values_to = &quot;candy_rating&quot;)</code></pre>
+# investigate bird_count column
+seabirds %&gt;% 
+count(bird_count) %&gt;% 
+slice_max(bird_count, n = 20)</code></pre>
+<pre><code>## # A tibble: 20 × 2
+##    bird_count     n
+##         &lt;dbl&gt; &lt;int&gt;
+##  1      99999     6
+##  2      50000     2
+##  3      40000     2
+##  4      30000     2
+##  5      25000     2
+##  6      20000     5
+##  7      10000    16
+##  8       8000     1
+##  9       7000     3
+## 10       6000     2
+## 11       5300     1
+## 12       5200     1
+## 13       5050     1
+## 14       5000    25
+## 15       4500     3
+## 16       4000     1
+## 17       3700     1
+## 18       3500     1
+## 19       3300     1
+## 20       3000    15</code></pre>
+<p>Looking at the bird_count column - there are some huge estimates for
+bird sightings. Looking at the codes in the raw data the bird_count
+column is birds spotted within a 10 minute window - is 99999 even
+possible? Its difficult here to decide what to keep in and what to take
+out? Doing some googling reveals the largest colony of shearwaters is 3
+million so 99999 is perhaps understandable. Lets leave these big values
+as they stand.</p>
+<p>Can we use this data now? It has a lot of NAs but i suppose a lot are
+just the way the data is recorded and the way the dataset is setup. Not
+every observation would have all fields completed.</p>
 </div>
-<div id="cleaning-columns---dropping-na-columns-and-others-only-in-1-dataset" class="section level3">
-<h3>Cleaning columns - dropping NA columns and others only in 1
-dataset</h3>
-<p>Pivots look good lets look through each dataset and see which columns
-are required and which can go. In this decision I am thinking of the
-upcoming join of the three data frames. It looks like this will have to
-be a bind_rows function I will hope to keep each column that’s in at
-least 2 of the 3 data frames.</p>
-<pre class="r"><code># 2015 Table
-
-# lets work out how many NA&#39;s are across all columns and sort by highest
-NA_2015 &lt;- candy_2015_long %&gt;%
-  summarise(across(.fns = ~ sum(is.na(.x)))) %&gt;% 
-  pivot_longer(cols = everything(), 
-               names_to = &quot;old_column_name&quot;, 
-               values_to = &quot;count_of_NA&quot;) %&gt;% 
-  arrange(desc(count_of_NA))
-
-# lets drop these 9 full NA columns - no use to us
-candy_2015_long &lt;- candy_2015_long %&gt;% 
-  select(-fill_in_the_blank_taylor_swift_is_a_force_for, 
-         -starts_with(&quot;please_estimate_the_degrees_of_&quot;))
-
-# 2016
-
-# lets work out how many NA&#39;s are across all columns and sort by highest
-NA_2016 &lt;- candy_2016_long %&gt;%
-  summarise(across(.fns = ~ sum(is.na(.x)))) %&gt;% 
-  pivot_longer(cols = everything(), 
-               names_to = &quot;old_column_name&quot;, 
-               values_to = &quot;count_of_NA&quot;) %&gt;% 
-  arrange(desc(count_of_NA))
-
-# lets drop this full NA column - no use to us
-candy_2016_long &lt;- candy_2016_long %&gt;% 
-  select(-york_peppermint_patties_ignore)
-
-# 2017
-
-# lets work out how many NA&#39;s are across all columns and sort by highest
-NA_2017 &lt;- candy_2017_long %&gt;%
-  summarise(across(.fns = ~ sum(is.na(.x)))) %&gt;% 
-  pivot_longer(cols = everything(), 
-               names_to = &quot;old_column_name&quot;, 
-               values_to = &quot;count_of_NA&quot;) %&gt;% 
-  arrange(desc(count_of_NA))
-
-# lets drop columns x114 which is ambigous and very nearly empty as well as the
-# media columns - these are also nearly empty and are not in the other datasets
-candy_2017_long &lt;- candy_2017_long %&gt;% 
-  select(-x114, 
-         -starts_with(&quot;media&quot;))</code></pre>
-<p>Ok lets recap. We have removed the easy columns so far - the full
-NA’s and the columns with very little data. Candy_2017_long has fewer
-columns than the others - lets use this as a template for the other data
-frame columns and try to get our column names matching to prepare data
-for a future bind_rows.</p>
-</div>
-<div id="cleaning-columns---names-and-order-20162017" class="section level3">
-<h3>Cleaning columns - names and order, 2016/2017</h3>
-<pre class="r"><code># lets get 2016 into shape - change col names to agree with 2017
-candy_2016_long &lt;- candy_2016_long %&gt;% 
-   rename(
-  id = timestamp,
-         going_out = are_you_going_actually_going_trick_or_treating_yourself,
-         gender = your_gender,
-         age = how_old_are_you,
-         country = which_country_do_you_live_in,
-         state_province_county_etc = which_state_province_county_do_you_live_in,
-         joy_other = please_list_any_items_not_included_above_that_give_you_joy,
-         despair_other = please_list_any_items_not_included_above_that_give_you_despair,
-         other_comments = please_leave_any_witty_snarky_or_thoughtful_remarks_or_comments_regarding_your_choices,
-         day = which_day_do_you_prefer_friday_or_sunday,
-         dress = that_dress_that_went_viral_a_few_years_back_when_i_first_saw_it_it_was,
-         guess_mints = guess_the_number_of_mints_in_my_hand,
-         favourite_font = what_is_your_favourite_font) 
-
-candy_2016_long &lt;- candy_2016_long %&gt;% 
-  rename_with( ~ str_replace(., pattern = &quot;please_.*celebrities_&quot;, replacement = &quot;separation_&quot;))
-
-# reorder to agree more with 2017
-candy_2016_long &lt;- candy_2016_long %&gt;%
-relocate(dress, day, candy_type, candy_rating, .after = other_comments)
-
-# drop columns which don&#39;t appear elsewhere, have little values - i have
-# detailed this in the assumptions 
-candy_2016_long &lt;- candy_2016_long %&gt;%
-  select(-(23:24))
-
-#names(candy_2016_long) # looks good
-
-# lets tweak 2017 in line with 2016 above
-
-candy_2017_long &lt;- candy_2017_long %&gt;% 
-  rename(id = internal_id) %&gt;% 
-  select(-click_coordinates_x_y) %&gt;% # only in this 1 data frame
-  mutate(guess_mints = NA, betty_or_veronica = NA, favourite_font = NA,
-         separation_jk_rowling = NA, separation_jj_abrams = NA, separation_beyonce = NA, separation_bieber = NA,            separation_kevin_bacon = NA, separation_francis_bacon_1561_1626 = NA) # add in columns that are in other 2
-
-names(candy_2016_long) == names(candy_2017_long) # columns all match!</code></pre>
-<pre><code>##  [1] TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE
-## [16] TRUE TRUE TRUE TRUE TRUE TRUE TRUE</code></pre>
-<p>Ok so we have candy_2016 and candy_2017 matching perfect for a
-bind_rows. lets work on 2015 - a bit more to do here</p>
-</div>
-<div id="cleaning-columns-in-year-2015" class="section level3">
-<h3>Cleaning columns in year 2015</h3>
-<pre class="r"><code># OK time for 2015 to match the other two years
-candy_2015_long &lt;- candy_2015_long %&gt;% 
-  rename(
-         id = timestamp,
-         age = how_old_are_you,
-         going_out = are_you_going_actually_going_trick_or_treating_yourself,
-         other_comments = please_leave_any_remarks_or_comments_regarding_your_choices,
-         joy_other = please_list_any_items_not_included_above_that_give_you_joy,
-         despair_other = please_list_any_items_not_included_above_that_give_you_despair,
-         guess_mints = guess_the_number_of_mints_in_my_hand,
-         favourite_font = what_is_your_favourite_font,
-         day = which_day_do_you_prefer_friday_or_sunday,
-         dress = that_dress_that_went_viral_early_this_year_when_i_first_saw_it_it_was)
-
-# rename large column names
-candy_2015_long &lt;- candy_2015_long %&gt;% 
-  rename_with( ~ str_replace(., pattern = &quot;please_.*celebrities_&quot;, replacement = &quot;separation_&quot;))
-
-# reorder to agree more with others
-candy_2015_long &lt;- candy_2015_long %&gt;%
-  relocate(dress, day, candy_type, candy_rating, .after = other_comments)
-
-# delete columns not in other datasets
-candy_2015_long &lt;- candy_2015_long %&gt;%
-  select(-if_you_squint_really_hard_the_words_intelligent_design_would_look_like,
-         - fill_in_the_blank_imitation_is_a_form_of,
-         - sea_salt_flavored_stuff_probably_chocolate_since_this_is_the_it_flavor_of_the_year,
-         -check_all_that_apply_i_cried_tears_of_sadness_at_the_end_of)
-
-# add in columns in line with others - these will need to be NA as theres no data
-# only alternative would be to lose all data from other tables 
-candy_2015_long &lt;- candy_2015_long %&gt;%
-  mutate(gender = NA, country = NA, state_province_county_etc = NA)
-
-# final reorder to agree more with others
-candy_2015_long &lt;- candy_2015_long %&gt;%
-  relocate(going_out, gender, .after = id) %&gt;% 
-relocate(country, state_province_county_etc, joy_other, despair_other, 
-         other_comments, .after = age)
-
-names(candy_2015_long) == names(candy_2016_long)</code></pre>
-<pre><code>##  [1] TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE
-## [16] TRUE TRUE TRUE TRUE TRUE TRUE TRUE</code></pre>
-<pre class="r"><code># So we now have 3 datasets ready to be bound together
-# Then we can look at the columns like country that need cleaned up
-
-# lets mutate the id fields into characters for the sake of the join
-candy_2015_long &lt;- candy_2015_long %&gt;%
-  mutate(id = as.character(id))
-candy_2016_long &lt;- candy_2016_long %&gt;%
-  mutate(id = as.character(id))
-candy_2017_long &lt;- candy_2017_long %&gt;%
-  mutate(id = as.character(id))</code></pre>
-</div>
-<div id="further-data-cleanse" class="section level3">
-<h3>Further data cleanse</h3>
-<p>Performed here for performance - my PC is slowing down so much with
-all this data kept. Having done the tasks with the full dataset
-(slowly!) I’ve come back to tidy up - these columns are not needed and
-can always be added at a later date if required. All that time wasted
-but nevermind!</p>
-<pre class="r"><code>candy_2015_long &lt;- candy_2015_long %&gt;% 
-select(-(state_province_county_etc:day)) %&gt;% 
-  select(-(guess_mints:separation_francis_bacon_1561_1626))
-candy_2016_long &lt;- candy_2016_long %&gt;% 
-  select(-(state_province_county_etc:day)) %&gt;% 
-  select(-(guess_mints:separation_francis_bacon_1561_1626))
-candy_2017_long &lt;- candy_2017_long %&gt;% 
-  select(-(state_province_county_etc:day)) %&gt;% 
-  select(-(guess_mints:separation_francis_bacon_1561_1626))</code></pre>
-</div>
-<div id="join" class="section level3">
-<h3>Join</h3>
-<p>Lets join the tables here with a bind_rows - easy now that weve got
-the columns in order. Also add an id column to let us differentiate the
-year the data comes from.</p>
-<pre class="r"><code>candy_combined &lt;- bind_rows(candy_2015_long, 
-                            candy_2016_long, 
-                            candy_2017_long, 
-                            .id = &quot;year&quot;) 
-# last line adds a column to let us know original table data is from</code></pre>
+<div id="finish-by-writing-our-cleaned-data" class="section level3">
+<h3>Finish by writing our cleaned data</h3>
+<pre class="r"><code>seabirds %&gt;% 
+write_csv(here(&quot;clean_data/seabirds.csv&quot;))</code></pre>
 </div>
 </div>
-<div id="column-cleaning" class="section level2">
-<h2>3.2 Column Cleaning</h2>
-<div id="candy_type-column-cleaning" class="section level3">
-<h3>candy_type column cleaning</h3>
-<pre class="r"><code>#table(candy_combined[&quot;candy_type&quot;]) commented out to avoid massive output
-
-# OK so there are a few obvious duplicates with slightly different names
-# There are some slightly the same but ambiguous - these will be left
-
-candy_combined &lt;- candy_combined %&gt;% 
-  mutate(candy_type = recode(candy_type,
-  &quot;anonymous_brown_globs_that_come_in_black_and_orange_wrappers_a_k_a_mary_janes&quot; = &quot;mary_janes&quot;),
-  candy_type = recode(candy_type,&quot;bonkers_the_candy&quot; = &quot;bonkers&quot;),
-  candy_type = recode(candy_type,&quot;boxo_raisins&quot; = &quot;box_o_raisins&quot;),
-  candy_type = recode(candy_type,&quot;licorice_yes_black&quot; = &quot;licorice&quot;),
-  candy_type = recode(candy_type,&quot;sweetums_a_friend_to_diabetes&quot; = &quot;sweetums&quot;))</code></pre>
-</div>
-<div id="country-column-cleaning" class="section level3">
-<h3>country column cleaning</h3>
-<pre class="r"><code>## Cleaning country column ------------------------------------------------
-
-# count(candy_combined, country)
-# table(candy_combined[&quot;country&quot;]) # look at dirty column &#39;country&#39; eek
-
-# get a few easy ones with regex
-candy_combined &lt;- candy_combined %&gt;% 
-  mutate(country = if_else(grepl(&quot;(?i)usa+&quot;, country),&quot;USA&quot;,country)) %&gt;% 
-  mutate(country = if_else(grepl(&quot;(?i)united s+&quot;, country),&quot;USA&quot;,country)) %&gt;% 
-  mutate(country = if_else(grepl(&quot;(?i)amer&quot;, country),&quot;USA&quot;,country)) %&gt;% 
-  mutate(country = if_else(grepl(&quot;(?i)stat&quot;, country),&quot;USA&quot;,country))
-
-#make vectors of USA outliers and some to change to NA values
-usa_outliers = c(&quot;Alaska&quot;, &quot;California&quot;, &quot;EUA&quot;, &quot;Merica&quot;, &quot;Murica&quot;, &quot;murrika&quot;,
-                 &quot;New Jersey&quot;, &quot;New York&quot;, &quot;North Carolina&quot;, &quot;Pittsburgh&quot;, 
-                 &quot;The Yoo Ess of Aaayyyyyy&quot;, &quot;Trumpistan&quot;, &quot;U S&quot;, &quot;u s a&quot;, &quot;u.s.&quot;,
-                 &quot;U.s.&quot;, &quot;U.S.&quot;, &quot;u.s.a.&quot;, &quot;U.S.A.&quot;, &quot;UD&quot;, &quot;us&quot;, &quot;Us&quot;, &quot;US&quot;, &quot;US of A&quot;,
-                 &quot;USSA&quot;, &quot;&#39;merica&quot;)
-change_to_NA = c(1, 30.0, 32, 35, 44.0, 45, 45.0, 46, 47.0, 51.0, 54.0)
-change_to_NA2 = c(&quot;30.0&quot;, &quot;44.0&quot;, &quot;45.0&quot;, &quot;47.0&quot;, &quot;51.0&quot;, &quot;54.0&quot;)
-silly_values = c(
-  &quot;A tropical island south of the equator&quot;, &quot;A&quot;, &quot;Atlantis&quot;,
-  &quot;Canae&quot;, &quot;cascadia &quot;, &quot;Cascadia&quot;, &quot;Denial&quot;, &quot;Earth&quot;, &quot;Fear and Loathing&quot;, 
-  &quot;god&#39;s country&quot;, &quot;I don&#39;t know anymore&quot;, &quot;insanity lately&quot;, 
-  &quot;there isn&#39;t one for old men&quot;, &quot;soviet canuckistan&quot;, &quot;Narnia&quot;, &quot;Neverland&quot;,
-  &quot;one of the best ones&quot;, &quot;See above&quot;, &quot;Somewhere&quot;, 
-  &quot;Subscribe To Dm4uz3 On Youtube&quot;, &quot;The republic of Cascadia&quot;, &quot;this one&quot;, 
-  &quot;Europe&quot;, &quot; Cascadia&quot;, &quot;Cascadia &quot;, &quot; Subscribe To Dm4uz3 On Youtube&quot;,
-  &quot;Subscribe To Dm4uz3 On Youtube &quot;)
-
-# use the vectors above 
-candy_combined &lt;- candy_combined %&gt;%
-mutate(country = if_else(country %in% usa_outliers ,
-                         &quot;USA&quot;, country)) 
-
-candy_combined &lt;- candy_combined %&gt;%
-  mutate(country = if_else(country %in% silly_values|
-                             country %in% change_to_NA|
-                             country %in% change_to_NA2, 
-                           NA_character_, country)) %&gt;% 
-  mutate(country = str_to_title(country)) # change to title case to help
-
-# recode anything else
-candy_combined &lt;- candy_combined %&gt;%
-mutate(country = recode(country, &quot;The Netherlands&quot; = &quot;Netherlands&quot;),
-       country = recode(country, &quot;Can&quot; = &quot;Canada&quot;),
-       country = recode(country, &quot;Canada`&quot; = &quot;Canada&quot;),
-       country = recode(country, &quot;Endland&quot; = &quot;United Kingdom&quot;),
-       country = recode(country, &quot;England&quot; = &quot;United Kingdom&quot;),
-       country = recode(country, &quot;England&quot; = &quot;United Kingdom&quot;),
-       country = recode(country, &quot;Scotland&quot; = &quot;United Kingdom&quot;),
-       country = recode(country, &quot;España&quot; = &quot;Spain&quot;),
-       country = recode(country, &quot;U.k.&quot; = &quot;United Kingdom&quot;),
-       country = recode(country, &quot;Uk&quot; = &quot;United Kingdom&quot;),
-       country = recode(country, &quot;United Kindom&quot; = &quot;United Kingdom&quot;))
-
-#table(candy_combined[&quot;country&quot;]) # much better!</code></pre>
-</div>
-<div id="age-column-cleaning" class="section level3">
-<h3>age column cleaning</h3>
-<pre class="r"><code>## Cleaning age column -----------------------------------------------------
-
-# oldest person ever was 122. lets take out everything above that as NA
-# lets keep in the 0 values - technically this could be babies in a pram?
-
-# change the column from a character to numeric
-candy_combined &lt;- candy_combined %&gt;%
-  mutate(age = as.numeric(age))</code></pre>
-<pre><code>## Warning in mask$eval_all_mutate(quo): NAs introduced by coercion</code></pre>
-<pre class="r"><code># clean out values bigger than 122 - oldest ever person
-candy_combined &lt;- candy_combined %&gt;%
-  mutate(age = ifelse(age&gt;122, NA, age))</code></pre>
-</div>
-<div id="year-column-cleaning" class="section level3">
-<h3>year column cleaning</h3>
-<pre class="r"><code>## Cleaning year column ----------------------------------------------------
-
-# change the id value brought over from the bind rows to an actual year
-# alter the column to be numeric rather than character
-candy_combined &lt;- candy_combined %&gt;%
-  mutate(year = recode(year, &quot;1&quot; = &quot;2015&quot;),
-         year = recode(year, &quot;2&quot; = &quot;2016&quot;),
-         year = recode(year, &quot;3&quot; = &quot;2017&quot;),
-         year = as.numeric(year))</code></pre>
-</div>
-</div>
-<div id="write-clean-data" class="section level2">
-<h2>3.3 Write Clean Data</h2>
-<pre class="r"><code># Write our data to candy_clean.csv ---------------------------------------
-
-candy_combined %&gt;%
-write_csv(here(&quot;clean_data/candy_clean.csv&quot;))</code></pre>
-</div>
-</div>
-<div id="answers-to-task-brief-questions" class="section level1">
-<h1>4. Answers to Task Brief Questions</h1>
-<div id="load-libraries-and-data" class="section level3">
-<h3>Load Libraries and data</h3>
-<pre class="r"><code>library(readr)
-library(tidyverse)
+<div id="tasks" class="section level2">
+<h2>4. Tasks</h2>
+<div id="libraries-and-data" class="section level3">
+<h3>Libraries and data</h3>
+<p>library(tidyverse)</p>
+<pre class="r"><code>library(tidyverse)
+library(readr)
 library(here)
 
-candy_clean &lt;- read_csv(here(&quot;clean_data/candy_clean.csv&quot;))</code></pre>
-<pre><code>## Rows: 908500 Columns: 8
+seabirds &lt;- read_csv(here(&quot;clean_data/seabirds.csv&quot;))</code></pre>
+<pre><code>## Rows: 49019 Columns: 12
 ## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
-## chr (6): id, going_out, gender, country, candy_type, candy_rating
-## dbl (2): year, age
+## chr  (5): species_common_name, species_scientific_name, species_abbreviation...
+## dbl  (5): record_x, record_id, bird_count, lat, long
+## dttm (1): date
+## time (1): time
 ## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 </div>
-<div id="task-1-what-is-the-total-number-of-candy-ratings-given-across-the-three-years." class="section level3">
-<h3>Task 1 What is the total number of candy ratings given across the
-three years.</h3>
-<pre class="r"><code># This would be the number of rows in candy_rating != NA
-candy_clean %&gt;% 
-  drop_na(candy_rating) %&gt;% 
-  nrow()</code></pre>
-<pre><code>## [1] 767302</code></pre>
-<pre class="r"><code>  # total ratings - 767302</code></pre>
+<div id="task-1-which-bird-had-the-most-individual-sightings" class="section level3">
+<h3>Task 1 Which bird had the most individual sightings?</h3>
+<pre class="r"><code># group by bird name and take a count of occurrences, join this back into the table
+# to allow more names info to be pulled, arrange and slice head to get top hit
+seabirds %&gt;% 
+  group_by(species_common_name) %&gt;% 
+  summarise(count_of_sightings = n()) %&gt;%
+  right_join(seabirds, &quot;species_common_name&quot;) %&gt;% 
+  select(species_common_name, 
+         species_scientific_name, 
+         species_abbreviation, count_of_sightings) %&gt;%
+  arrange(desc(count_of_sightings))  %&gt;% 
+  slice_head()</code></pre>
+<pre><code>## # A tibble: 1 × 4
+##   species_common_name         species_scienti… species_abbrevi… count_of_sighti…
+##   &lt;chr&gt;                       &lt;chr&gt;            &lt;chr&gt;                       &lt;int&gt;
+## 1 Wandering albatross sensu … Diomedea antipo… DIOANTEXU PL2                3104</code></pre>
+<pre class="r"><code># Answer:Wandering albatross sensu lato PL2, count 3104</code></pre>
 </div>
-<div id="task-2-what-was-the-average-age-of-people-who-are-going-out-trick-or-treating" class="section level3">
-<h3>Task 2 What was the average age of people who are going out trick or
-treating?</h3>
-<pre class="r"><code># filter for Yes to going out then average the age column
-candy_clean %&gt;% 
-  filter(going_out == &quot;Yes&quot;) %&gt;% 
-  summarise(avg_age = mean(age, na.rm = TRUE))</code></pre>
+<div id="task-2-which-bird-had-the-highest-total-count" class="section level3">
+<h3>Task 2 Which bird had the highest total count?</h3>
+<pre class="r"><code># Note i&#39;ve taken this to mean highest count (adding the count of all sightings)
+# And not the highest count at a single sighting
+
+# group by bird name and take a sum of count, join this back into the table
+# to allow more names info to be pulled, arrange and slice head to get top hit
+seabirds %&gt;% 
+  drop_na(bird_count) %&gt;% 
+  group_by(species_common_name) %&gt;% 
+  summarise(total_count = sum(bird_count)) %&gt;% 
+  right_join(seabirds, &quot;species_common_name&quot;) %&gt;% 
+  select(species_common_name, 
+         species_scientific_name, 
+         species_abbreviation, total_count) %&gt;%
+  arrange(desc(total_count)) %&gt;% 
+  slice_head(n=1)</code></pre>
+<pre><code>## # A tibble: 1 × 4
+##   species_common_name     species_scientific_name species_abbreviat… total_count
+##   &lt;chr&gt;                   &lt;chr&gt;                   &lt;chr&gt;                    &lt;dbl&gt;
+## 1 Short-tailed shearwater Puffinus tenuirostris   PUFTEN                  982553</code></pre>
+<pre class="r"><code># Answer: Short-tailed shearwater, count = 982553</code></pre>
+</div>
+<div id="task-3-which-bird-had-the-highest-total-count-above-a-latitude-of--30" class="section level3">
+<h3>Task 3 Which bird had the highest total count above a latitude of
+-30?</h3>
+<pre class="r"><code># same as Q2 but with a filter before for latitude &gt; -30
+seabirds %&gt;% 
+  filter(lat &gt; -30) %&gt;% 
+  group_by(species_common_name) %&gt;% 
+  summarise(total_count = sum(bird_count)) %&gt;%
+  right_join(seabirds, &quot;species_common_name&quot;) %&gt;% 
+  select(species_common_name, 
+         species_scientific_name, 
+         species_abbreviation, total_count) %&gt;%
+  arrange(desc(total_count)) %&gt;% 
+  slice_head()</code></pre>
+<pre><code>## # A tibble: 1 × 4
+##   species_common_name     species_scientific_name species_abbreviat… total_count
+##   &lt;chr&gt;                   &lt;chr&gt;                   &lt;chr&gt;                    &lt;dbl&gt;
+## 1 Wedge-tailed shearwater Puffinus pacificus      PUFPAC                     855</code></pre>
+<pre class="r"><code># Answer: A Wedge-tailed shearwater, count 855</code></pre>
+</div>
+<div id="task-4-how-many-different-types-of-birds-were-only-ever-seen-in-groups-of-1" class="section level3">
+<h3>Task 4 How many different types of birds were only ever seen in
+groups of 1?</h3>
+<pre class="r"><code># ok so theres got to be a better way but i ended up adding two columns on
+# with the individual sightings and the total count. If these were equal with no
+# NA values which were dropped then all must have been sightings of one bird
+
+# make our two table with the count and sum we need
+seabirds_counting &lt;- seabirds %&gt;% 
+  drop_na(bird_count) %&gt;% 
+  group_by(species_common_name) %&gt;% 
+  summarise(count_of_sightings = n(), 
+            total_count = sum(bird_count, na.rm = TRUE)) 
+  
+# join these onto our original table
+seabirds_plus_counts &lt;- left_join(seabirds, 
+                                  seabirds_counting,
+                                  &quot;species_common_name&quot; )
+
+#filter for individual sightings (count = total count) meaning that each 
+# sighting per bird must have been an individual 
+task_four_data &lt;- seabirds_plus_counts %&gt;% 
+  filter(count_of_sightings == total_count) %&gt;% 
+  group_by(species_common_name) %&gt;% 
+  summarise(n()) %&gt;% 
+  nrow()
+task_four_data</code></pre>
+<pre><code>## [1] 86</code></pre>
+<pre class="r"><code># 86 birds only sighted individually</code></pre>
+</div>
+<div id="task-5-how-many-penguins-were-seen" class="section level3">
+<h3>Task 5 How many penguins were seen</h3>
+<pre class="r"><code># Note here I&#39;ve calculated count of penguins seen not the number of sightings
+
+# here we filter for any names containing penguin then we count the total for the count column
+seabirds %&gt;% 
+  filter(str_detect(species_common_name,
+                    &quot;(?i).*penguin+.*&quot;)) %&gt;% 
+  summarise(sum(bird_count, na.rm = T))</code></pre>
 <pre><code>## # A tibble: 1 × 1
-##   avg_age
-##     &lt;dbl&gt;
-## 1    35.2</code></pre>
-<pre class="r"><code># Average_age is 35.22</code></pre>
-</div>
-<div id="task-3-what-was-the-average-age-of-people-who-are-not-going-trick-or-treating" class="section level3">
-<h3>Task 3 What was the average age of people who are not going trick or
-treating?</h3>
-<pre class="r"><code># filter for No to going out then average the age column
-candy_clean %&gt;% 
-   filter(going_out == &quot;No&quot;) %&gt;% 
-summarise(avg_age = mean(age, na.rm = TRUE))</code></pre>
-<pre><code>## # A tibble: 1 × 1
-##   avg_age
-##     &lt;dbl&gt;
-## 1    39.3</code></pre>
-<pre class="r"><code># Average age is 39.26</code></pre>
-</div>
-<div id="task-4-for-each-of-joy-despair-and-meh-which-candy-bar-received-the-most-of-these-ratings" class="section level3">
-<h3>Task 4 For each of joy, despair and meh, which candy bar received
-the most of these ratings?</h3>
-<pre class="r"><code># Despair
-candy_clean %&gt;% 
-  group_by(candy_type) %&gt;% 
-  count(candy_rating, name = &quot;count_of_rating&quot;) %&gt;% 
-  filter(candy_rating == &quot;DESPAIR&quot;) %&gt;% 
-  ungroup() %&gt;% 
-  arrange(desc(count_of_rating)) %&gt;% 
-  slice_max(count_of_rating, n = 1)</code></pre>
-<pre><code>## # A tibble: 1 × 3
-##   candy_type        candy_rating count_of_rating
-##   &lt;chr&gt;             &lt;chr&gt;                  &lt;int&gt;
-## 1 broken_glow_stick DESPAIR                 7905</code></pre>
-<pre class="r"><code># Answer : broken_glow_stick
-
-# Joy
-candy_clean %&gt;% 
-  group_by(candy_type) %&gt;% 
-  count(candy_rating, name = &quot;count_of_rating&quot;) %&gt;% 
-  filter(candy_rating == &quot;JOY&quot;) %&gt;% 
-  ungroup() %&gt;% 
-  arrange(desc(count_of_rating)) %&gt;% 
-  slice_max(count_of_rating, n = 1)</code></pre>
-<pre><code>## # A tibble: 1 × 3
-##   candy_type               candy_rating count_of_rating
-##   &lt;chr&gt;                    &lt;chr&gt;                  &lt;int&gt;
-## 1 any_full_sized_candy_bar JOY                     7589</code></pre>
-<pre class="r"><code># Answer : any_full_sized_candy_bar
-
-# Meh
-candy_clean %&gt;% 
-  group_by(candy_type) %&gt;% 
-  count(candy_rating, name = &quot;count_of_rating&quot;) %&gt;% 
-  filter(candy_rating == &quot;MEH&quot;) %&gt;% 
-  ungroup() %&gt;% 
-  arrange(desc(count_of_rating)) %&gt;% 
-  slice_max(count_of_rating, n = 1)</code></pre>
-<pre><code>## # A tibble: 1 × 3
-##   candy_type candy_rating count_of_rating
-##   &lt;chr&gt;      &lt;chr&gt;                  &lt;int&gt;
-## 1 lollipops  MEH                     1570</code></pre>
-<pre class="r"><code># Answer : lollipops</code></pre>
-</div>
-<div id="task-5-how-many-people-rated-starburst-as-despair" class="section level3">
-<h3>Task 5 How many people rated Starburst as despair?</h3>
-<pre class="r"><code># filter for starburst and despair then count the rows
-candy_clean %&gt;% 
-  filter(candy_type == &quot;starburst&quot; &amp; 
-           candy_rating == &quot;DESPAIR&quot;) %&gt;% 
-  nrow()</code></pre>
-<pre><code>## [1] 1990</code></pre>
-<pre class="r"><code># 1990 people thought starburst was despair-worthy</code></pre>
-<div id="change-the-dataset-for-new-ordering-system" class="section level4">
-<h4>Change the dataset for new ordering system</h4>
-<pre class="r"><code># add on a column which gives each column a score according to this new scoring method
-candy_clean &lt;- candy_clean %&gt;% 
- mutate(candy_rating_new_system = case_when ( candy_rating == &quot;DESPAIR&quot; ~ -1,
-                                              candy_rating == &quot;JOY&quot; ~ 1,
-                                              TRUE ~ 0
- ))</code></pre>
+##   `sum(bird_count, na.rm = T)`
+##                          &lt;dbl&gt;
+## 1                          158</code></pre>
+<pre class="r"><code># 158 penguins were seen</code></pre>
 </div>
 </div>
-<div id="task-6-what-was-the-most-popular-candy-bar-by-this-rating-system-for-each-gender-in-the-dataset" class="section level3">
-<h3>Task 6 What was the most popular candy bar by this rating system for
-each gender in the dataset</h3>
-<pre class="r"><code># Filter for female gender, group by candy type then assign each a value
-# according to the sum of the new voting criteria, arrange and slice top hit
-candy_clean %&gt;% 
-  filter(gender == &quot;Female&quot;) %&gt;% 
-  group_by(candy_type) %&gt;% 
-  summarise(new_rating_total = sum(candy_rating_new_system)) %&gt;% 
-  arrange(desc(new_rating_total)) %&gt;% 
-  slice_head(n=1)</code></pre>
-<pre><code>## # A tibble: 1 × 2
-##   candy_type               new_rating_total
-##   &lt;chr&gt;                               &lt;dbl&gt;
-## 1 any_full_sized_candy_bar              875</code></pre>
-<pre class="r"><code># Female answer : Any full sizer candy bar - 875 count
-
-# Filter for male gender, group by candy type then assign each a value
-# according to the sum of the new voting criteria, arrange and slice top hit
-candy_clean %&gt;% 
-  filter(gender == &quot;Male&quot;) %&gt;% 
-  group_by(candy_type) %&gt;% 
-  summarise(new_rating_total = sum(candy_rating_new_system)) %&gt;% 
-  arrange(desc(new_rating_total)) %&gt;% 
-  slice_head(n=1)</code></pre>
-<pre><code>## # A tibble: 1 × 2
-##   candy_type               new_rating_total
-##   &lt;chr&gt;                               &lt;dbl&gt;
-## 1 any_full_sized_candy_bar             1584</code></pre>
-<pre class="r"><code># Male answer : Any full sizer candy bar - 1584 count</code></pre>
-</div>
-<div id="task-7-what-was-the-most-popular-candy-bar-in-each-year" class="section level3">
-<h3>Task 7 What was the most popular candy bar in each year?</h3>
-<pre class="r"><code># filter for year, group by candy type, sum the new rating system for each 
-# candy type, arrange by highest and slice the top hit
-candy_clean %&gt;% 
-  filter(year == 2015) %&gt;% 
-  group_by(candy_type) %&gt;% 
-  summarise(new_rating_total = sum(candy_rating_new_system)) %&gt;% 
-  arrange(desc(new_rating_total)) %&gt;% 
-  slice_head(n=1)</code></pre>
-<pre><code>## # A tibble: 1 × 2
-##   candy_type               new_rating_total
-##   &lt;chr&gt;                               &lt;dbl&gt;
-## 1 any_full_sized_candy_bar             4603</code></pre>
-<pre class="r"><code>candy_clean %&gt;% 
-  filter(year == 2016) %&gt;% 
-  group_by(candy_type) %&gt;% 
-  summarise(new_rating_total = sum(candy_rating_new_system)) %&gt;% 
-  arrange(desc(new_rating_total)) %&gt;% 
-  slice_head(n=1)</code></pre>
-<pre><code>## # A tibble: 1 × 2
-##   candy_type               new_rating_total
-##   &lt;chr&gt;                               &lt;dbl&gt;
-## 1 any_full_sized_candy_bar             1037</code></pre>
-<pre class="r"><code>candy_clean %&gt;% 
-  filter(year == 2017) %&gt;% 
-  group_by(candy_type) %&gt;% 
-  summarise(new_rating_total = sum(candy_rating_new_system)) %&gt;% 
-  arrange(desc(new_rating_total)) %&gt;% 
-  slice_head(n=1)</code></pre>
-<pre><code>## # A tibble: 1 × 2
-##   candy_type               new_rating_total
-##   &lt;chr&gt;                               &lt;dbl&gt;
-## 1 any_full_sized_candy_bar             1542</code></pre>
-</div>
-<div id="task-8-what-was-the-most-popular-candy-bar-by-this-rating-for-people-in-us-canada-uk-and-all-other-countries" class="section level3">
-<h3>Task 8 What was the most popular candy bar by this rating for people
-in US, Canada, UK, and all other countries?</h3>
-<pre class="r"><code># filter out the country NA values, group by country and candy type, 
-# summarise new rating system by country and candy type
-# arrange the total rating for each candy type BY GROUP
-# slice the head for each group - return top candy type per country
-candy_clean %&gt;% 
-  filter(!is.na(country)) %&gt;% 
-  group_by(country, candy_type) %&gt;% 
-  summarise(new_rating_total = sum(candy_rating_new_system)) %&gt;% 
-  arrange(desc(new_rating_total), by_group = TRUE) %&gt;% 
-slice(1)</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;country&#39;. You can override using the
-## `.groups` argument.</code></pre>
-<pre><code>## # A tibble: 39 × 3
-## # Groups:   country [39]
-##    country    candy_type                          new_rating_total
-##    &lt;chr&gt;      &lt;chr&gt;                                          &lt;dbl&gt;
-##  1 Australia  any_full_sized_candy_bar                           6
-##  2 Austria    100_grand_bar                                      1
-##  3 Belgium    cash_or_other_forms_of_legal_tender                1
-##  4 Brasil     100_grand_bar                                      1
-##  5 Canada     any_full_sized_candy_bar                         252
-##  6 Cascadia   100_grand_bar                                      1
-##  7 China      any_full_sized_candy_bar                           2
-##  8 Costa Rica 100_grand_bar                                      1
-##  9 Croatia    any_full_sized_candy_bar                           1
-## 10 Denmark    any_full_sized_candy_bar                           2
-## # … with 29 more rows</code></pre>
-<pre class="r"><code># This returns data where total rating = 1 and are tied.
-# I would consider filtering this data for total rating &gt; 1.</code></pre>
-</div>
-</div>
-<div id="any-other-analysis-or-conclusions" class="section level1">
-<h1>5. Any other analysis or conclusions</h1>
-<p>Dont allow people free reign with a survey!!! Limit possible
-responses.</p>
-<p>Could have written a fucntion for the repepetive tasks with multiple
-code chunks like q4,6,7</p>
 </div>
 
 
