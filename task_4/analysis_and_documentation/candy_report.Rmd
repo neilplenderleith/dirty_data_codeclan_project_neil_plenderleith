@@ -570,18 +570,18 @@ candy_clean %>%
 ### Task 8 What was the most popular candy bar by this rating for people in US, Canada, UK, and all other countries?
 
 ```{r}
-# filter out the country NA values, group by country and candy type, 
-# summarise new rating system by country and candy type
-# arrange the total rating for each candy type BY GROUP
-# slice the head for each group - return top candy type per country
+# filter out the country NA values, group by country (put other countries into "other" and candy type, summarise new rating system by country and candy type arrange the total rating for each candy type BY GROUP slice the head for each group - return top candy type per country
+
 candy_clean %>% 
   filter(!is.na(country)) %>% 
+  mutate(country = if_else(country %in% c("Usa", "Canada", "United Kingdom"), 
+                           country, 
+                           "Other")) %>%
   group_by(country, candy_type) %>% 
   summarise(new_rating_total = sum(candy_rating_new_system)) %>% 
   arrange(desc(new_rating_total), by_group = TRUE) %>% 
-slice(1)
-# This returns data where total rating = 1 and are tied.
-# I would consider filtering this data for total rating > 1.
+  slice(1)
+
 ```
 
 # 5. Any other analysis or conclusions

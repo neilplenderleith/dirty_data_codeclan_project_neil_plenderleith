@@ -983,35 +983,27 @@ candy_clean %&gt;%
 <div id="task-8-what-was-the-most-popular-candy-bar-by-this-rating-for-people-in-us-canada-uk-and-all-other-countries" class="section level3">
 <h3>Task 8 What was the most popular candy bar by this rating for people
 in US, Canada, UK, and all other countries?</h3>
-<pre class="r"><code># filter out the country NA values, group by country and candy type, 
-# summarise new rating system by country and candy type
-# arrange the total rating for each candy type BY GROUP
-# slice the head for each group - return top candy type per country
+<pre class="r"><code># filter out the country NA values, group by country (put other countries into &quot;other&quot; and candy type, summarise new rating system by country and candy type arrange the total rating for each candy type BY GROUP slice the head for each group - return top candy type per country
+
 candy_clean %&gt;% 
   filter(!is.na(country)) %&gt;% 
+  mutate(country = if_else(country %in% c(&quot;Usa&quot;, &quot;Canada&quot;, &quot;United Kingdom&quot;), 
+                           country, 
+                           &quot;Other&quot;)) %&gt;%
   group_by(country, candy_type) %&gt;% 
   summarise(new_rating_total = sum(candy_rating_new_system)) %&gt;% 
   arrange(desc(new_rating_total), by_group = TRUE) %&gt;% 
-slice(1)</code></pre>
+  slice(1)</code></pre>
 <pre><code>## `summarise()` has grouped output by &#39;country&#39;. You can override using the
 ## `.groups` argument.</code></pre>
-<pre><code>## # A tibble: 39 × 3
-## # Groups:   country [39]
-##    country    candy_type                          new_rating_total
-##    &lt;chr&gt;      &lt;chr&gt;                                          &lt;dbl&gt;
-##  1 Australia  any_full_sized_candy_bar                           6
-##  2 Austria    100_grand_bar                                      1
-##  3 Belgium    cash_or_other_forms_of_legal_tender                1
-##  4 Brasil     100_grand_bar                                      1
-##  5 Canada     any_full_sized_candy_bar                         252
-##  6 Cascadia   100_grand_bar                                      1
-##  7 China      any_full_sized_candy_bar                           2
-##  8 Costa Rica 100_grand_bar                                      1
-##  9 Croatia    any_full_sized_candy_bar                           1
-## 10 Denmark    any_full_sized_candy_bar                           2
-## # … with 29 more rows</code></pre>
-<pre class="r"><code># This returns data where total rating = 1 and are tied.
-# I would consider filtering this data for total rating &gt; 1.</code></pre>
+<pre><code>## # A tibble: 4 × 3
+## # Groups:   country [4]
+##   country        candy_type                          new_rating_total
+##   &lt;chr&gt;          &lt;chr&gt;                                          &lt;dbl&gt;
+## 1 Canada         any_full_sized_candy_bar                         252
+## 2 Other          any_full_sized_candy_bar                          67
+## 3 United Kingdom cash_or_other_forms_of_legal_tender               34
+## 4 Usa            any_full_sized_candy_bar                        2173</code></pre>
 </div>
 </div>
 <div id="any-other-analysis-or-conclusions" class="section level1">

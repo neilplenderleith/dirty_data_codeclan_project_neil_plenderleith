@@ -9,6 +9,8 @@ output: html_document
 library(readr)
 library(tidyverse)
 library(here)
+
+gctorture(FALSE)
 ```
 
 ## Load Data

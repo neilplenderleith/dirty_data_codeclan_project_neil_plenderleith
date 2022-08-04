@@ -232,14 +232,14 @@ candy_2017_long <- candy_2017_long %>%
 # Going to delete all columns not strictly needed for the tasks
 # This is purely for performance as my PC is running so slow
 
-candy_2015_long <- candy_2015_long %>% 
-select(-(state_province_county_etc:day)) %>% 
+candy_2015_long <- candy_2015_long %>%
+select(-(state_province_county_etc:day)) %>%
   select(-(guess_mints:separation_francis_bacon_1561_1626))
-candy_2016_long <- candy_2016_long %>% 
-  select(-(state_province_county_etc:day)) %>% 
+candy_2016_long <- candy_2016_long %>%
+  select(-(state_province_county_etc:day)) %>%
   select(-(guess_mints:separation_francis_bacon_1561_1626))
-candy_2017_long <- candy_2017_long %>% 
-  select(-(state_province_county_etc:day)) %>% 
+candy_2017_long <- candy_2017_long %>%
+  select(-(state_province_county_etc:day)) %>%
   select(-(guess_mints:separation_francis_bacon_1561_1626))
 
 
