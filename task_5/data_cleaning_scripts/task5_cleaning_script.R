@@ -31,9 +31,7 @@ rwa2 <- rwa %>%
   pivot_longer(cols = c(Q1:Q22,E1:E22,TIPI1:TIPI10,VCL1:VCL16), names_to = "question",values_to = "answer")  
 # add on rwa score - could i have made this any more diffcult on myself?
 rwa2 <- rwa2 %>% 
-  filter((!question %in% c("Q1", "Q2")) & (!str_starts(question, "E")) &
-                                          (!str_starts(question, "T")) &
-                                          (!str_starts(question, "V"))) %>%
+  filter((!question %in% c("Q1", "Q2")) & (str_starts(question, "Q"))) %>% 
   select(Id, question, answer) %>% 
   group_by(Id) %>% 
   summarise(rwa_score = mean(answer)) %>% 
