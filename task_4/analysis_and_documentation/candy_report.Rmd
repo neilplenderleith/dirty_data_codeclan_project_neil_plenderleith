@@ -20,7 +20,7 @@ The data is in three parts, one file for each year 2015 - 2017. Sadly none of th
 # 3. Steps to clean data
 
 ### Libraries and load data
-```{r}
+```{r,eval=FALSE}
 # Libraries ---------------------------------------------------------------
 
 library(tidyverse)
@@ -175,6 +175,7 @@ candy_2016_long <- candy_2016_long %>%
          guess_mints = guess_the_number_of_mints_in_my_hand,
          favourite_font = what_is_your_favourite_font) 
 
+#Lets change the really long cilumn names about the celebrities
 candy_2016_long <- candy_2016_long %>% 
   rename_with( ~ str_replace(., pattern = "please_.*celebrities_", replacement = "separation_"))
 
@@ -200,7 +201,7 @@ candy_2017_long <- candy_2017_long %>%
 names(candy_2016_long) == names(candy_2017_long) # columns all match!
 ```
 
-Ok so we have candy_2016 and candy_2017 matching perfect for a bind_rows. lets work on 2015 - a bit more to do here
+Ok so we have candy_2016 and candy_2017 matching perfectly for a bind_rows. lets work on 2015 - a bit more to do here
 
 ### Cleaning columns in year 2015
 
@@ -288,6 +289,8 @@ candy_combined <- bind_rows(candy_2015_long,
 
 ## 3.2 Column Cleaning
 
+Lets go through the columns one by one to see what needs done
+
 ### candy_type column cleaning
 ```{r}
 #table(candy_combined["candy_type"]) commented out to avoid massive output
@@ -366,7 +369,7 @@ mutate(country = recode(country, "The Netherlands" = "Netherlands"),
 ```
 
 ### age column cleaning
-```{r}
+```{r, eval=FALSE}
 ## Cleaning age column -----------------------------------------------------
 
 # oldest person ever was 122. lets take out everything above that as NA

@@ -17,7 +17,7 @@ the birds it appear they can be in colonies of 3 million so an estimated sightin
 ## 3. Steps to Clean Data
 
 ### Load the required libraries, read in the data and join the two tables
-```{r}
+```{reval=FALSE}
 # Load Libraries ---------------------------------------------------------------
 
 library(readxl)
@@ -109,7 +109,7 @@ write_csv(here("clean_data/seabirds.csv"))
 ### Libraries and data
 
 library(tidyverse)
-```{r}
+```{reval=FALSE}
 library(tidyverse)
 library(readr)
 library(here)

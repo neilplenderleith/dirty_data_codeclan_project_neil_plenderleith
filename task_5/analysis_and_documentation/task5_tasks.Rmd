@@ -13,8 +13,73 @@ here::here()
 ```{r}
 rwa <- read_csv(here("clean_data/task5_clean.csv"))
 ```
+Task 1
+```{r}
+
+rwa %>% 
+  group_by(gender) %>% 
+    filter(gender == 1 | gender == 2) %>% 
+    summarise(mean(rwa_score, na.rm = TRUE))
+
+
+```
+
+Task 2
+```{r}
+rwa %>% 
+  group_by(hand) %>% 
+    filter(hand == 1 | hand == 2) %>% 
+    summarise(mean(rwa_score, na.rm = TRUE))
+
+
+```
+
+Task 3
 
 ```{r}
+rwa %>% 
+  group_by(urban) %>% 
+  summarise(mean(familysize))
+```
+
+Task 4
+```{r}
+rwa %>% 
+  group_by(education) %>% 
+  summarise(rwa_by_education = mean(testelapse+surveyelapse)) 
+
+```
+
+Task 5
+
+```{r}
+rwa %>% 
+  filter(age < 18) %>% 
+  summarise(mean(rwa_score, na.rm = TRUE))
+
+rwa %>% 
+  filter(age >= 18 & age <=25) %>% 
+  summarise(mean(rwa_score, na.rm = TRUE))
+
+rwa %>% 
+  filter(age >=26 & age <= 40) %>% 
+  summarise(mean(rwa_score, na.rm = TRUE))
+
+rwa %>% 
+  filter(age >=41 & age <= 60) %>% 
+  summarise(mean(rwa_score, na.rm = TRUE))
+
+rwa %>% 
+  filter(age > 60) %>% 
+  summarise(mean(rwa_score, na.rm = TRUE))
+```
+
+```{r}
+
+rwa %>% 
+  group_by(education) %>% 
+  summarise(mean(rwa_score, na.rm=TRUE))
+
 
 ```
 
