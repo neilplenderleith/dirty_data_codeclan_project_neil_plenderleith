@@ -15,7 +15,7 @@ The data is in three parts, one file for each year 2015 - 2017. Sadly none of th
 1. I have tried to leave in as much data as possible. I did wonder if I should trim the data down to the minimum required for the tasks but ended up keeping in every column which existed in at least two of the three datasets. UPDATE - I ended up trimming down to bare minimum due to performance issues with my PC. But the cleaning script is still written to leave these in up until the last line before the merge which chops out all extra columns.
 2. I have made some assumptions around spelling mistakes and amalgamating these with what I thought must have been meant. e.g. boxo_raisins == box_o_raisins, sweetums_a_friend_to_diabetes = sweetums etc. I have labelled these as I go
 3. There are a myriad of responses in the country column. This should REALLY be a drop down on the questionnaire/survey. I have amalgamated as logically as possible. Outliers were tied to NA values. Could these have been labelled "smart_answer" or something like that?
-4. Task 8 - should possibly be filtered there are total counts of 0 and 1 in there which do not accurately report anything at all. Perhaps should be filtered for total_count > 1 at the least.
+
 
 # 3. Steps to clean data
 
