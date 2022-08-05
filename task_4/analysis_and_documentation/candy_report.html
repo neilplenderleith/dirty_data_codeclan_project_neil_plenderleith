@@ -397,9 +397,6 @@ sweetums etc. I have labelled these as I go</li>
 REALLY be a drop down on the questionnaire/survey. I have amalgamated as
 logically as possible. Outliers were tied to NA values. Could these have
 been labelled “smart_answer” or something like that?</li>
-<li>Task 8 - should possibly be filtered there are total counts of 0 and
-1 in there which do not accurately report anything at all. Perhaps
-should be filtered for total_count &gt; 1 at the least.</li>
 </ol>
 </div>
 <div id="steps-to-clean-data" class="section level1">
@@ -555,21 +552,22 @@ for a future bind_rows.</p>
 <h3>Cleaning columns - names and order, 2016/2017</h3>
 <pre class="r"><code># lets get 2016 into shape - change col names to agree with 2017
 candy_2016_long &lt;- candy_2016_long %&gt;% 
-   rename(
-  id = timestamp,
-         going_out = are_you_going_actually_going_trick_or_treating_yourself,
-         gender = your_gender,
-         age = how_old_are_you,
-         country = which_country_do_you_live_in,
-         state_province_county_etc = which_state_province_county_do_you_live_in,
-         joy_other = please_list_any_items_not_included_above_that_give_you_joy,
-         despair_other = please_list_any_items_not_included_above_that_give_you_despair,
-         other_comments = please_leave_any_witty_snarky_or_thoughtful_remarks_or_comments_regarding_your_choices,
-         day = which_day_do_you_prefer_friday_or_sunday,
-         dress = that_dress_that_went_viral_a_few_years_back_when_i_first_saw_it_it_was,
-         guess_mints = guess_the_number_of_mints_in_my_hand,
-         favourite_font = what_is_your_favourite_font) 
+  rename(
+    id = timestamp,
+    going_out = are_you_going_actually_going_trick_or_treating_yourself,
+    gender = your_gender,
+    age = how_old_are_you,
+    country = which_country_do_you_live_in,
+    state_province_county_etc = which_state_province_county_do_you_live_in,
+    joy_other = please_list_any_items_not_included_above_that_give_you_joy,
+    despair_other = please_list_any_items_not_included_above_that_give_you_despair,
+    other_comments = please_leave_any_witty_snarky_or_thoughtful_remarks_or_comments_regarding_your_choices,
+    day = which_day_do_you_prefer_friday_or_sunday,
+    dress = that_dress_that_went_viral_a_few_years_back_when_i_first_saw_it_it_was,
+    guess_mints = guess_the_number_of_mints_in_my_hand,
+    favourite_font = what_is_your_favourite_font) 
 
+#Lets change the really long cilumn names about the celebrities
 candy_2016_long &lt;- candy_2016_long %&gt;% 
   rename_with( ~ str_replace(., pattern = &quot;please_.*celebrities_&quot;, replacement = &quot;separation_&quot;))
 
@@ -595,7 +593,7 @@ candy_2017_long &lt;- candy_2017_long %&gt;%
 names(candy_2016_long) == names(candy_2017_long) # columns all match!</code></pre>
 <pre><code>##  [1] TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE
 ## [16] TRUE TRUE TRUE TRUE TRUE TRUE TRUE</code></pre>
-<p>Ok so we have candy_2016 and candy_2017 matching perfect for a
+<p>Ok so we have candy_2016 and candy_2017 matching perfectly for a
 bind_rows. lets work on 2015 - a bit more to do here</p>
 </div>
 <div id="cleaning-columns-in-year-2015" class="section level3">
@@ -603,16 +601,16 @@ bind_rows. lets work on 2015 - a bit more to do here</p>
 <pre class="r"><code># OK time for 2015 to match the other two years
 candy_2015_long &lt;- candy_2015_long %&gt;% 
   rename(
-         id = timestamp,
-         age = how_old_are_you,
-         going_out = are_you_going_actually_going_trick_or_treating_yourself,
-         other_comments = please_leave_any_remarks_or_comments_regarding_your_choices,
-         joy_other = please_list_any_items_not_included_above_that_give_you_joy,
-         despair_other = please_list_any_items_not_included_above_that_give_you_despair,
-         guess_mints = guess_the_number_of_mints_in_my_hand,
-         favourite_font = what_is_your_favourite_font,
-         day = which_day_do_you_prefer_friday_or_sunday,
-         dress = that_dress_that_went_viral_early_this_year_when_i_first_saw_it_it_was)
+    id = timestamp,
+    age = how_old_are_you,
+    going_out = are_you_going_actually_going_trick_or_treating_yourself,
+    other_comments = please_leave_any_remarks_or_comments_regarding_your_choices,
+    joy_other = please_list_any_items_not_included_above_that_give_you_joy,
+    despair_other = please_list_any_items_not_included_above_that_give_you_despair,
+    guess_mints = guess_the_number_of_mints_in_my_hand,
+    favourite_font = what_is_your_favourite_font,
+    day = which_day_do_you_prefer_friday_or_sunday,
+    dress = that_dress_that_went_viral_early_this_year_when_i_first_saw_it_it_was)
 
 # rename large column names
 candy_2015_long &lt;- candy_2015_long %&gt;% 
@@ -637,8 +635,8 @@ candy_2015_long &lt;- candy_2015_long %&gt;%
 # final reorder to agree more with others
 candy_2015_long &lt;- candy_2015_long %&gt;%
   relocate(going_out, gender, .after = id) %&gt;% 
-relocate(country, state_province_county_etc, joy_other, despair_other, 
-         other_comments, .after = age)
+  relocate(country, state_province_county_etc, joy_other, despair_other, 
+           other_comments, .after = age)
 
 names(candy_2015_long) == names(candy_2016_long)</code></pre>
 <pre><code>##  [1] TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE
@@ -685,6 +683,7 @@ year the data comes from.</p>
 </div>
 <div id="column-cleaning" class="section level2">
 <h2>3.2 Column Cleaning</h2>
+<p>Lets go through the columns one by one to see what needs done</p>
 <div id="candy_type-column-cleaning" class="section level3">
 <h3>candy_type column cleaning</h3>
 <pre class="r"><code>#table(candy_combined[&quot;candy_type&quot;]) commented out to avoid massive output
@@ -734,8 +733,8 @@ silly_values = c(
 
 # use the vectors above 
 candy_combined &lt;- candy_combined %&gt;%
-mutate(country = if_else(country %in% usa_outliers ,
-                         &quot;USA&quot;, country)) 
+  mutate(country = if_else(country %in% usa_outliers ,
+                           &quot;USA&quot;, country)) 
 
 candy_combined &lt;- candy_combined %&gt;%
   mutate(country = if_else(country %in% silly_values|
@@ -746,17 +745,17 @@ candy_combined &lt;- candy_combined %&gt;%
 
 # recode anything else
 candy_combined &lt;- candy_combined %&gt;%
-mutate(country = recode(country, &quot;The Netherlands&quot; = &quot;Netherlands&quot;),
-       country = recode(country, &quot;Can&quot; = &quot;Canada&quot;),
-       country = recode(country, &quot;Canada`&quot; = &quot;Canada&quot;),
-       country = recode(country, &quot;Endland&quot; = &quot;United Kingdom&quot;),
-       country = recode(country, &quot;England&quot; = &quot;United Kingdom&quot;),
-       country = recode(country, &quot;England&quot; = &quot;United Kingdom&quot;),
-       country = recode(country, &quot;Scotland&quot; = &quot;United Kingdom&quot;),
-       country = recode(country, &quot;España&quot; = &quot;Spain&quot;),
-       country = recode(country, &quot;U.k.&quot; = &quot;United Kingdom&quot;),
-       country = recode(country, &quot;Uk&quot; = &quot;United Kingdom&quot;),
-       country = recode(country, &quot;United Kindom&quot; = &quot;United Kingdom&quot;))
+  mutate(country = recode(country, &quot;The Netherlands&quot; = &quot;Netherlands&quot;),
+         country = recode(country, &quot;Can&quot; = &quot;Canada&quot;),
+         country = recode(country, &quot;Canada`&quot; = &quot;Canada&quot;),
+         country = recode(country, &quot;Endland&quot; = &quot;United Kingdom&quot;),
+         country = recode(country, &quot;England&quot; = &quot;United Kingdom&quot;),
+         country = recode(country, &quot;England&quot; = &quot;United Kingdom&quot;),
+         country = recode(country, &quot;Scotland&quot; = &quot;United Kingdom&quot;),
+         country = recode(country, &quot;España&quot; = &quot;Spain&quot;),
+         country = recode(country, &quot;U.k.&quot; = &quot;United Kingdom&quot;),
+         country = recode(country, &quot;Uk&quot; = &quot;United Kingdom&quot;),
+         country = recode(country, &quot;United Kindom&quot; = &quot;United Kingdom&quot;))
 
 #table(candy_combined[&quot;country&quot;]) # much better!</code></pre>
 </div>
@@ -769,9 +768,9 @@ mutate(country = recode(country, &quot;The Netherlands&quot; = &quot;Netherlands
 
 # change the column from a character to numeric
 candy_combined &lt;- candy_combined %&gt;%
-  mutate(age = as.numeric(age))</code></pre>
-<pre><code>## Warning in mask$eval_all_mutate(quo): NAs introduced by coercion</code></pre>
-<pre class="r"><code># clean out values bigger than 122 - oldest ever person
+  mutate(age = as.numeric(age))
+
+# clean out values bigger than 122 - oldest ever person
 candy_combined &lt;- candy_combined %&gt;%
   mutate(age = ifelse(age&gt;122, NA, age))</code></pre>
 </div>
@@ -808,8 +807,8 @@ candy_clean &lt;- read_csv(here(&quot;clean_data/candy_clean.csv&quot;))</code><
 <pre><code>## Rows: 908500 Columns: 8
 ## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
-## chr (6): id, going_out, gender, country, candy_type, candy_rating
-## dbl (2): year, age
+## chr (7): id, going_out, gender, age, country, candy_type, candy_rating
+## dbl (1): year
 ## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
@@ -831,10 +830,12 @@ treating?</h3>
 candy_clean %&gt;% 
   filter(going_out == &quot;Yes&quot;) %&gt;% 
   summarise(avg_age = mean(age, na.rm = TRUE))</code></pre>
+<pre><code>## Warning in mean.default(age, na.rm = TRUE): argument is not numeric or logical:
+## returning NA</code></pre>
 <pre><code>## # A tibble: 1 × 1
 ##   avg_age
 ##     &lt;dbl&gt;
-## 1    35.2</code></pre>
+## 1      NA</code></pre>
 <pre class="r"><code># Average_age is 35.22</code></pre>
 </div>
 <div id="task-3-what-was-the-average-age-of-people-who-are-not-going-trick-or-treating" class="section level3">
@@ -844,10 +845,12 @@ treating?</h3>
 candy_clean %&gt;% 
    filter(going_out == &quot;No&quot;) %&gt;% 
 summarise(avg_age = mean(age, na.rm = TRUE))</code></pre>
+<pre><code>## Warning in mean.default(age, na.rm = TRUE): argument is not numeric or logical:
+## returning NA</code></pre>
 <pre><code>## # A tibble: 1 × 1
 ##   avg_age
 ##     &lt;dbl&gt;
-## 1    39.3</code></pre>
+## 1      NA</code></pre>
 <pre class="r"><code># Average age is 39.26</code></pre>
 </div>
 <div id="task-4-for-each-of-joy-despair-and-meh-which-candy-bar-received-the-most-of-these-ratings" class="section level3">

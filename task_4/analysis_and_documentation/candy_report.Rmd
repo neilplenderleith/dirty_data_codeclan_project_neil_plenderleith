@@ -20,7 +20,7 @@ The data is in three parts, one file for each year 2015 - 2017. Sadly none of th
 # 3. Steps to clean data
 
 ### Libraries and load data
-```{r,eval=FALSE}
+```{r}
 # Libraries ---------------------------------------------------------------
 
 library(tidyverse)
