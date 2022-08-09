@@ -33,7 +33,7 @@ seabirds %>%
   summarise(count_of_sightings = n()) %>%
   right_join(seabirds, "species_common_name") %>% 
   select(species_common_name, 
-         species_scientific_name, 
+         species_scientific_name, a
          species_abbreviation, count_of_sightings) %>%
   arrange(desc(count_of_sightings))  %>% 
   slice_head()

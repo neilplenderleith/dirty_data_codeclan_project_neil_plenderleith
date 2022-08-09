@@ -1,0 +1,557 @@
+---
+title: "Dirty Data Roundtable"
+output:
+  html_document:
+    df_print: paged
+---
+
+```{r}
+library(tidyverse)
+library(readxl)
+```
+
+
+## Task 1
+
+Task 1
+- Jack, Lloyd, Chris
+
+
+Decathlon Events
+a bunch of athletes and their scores from values from two competitions
+
+### Cleaning
+
+not any missing values
+
+
+a bit of wrangling required for analysis
+
+pretty much the same
+
+cleaning steps
+
+1. read
+2. clean up column names
+3. convert row names into column of athelte names
+4. convert athlete names to upper case
+5. (optional) pivot to longer form
+6. write to file
+
+```{r}
+decathlon_raw <- read_rds("raw_data/decathlon.rds")
+```
+
+
+```{r}
+decath_clean <- decathlon_raw %>% 
+  janitor::clean_names() %>% 
+  rownames_to_column("athlete") %>% 
+  mutate(athlete = str_to_upper(athlete)) %>% 
+  # pivot_longer(-c(athlete, rank, points, competition), names_to = "event", values_to = "time_or_distance") %>% 
+  write_csv("clean_data/decathlon_results.csv")
+  # rename_with(.cols = starts_with("x"), .fn = ~str_remove(.x, "x")) %>% 
+```
+
+
+### Analysis
+
+3. Who had the highest total points across both competitions?
+
+```{r}
+decath_clean %>% 
+  group_by(athlete) %>% 
+  summarise(total_points = sum(points)) %>% 
+  slice_max(total_points)
+```
+
+If the data had been pivoted: 
+
+```{r}
+decath_clean %>% 
+  pivot_longer(-c(athlete, rank, points, competition), names_to = "event", values_to = "time_or_distance") %>% 
+  group_by(athlete, competition) %>% 
+  summarise(points = min(points), .groups = 'drop') %>% 
+  slice_max(points, n = 1)
+  
+```
+
+
+## Task 2
+- Sarah, Jamie
+
+about cakes
+
+2 tables (1 with ingredient info, 1 with recipes)
+
+### Cleaning
+
+data needs to be combined
+questions all concerned ingredients
+
+1. converted to long form (ingredient code to a column, amounts to another one)
+2. join with cake codes
+3. dealt with missing values
+
+```{r}
+cake_ingredients <-
+  read_csv("raw_data/cake/cake-ingredients-1961.csv")
+
+cake_ingredients_codes <-
+  read_csv("raw_data/cake/cake_ingredient_code.csv")
+```
+
+
+```{r}
+# missing measure for sour cream cup 
+cake_ingredients_codes_clean <- cake_ingredients_codes %>% 
+  mutate(
+    measure = if_else(
+      ingredient == "Sour cream cup", "cup", measure
+      ),
+    ingredient = if_else(
+      ingredient == "Sour cream cup", "Sour cream", ingredient
+      ))
+
+cake_ingredients %>% 
+  pivot_longer(-Cake, names_to = "ingredient_code", values_to = "amount", values_drop_na = TRUE)  %>% 
+  left_join(cake_ingredients_codes_clean, by = c("ingredient_code" = "code")) -> cake_ingredients_clean
+  # assumption that NA ingredient values mean that ingredient is not in the recipe for the cake 
+  
+
+```
+
+
+
+
+### Analysis
+
+4. Which cake has the most unique ingredients?
+
+which cake has the most ingredients that aren't in any other cake
+
+which cake has the most ingredients that aren't the same (the most types of ingredients)
+
+
+```{r}
+# David's approach for Jamie question
+cake_ingredients_clean %>% 
+  # 1. get the number of times each ingredient was used
+  group_by(ingredient_code) %>% 
+  mutate(n_uses = n()) %>% 
+  ungroup() %>% 
+  filter(n_uses == 1) %>% 
+  group_by(Cake) %>% 
+  summarise(n_unique_y_ingredients = n()) %>% 
+  slice_max(n_unique_y_ingredients)
+```
+
+```{r}
+cake_ingredients_clean %>% 
+  group_by(Cake) %>% 
+  summarise(n_ingredients = n_distinct(ingredient)) %>% 
+  slice_max(n_ingredients)
+``` 
+
+
+```{r}
+ingreds <- c("flour", "flour", "eggs", "baking_soda")
+
+length(ingreds)
+n_distinct(ingreds)
+```
+
+
+
+
+## Task 3
+- Nico, Rob, Neil
+
+
+two tables relating to bird sightings
+
+1. ship location
+2. bird sightings
+(quite large)
+
+some data was more relevant for the analysis
+
+### Cleaning
+
+```{r}
+library(readxl)
+
+excel_sheets("raw_data/seabirds.xls")
+
+ship_data <- read_xls("raw_data/seabirds.xls", 1)
+bird_data <- read_xls("raw_data/seabirds.xls", 2, guess_max = 30000)
+
+# 1. read in
+# 2. clean column names
+# 3. clean bird data
+# 3.1 dropped extra columns
+# 3.2 trim column names
+# 3.3 wrangled time column
+
+# 4. clean ship data
+
+# 5. join tables
+```
+
+Data dictionary
+
+```{r}
+read_xls("raw_data/seabirds.xls")
+```
+
+
+
+```{r}
+# species common name, scientific name, latitude, count, joining columns
+
+library(lubridate)
+
+ship_subset <- ship_data %>% 
+  janitor::clean_names() %>% 
+  select(record, record_id, date, time, lat)
+
+
+birds_clean <- bird_data %>% 
+  janitor::clean_names() %>% 
+  select(record, record_id, 3, 4, 5, age:count) %>% 
+  left_join(ship_subset, by = c("record_id"), suffix = c("_bird", "_ship")) %>% 
+  mutate(time = str_remove(time, "^\\d{4}-\\d{2}-\\d{2} ")) %>% 
+  rename(
+    species_common_name = species_common_name_taxon_age_sex_plumage_phase,
+    species_scientific_name = 
+      species_scientific_name_taxon_age_sex_plumage_phase
+  )
+```
+
+## Analysis
+
+How many different types of birds were only ever seen in groups of 1?
+
+```{r}
+birds_clean %>% 
+  mutate(species_common_name = str_remove_all(species_common_name, "[A-Z0-9 ]{2,}")) %>% 
+  mutate(species_common_name = str_remove(species_common_name, "sensu lato *^")) %>% 
+  group_by(species_common_name) %>%
+  mutate(max_observed_group = max(count, na.rm = TRUE)) %>% 
+  filter(max_observed_group == 1) %>% 
+  distinct(species_common_name)
+```
+
+
+
+
+## Task 4
+
+- Everyone
+
+
+dataset involving trick or treat survey data from 3 halloweens
+(2015, 2016, and 2017)
+
+as part of the survey people rated certain candies
+
+```{r}
+# each dataset starts with > 1000 rows and > 100 columns
+
+candy_data_2015 <- read_xlsx("raw_data/candy_ranking_data/boing-boing-candy-2015.xlsx") %>% 
+  janitor::clean_names()
+
+candy_data_2016 <- read_xlsx("raw_data/candy_ranking_data/boing-boing-candy-2016.xlsx") %>% 
+  janitor::clean_names()
+
+candy_data_2017 <- read_xlsx("raw_data/candy_ranking_data/boing-boing-candy-2017.xlsx") %>% 
+  janitor::clean_names()
+```
+
+
+### Cleaning
+
+0. with initial exploration
+1. remove unnecessary columns (after some data exploration)
+2. pivot to long format (clean up 2017 columns)
+* cleaned up the age column
+3. combined the three datasets
+
++ 1
+
+box_o_raisins
+boxo_raisins
+
+Goal format
+
+| year | age | country | trick_treating| gender| candy | rating |
+
+```{r}
+# 2015
+
+# things to come back to maybe (other candy that wasn't in the
+# survey that brought joy)
+
+clean_2015 <- candy_data_2015 %>% 
+  mutate(id = str_c(2015, row_number(), sep = "_")) %>% 
+  pivot_longer(butterfinger:york_peppermint_patties, names_to = "candy", values_to = "rating") %>% 
+  select(
+    id,
+    age = how_old_are_you,
+    trick_treating = are_you_going_actually_going_trick_or_treating_yourself,
+    candy,
+    rating
+  ) %>% 
+    mutate(year = 2015)
+```
+
+
+```{r}
+# 2017
+
+clean_candy_2017 <- candy_data_2017 %>% 
+  mutate(id = str_c(2017, row_number(), sep = "_")) %>% 
+  pivot_longer(starts_with("q6"), names_to = "candy", values_to = "rating", names_prefix = "q6_") %>% 
+  rename_with(.fn = ~str_remove(.x, "q[0-9]+_"),
+              .cols = everything()
+  ) %>% 
+  select(id, trick_treating = going_out, gender, age, country, candy, rating) %>% 
+  mutate(year = 2017)
+```
+
+
+```{r}
+clean_candy_2016 <- candy_data_2016 %>% 
+  mutate(id = str_c(2016, row_number(), sep = "_")) %>% 
+  pivot_longer(x100_grand_bar:york_peppermint_patties,
+              names_to = "candy", values_to = "rating") %>% 
+  select(
+    id,
+    trick_treating = are_you_going_actually_going_trick_or_treating_yourself,
+    gender = your_gender,
+    age = how_old_are_you,
+    country = which_country_do_you_live_in,
+    candy,
+    rating
+  ) %>% 
+  mutate(year = 2016)
+```
+
+
+Task 1
+
+explore the dataset
+clean column names
+check for missing values
+determine what variables will be required for analysis
+
+pivoting and or joining to be in a suitable form for analysis
+
+
+```{r}
+# Jamie's treatment of NA ratings / age + trick_treating
+clean_candy_2017 <- clean_candy_2017 %>% 
+  filter(!is.na(rating) | (!is.na(age) & !is.na(trick_treating)))
+
+clean_candy_2016 <- clean_candy_2016 %>% 
+  filter(!is.na(rating) | (!is.na(age) & !is.na(trick_treating)))
+
+clean_candy_2015 <- clean_2015 %>% 
+  filter(!is.na(rating) | (!is.na(age) & !is.na(trick_treating)))
+```
+
+
+- joining the datasets together into one: clean_candy_long
+
+```{r}
+all_candy <- bind_rows(
+  list(clean_candy_2015, clean_candy_2016, clean_candy_2017)
+)
+```
+
+cleaning up the countries
+
+- constantly referring to
+
+```{r}
+# country counts
+all_candy %>% 
+  distinct(id, .keep_all = TRUE) %>% 
+  count(country)
+```
+
+
+```{r}
+clean_country <- all_candy %>% 
+  mutate(country = str_to_lower(country)) %>% 
+  mutate(country = str_remove_all(country, "[:punct:]")) %>% 
+  mutate(country = case_when(
+    str_detect(country, "^us|united state|unites states|[ue]rica|units states") ~ "usa",
+    str_detect(country, "^united k|uk|en[dg]land|scotland|wales") ~ "uk",
+    str_detect(country, "^can") ~ "canada",
+    is.na(country) ~ NA_character_,
+    TRUE ~ "other"
+  ))
+```
+
+
+cleaning up the countries
+
+- constantly referring to
+
+```{r}
+# country counts
+all_candy %>% 
+  count(candy)
+```
+
+Thoughts: 
+
+100 grand bar (check for any with numbers at the start and an x)
+box_o_raisins or boxo_raisins
+
+```{r}
+clean_candy <- clean_country %>% 
+  mutate(candy = case_when(
+    str_detect(candy, "100_grand") ~ "100_grand_bar",
+    str_detect(candy, "box[_]*o_raisins") ~ "box_o_raisins",
+    str_detect(candy, "^anonymous_brown_globs") ~ "anonymous_brown_globs",
+    TRUE ~ candy
+  ))
+```
+
+
+
+so far we've 
+
+-- > reduce data size [x]
+-- > combine into one file [x]
+-- > country column [x]
+-- > candy column [x]
+
+still to do 
+
+-- > age column [] (probably would do this before cleaning the country column - since there is a little bit of data to grab from there)
+
+if we just do `as.numeric(age)`:
+
+"25-ish" -- > NA
+"25.5" -- > 25.5
+
+```{r}
+
+clean_ages <- clean_candy %>% 
+  mutate(age_extract = str_extract(age, "\\d+\\.*\\d*")) %>% 
+  mutate(age = as.numeric(age)) %>% 
+  filter(age > 0, age < 110)
+```
+
+
+### Analysis
+
+if you didn't pivot, a lot of your analysis will look like
+
+```{r}
+clean_data %>% 
+  summarise(across(candy_columns, your_function))
+```
+
+
+What is the total number of candy ratings given across the three years. (Number of candy ratings, not the number of raters. Don’t count missing values)
+
+```{r}
+clean_ages %>%
+  drop_na(rating) %>% 
+  nrow()
+```
+
+
+What was the average age of people who are going out trick or treating?
+
+
+```{r}
+clean_ages %>% 
+  filter(trick_treating == 'Yes') %>%
+  distinct(id, .keep_all = TRUE) %>% 
+  summarise(avg_age = round(mean(age, na.rm= TRUE)))
+```
+
+
+```{r}
+unique(clean_ages$age) #checking change to numeric coerced outliers to NA
+unique(full_data$going_out) 
+
+clean_ages %>% 
+  filter(trick_treating == "Yes", 
+         age != "Inf",
+         age <= 118) %>% #oldest living person
+  summarise(avg_age = mean(age)) %>% 
+  round()
+```
+
+For each of joy, despair and meh, which candy bar received the most of these ratings?
+
+
+```{r}
+# single pipe
+clean_ages %>% 
+  group_by(rating, candy) %>% 
+  summarise(n_rating_per_candies = n()) %>% 
+  slice_max(n_rating_per_candies, n = 1)
+
+# multiple table solution
+clean_ages %>% 
+  filter(rating == "DESPAIR") %>% 
+  group_by(candy, rating) %>% 
+  summarise(joy_rating_per_candies = n()) %>% 
+  arrange(desc(joy_rating_per_candies)) %>% 
+  head(1) %>% 
+  ungroup()
+
+candy %>% 
+  filter(rating == "MEH") %>% 
+  group_by(candies, rating) %>% 
+  summarise(joy_rating_per_candies = n()) %>% 
+  arrange(desc(joy_rating_per_candies)) %>% 
+  head(1) %>% 
+  ungroup()
+```
+
+
+```{r}
+clean_ages %>% 
+  select(candy, rating) %>% 
+  #groups by ratings and then type of candy
+  group_by(rating, candy) %>% 
+  #counts the number of ratings for each rating category for each candy
+  summarise(num_ratings = n()) %>% 
+  #takes the highest rated candy for each rating.
+  slice_max(order_by = num_ratings, n = 1)
+```
+
+
+
+How many people rated Starburst as despair?
+
+
+```{r}
+clean_ages %>% 
+  filter(candy == "starburst",
+         rating == "DESPAIR") %>% 
+  summarise(count = n())
+```
+
+
+
+
+## Priorities for the weekend
+
+- rest and relaxation after a long project
+
+- optional homeworks 
+- PDA (week 2 assignment - meteors and unit testing, week 3 - sql meteors) 
+
+## Next week
+
+Data Visualisation with `{ggplot2}` and interactive data dashboards
+

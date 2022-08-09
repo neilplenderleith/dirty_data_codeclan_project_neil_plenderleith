@@ -26,7 +26,7 @@ seabirds <- left_join(birds, ships, "RECORD ID")
 # want all the output!
 
 na_count <- seabirds %>%
-summarise(across(.fns = ~ sum(is.na(.x)))) 
+summarise(across(.fns = ~ sum(is.na(.x)))) a
 #this counts N/A values across all columns
 
 # Cleaning Data -----------------------------------------------------------
@@ -82,3 +82,4 @@ seabirds <- seabirds %>%
 
 seabirds %>% 
 write_csv(here("clean_data/seabirds.csv"))
+a
